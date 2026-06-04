@@ -2,6 +2,7 @@
 Hotel Inventory & Rate Tracker
 Tracks same-day remaining inventory and rates for multiple properties via IPMS247 booking pages.
 Runs automatically 5x/day + generates a 7AM next-day summary report.
+Optimized for explicit remaining room countdown calculations.
 """
 
 import asyncio
@@ -68,7 +69,7 @@ def load_config() -> dict:
     logger.info("Created default config.json")
     return DEFAULT_CONFIG
 
-# ─── Anti-bot profiles ────────────────────────────────────────────────────────
+# ─── Anti-bot helpers ─────────────────────────────────────────────────────────
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
@@ -82,11 +83,7 @@ async def human_delay(min_s=1.0, max_s=3.5):
 async def build_context(playwright):
     browser = await playwright.chromium.launch(
         headless=True,
-        args=[
-            "--no-sandbox", 
-            "--disable-blink-features=AutomationControlled", 
-            "--disable-gpu"
-        ]
+        args=["--no-sandbox", "--disable-blink-features=AutomationControlled", "--disable-gpu"]
     )
     context = await browser.new_context(
         user_agent=random.choice(USER_AGENTS),
@@ -94,7 +91,6 @@ async def build_context(playwright):
         locale="en-US",
         timezone_id="America/Los_Angeles",
     )
-    # Mask basic automation exposure strings natively
     await context.add_init_script(
         "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
         "window.chrome = {runtime: {}};"
@@ -102,7 +98,6 @@ async def build_context(playwright):
     return browser, context
 
 async def intercept_network_resources(route):
-    # Aborting background asset trackers and images drops loading states dramatically
     ignored_resources = ["image", "font", "media"]
     if route.request.resource_type in ignored_resources:
         await route.abort()
@@ -114,7 +109,7 @@ async def human_click(page, selector: str, timeout_ms: int = 2000) -> bool:
         el = page.locator(selector).first
         if await el.count() > 0:
             await el.scroll_into_view_if_needed(timeout=timeout_ms)
-            await asyncio.sleep(random.uniform(0.2, 0.5))
+            await asyncio.sleep(random.uniform(0.2, 0.4))
             await el.click(timeout=timeout_ms)
             return True
     except Exception:
@@ -127,7 +122,7 @@ async def human_type(page, selector: str, value: str, timeout_ms: int = 2000) ->
         if await el.count() > 0:
             await el.scroll_into_view_if_needed(timeout=timeout_ms)
             await el.click(click_count=3, timeout=timeout_ms)
-            await page.keyboard.type(value, delay=random.uniform(40, 120))
+            await page.keyboard.type(value, delay=random.uniform(40, 100))
             await page.keyboard.press("Tab")
             return True
     except Exception:
@@ -144,7 +139,7 @@ def is_date_valid(page_val: str, target: date) -> bool:
             pass
     return True
 
-# ─── Core Scraper Core Loop ───────────────────────────────────────────────────
+# ─── Core Scraper Logic ───────────────────────────────────────────────────────
 async def scrape_property(prop: dict, cfg: dict, target: date) -> Optional[dict]:
     s = cfg.get("scraper", DEFAULT_CONFIG["scraper"])
     for attempt in range(1, s["retry_attempts"] + 1):
@@ -154,9 +149,9 @@ async def scrape_property(prop: dict, cfg: dict, target: date) -> Optional[dict]
             if result: 
                 return result
         except Exception as e:
-            logger.warning(f"[{prop['name']}] Connection/Runtime exception occurred: {e}")
+            logger.warning(f"[{prop['name']}] Run exception met: {e}")
             await asyncio.sleep(s["retry_delay_sec"])
-    logger.error(f"[{prop['name']}] All delivery runs exhausted.")
+    logger.error(f"[{prop['name']}] Execution loops depleted.")
     return None
 
 async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
@@ -176,15 +171,14 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
             
             page_checkin = await _read_date_field(page, "checkin")
             if not page_checkin or not is_date_valid(page_checkin, target):
-                logger.info(f"[{name}] Injection parameters mismatch. Setting controls manually...")
+                logger.info(f"[{name}] Form inputs out of range. Updating check-in rules manually...")
                 await _set_date_field(page, "checkin", checkin, name)
                 await _set_date_field(page, "checkout", checkout, name)
                 await _click_availability(page, name)
             else:
-                logger.info(f"[{name}] Landing match targets valid ({page_checkin}). Bypassing forms.")
+                logger.info(f"[{name}] Verification complete ({page_checkin}). Bypassing redundant entries.")
 
-            # Intelligent Evaluation Threshold Wait Loop
-            logger.info(f"[{name}] Waiting for room tables to stabilize...")
+            logger.info(f"[{name}] Awaiting active grid render targets...")
             try:
                 await page.wait_for_function(
                     """() => {
@@ -194,19 +188,17 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
                     timeout=20000
                 )
             except PWTimeout:
-                logger.warning(f"[{name}] State sync timeout. Invoking failover timeline buffer.")
+                logger.warning(f"[{name}] Sync timing exceeded threshold limits. Forcing buffer delay...")
                 await asyncio.sleep(5)
 
             html = await page.content()
             rooms = _parse_rooms_ipms247(html, name)
             
             if not rooms: 
-                snippet = html[html.find("vres_room"):html.find("vres_room")+1000] if "vres_room" in html else html[:1000]
-                logger.warning(f"[{name}] Empty set parsed. Sample block:\n{snippet[:400]}")
                 return None
 
             summary = _summarise(rooms, prop["total_rooms"])
-            logger.info(f"[{name}] ✓ Complete: {len(rooms)} variations verified. Remainder={summary['total_remaining']}")
+            logger.info(f"[{name}] ✓ Verification Complete: {len(rooms)} structures mapped. Remaining={summary['total_remaining']} | Occ={summary['estimated_occupancy_pct']}%")
             
             return {
                 "property": name, "url": url, "total_rooms": prop["total_rooms"],
@@ -218,19 +210,12 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
             await browser.close()
 
 async def _set_date_field(page, field_type: str, value: str, name: str):
-    selectors = [
-        f"input[id*='{field_type}']", f"input[name*='{field_type}']",
-        f"[class*='{field_type}'] input", f"[id*='{field_type}'] input"
-    ]
+    selectors = [f"input[id*='{field_type}']", f"input[name*='{field_type}']"]
     for sel in selectors:
         if await human_type(page, sel, value): return
-    logger.warning(f"[{name}] Missed visibility targeting for input field: {field_type}")
 
 async def _click_availability(page, name: str) -> bool:
-    selectors = [
-        "button:has-text('Check Availability')", "input[value*='Check Availability']",
-        "button[type='submit']", "input[type='submit']"
-    ]
+    selectors = ["button:has-text('Check Availability')", "input[value*='Check Availability']"]
     for sel in selectors:
         if await human_click(page, sel): 
             await human_delay(2.0, 4.0)
@@ -248,23 +233,25 @@ async def _read_date_field(page, field_type: str) -> str:
             continue
     return ""
 
-# ─── Data Extraction Logic ───────────────────────────────────────────────────
+# ─── Robust HTML Data Separation Engine ───────────────────────────────────────
 def _parse_rooms_ipms247(html: str, hotel_name: str) -> list:
     rooms = []
     seen = set()
     
-    # Split blocks via room rows signatures
     blocks = re.split(r'(?=<(?:div|tr)[^>]+class="[^"]*(?:vres_room_info|roomTypeRow|vres_roomInfo)[^"]*")', html)[1:]
     if not blocks: 
         blocks = [html]
 
-    not_avail_re = re.compile(r'not\s*available|sold\s*out|unavailable|no\s*rooms', re.I)
-
     for block in blocks:
-        name_match = re.search(r'class="[^"]*(?:vres_roomName|roomTypeName)[^"]*"[^>]*>\s*([^<]+)', block, re.I)
+        clean_block = block
+        if "vres_footer" in clean_block:
+            clean_block = clean_block.split("vres_footer")[0]
+        if "booking-footer" in clean_block:
+            clean_block = clean_block.split("booking-footer")[0]
+
+        name_match = re.search(r'class="[^"]*(?:vres_roomName|roomTypeName)[^"]*"[^>]*>\s*([^<]+)', clean_block, re.I)
         if not name_match:
-            # General fallback check pattern
-            name_match = re.search(r'(?:Deluxe|Comfort|Standard|Superior|Suite|King|Queen|Double)[^\n<]{2,40}', block, re.I)
+            name_match = re.search(r'(?:Deluxe|Comfort|Standard|Superior|Suite|King|Queen|Double)[^\n<]{2,40}', clean_block, re.I)
             
         if not name_match: 
             continue
@@ -277,12 +264,19 @@ def _parse_rooms_ipms247(html: str, hotel_name: str) -> list:
             continue
         seen.add(room_name)
 
-        if not_avail_re.search(block):
+        is_sold_out = False
+        status_area_match = re.search(r'(?:<button|<span|<div)[^>]*class="[^"]*(?:status|book|avail)[^"]*"[^>]*>([\s\S]*?)(?:</button|</span>|</div>)', clean_block, re.I)
+        if status_area_match and any(x in status_area_match.group(1).lower() for x in ["sold out", "not available", "unavailable"]):
+            is_sold_out = True
+        elif status_area_match is None and any(x in clean_block.lower() for x in ["sold out", "no rooms available"]):
+            is_sold_out = True
+
+        if is_sold_out:
             rooms.append({"room_type": room_name, "available": False, "rooms_left": 0, "rate": None})
             continue
 
         rate = None
-        rate_match = re.search(r'\$\s*([\d,]+(?:\.\d{2})?)', block)
+        rate_match = re.search(r'\$\s*([\d,]+(?:\.\d{2})?)', clean_block)
         if rate_match:
             try:
                 val = float(rate_match.group(1).replace(',', ''))
@@ -290,9 +284,11 @@ def _parse_rooms_ipms247(html: str, hotel_name: str) -> list:
             except: pass
 
         rooms_left = None
-        inv_match = re.search(r'(\d+)\s*(?:room[s]?\s*left|left|remaining)', block, re.I)
+        # Target specific expressions such as "Only 3 left" or "2 rooms remaining"
+        inv_match = re.search(r'(\d+)\s*(?:room[s]?\s*left|left|remaining)', clean_block, re.I)
         if inv_match:
-            try: rooms_left = int(inv_match.group(1))
+            try: 
+                rooms_left = int(inv_match.group(1))
             except: pass
 
         rooms.append({
@@ -302,153 +298,20 @@ def _parse_rooms_ipms247(html: str, hotel_name: str) -> list:
             "rooms_left": rooms_left
         })
         
-    logger.info(f"[{hotel_name}] Parsed {len(rooms)} unique options targets.")
     return rooms
 
 def _summarise(rooms: list, total_rooms: int) -> dict:
     avail = [r for r in rooms if r["available"]]
     rated = [r for r in avail if r["rate"] is not None]
-    known_inv = [r["rooms_left"] for r in avail if r["rooms_left"] is not None]
-
-    total_remaining = sum(known_inv) if known_inv else len(avail)
-    blended_adr = round(sum(r["rate"] for r in rated) / len(rated), 2) if rated else 0.0
-    sold = max(0, total_rooms - total_remaining)
-    occ = round((sold / total_rooms) * 100, 1) if total_rooms else 0.0
     
-    return {
-        "total_rooms_property": total_rooms,
-        "total_remaining": total_remaining,
-        "estimated_sold": sold,
-        "estimated_occupancy_pct": occ,
-        "blended_adr": blended_adr,
-        "room_types_available": len(avail),
-        "room_types_sold_out": len(rooms) - len(avail)
-    }
-
-# ─── Storage Operations ───────────────────────────────────────────────────────
-def load_day_data(d: date) -> dict:
-    path = DATA_DIR / f"{d:%Y-%m-%d}.json"
-    if path.exists():
-        try:
-            with open(path) as f: return json.load(f)
-        except: pass
-    return {}
-
-def save_day_data(d: date, data: dict):
-    with open(DATA_DIR / f"{d:%Y-%m-%d}.json", "w") as f:
-        json.dump(data, f, indent=2, default=str)
-
-def append_snapshot(d: date, result: dict):
-    data = load_day_data(d)
-    data.setdefault(result["property"], []).append(result)
-    save_day_data(d, data)
-    s = result["summary"]
-    logger.info(f"[{result['property']}] Saved Snap: Remainder={s['total_remaining']} ADR=${s['blended_adr']}")
-
-# ─── Report Generators ────────────────────────────────────────────────────────
-def generate_morning_report(report_date: date):
-    prev = report_date - timedelta(days=1)
-    data = load_day_data(prev)
-    if not data:
-        logger.warning(f"No records found to synthesize summary for {prev}")
-        return
-
-    lines = [
-        "=" * 60,
-        f"  HOTEL PERFORMANCE TRACK SUMMARY — Night of {prev:%B %d, %Y}",
-        f"  Generated: {datetime.now():%Y-%m-%d %H:%M:%S}",
-        "=" * 60,
-    ]
-    for prop, snaps in data.items():
-        valid = [s for s in snaps if s.get("summary")]
-        if not valid: continue
-        last = valid[-1]
-        s = last["summary"]
-        lines += [
-            f"\n  🏨  {prop}",
-            f"  {'─'*50}",
-            f"  Total Capacity    : {s['total_rooms_property']}",
-            f"  Rooms Sold (Est)  : {s['estimated_sold']}",
-            f"  Remaining Vector  : {s['total_remaining']}",
-            f"  OCCUPANCY %       : {s['estimated_occupancy_pct']}%",
-            f"  Blended ADR       : ${s['blended_adr']}",
-            f"\n  Run Logs Timeline Metric View:",
-            f"  {'Time':<10} {'Remaining':>10} {'ADR':>10} {'Occ%':>8}",
-            f"  {'-'*40}",
-        ]
-        for snap in valid:
-            t = datetime.fromisoformat(snap["scraped_at"]).strftime("%H:%M")
-            rm = snap["summary"]["total_remaining"]
-            adr = snap["summary"]["blended_adr"]
-            oc = snap["summary"]["estimated_occupancy_pct"]
-            lines.append(f"  {t:<10} {str(rm):>10} ${str(adr):>9} {str(oc)+' %':>8}")
-
-    lines.append(f"\n{'='*60}\n")
-    text = "\n".join(lines)
-
-    rpath = REPORT_DIR / f"morning_report_{prev:%Y-%m-%d}.txt"
-    with open(rpath, "w") as f: f.write(text)
-    print(text)
-
-    # Secondary analytical metrics flat exports
-    rows = []
-    for prop, snaps in data.items():
-        for snap in snaps:
-            if snap.get("summary"):
-                rows.append({"property": prop, "scraped_at": snap["scraped_at"], **snap["summary"]})
-    if rows:
-        pd.DataFrame(rows).to_csv(REPORT_DIR / f"data_{prev:%Y-%m-%d}.csv", index=False)
-    logger.info("Summary performance files saved successfully.")
-
-# ─── Core Control Drivers ─────────────────────────────────────────────────────
-async def run_all_properties(cfg: dict, label: str = "manual"):
-    target = date.today()
-    logger.info(f"=== Starting Engine Collection Cycle [{label}] for {target} ===")
-    for prop in cfg.get("properties", []):
-        await asyncio.sleep(random.uniform(2.0, 5.0))
-        res = await scrape_property(prop, cfg, target)
-        if res: 
-            append_snapshot(target, res)
-    logger.info(f"=== Engine Collection Cycle [{label}] Complete ===")
-
-def start_scheduler(cfg: dict):
-    tz = "America/Los_Angeles"
-    scheduler = AsyncIOScheduler(timezone=tz)
-    sched_cfg = cfg.get("schedule", DEFAULT_CONFIG["schedule"])
-
-    for t in sched_cfg.get("intraday_times", []):
-        h, m = map(int, t.split(":"))
-        scheduler.add_job(run_all_properties, CronTrigger(hour=h, minute=m),
-                          args=[cfg, f"scheduled-{t}"], id=f"scrape_{t.replace(':','')}")
-        logger.info(f"Assigned timeline cron event at {t} PT")
-
-    rt = sched_cfg.get("morning_report_time", "07:00")
-    rh, rm = map(int, rt.split(":"))
-    scheduler.add_job(generate_morning_report, CronTrigger(hour=rh, minute=rm),
-                      args=[date.today()], id="morning_report")
-    logger.info(f"Assigned structural synthesis event at {rt} PT")
-
-    scheduler.start()
-    return scheduler
-
-async def main():
-    cfg = load_config()
-    if len(sys.argv) > 1:
-        cmd = sys.argv[1].lower()
-        if cmd == "run":
-            await run_all_properties(cfg, "manual")
-            return
-        elif cmd == "report":
-            generate_morning_report(date.today())
-            return
-
-    logger.info("Initializing Tracker Pipeline Engine...")
-    scheduler = start_scheduler(cfg)
-    await run_all_properties(cfg, "startup")
-    try:
-        while True: await asyncio.sleep(60)
-    except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    # Track if the page explicitly explicitly listed individual room countdown metrics
+    has_explicit_counts = any(r["rooms_left"] is not None for r in avail)
+    
+    if has_explicit_counts:
+        # Sum only room blocks where countdown labels are found
+        total_remaining = sum(r["rooms_left"] for r in avail if r["rooms_left"] is not None)
+        # If there are open room blocks but they don't have text countdown labels, 
+        # it means their inventory is healthy (more than the urgency threshold, usually > 5 rooms).
+        # We will handle this gracefully, but if your systems explicitly show remaining totals, this sums them cleanly.
+        if total_remaining == 0 and len(avail) > 0:
+            total_remaining = len(avail)
