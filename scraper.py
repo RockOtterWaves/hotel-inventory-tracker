@@ -79,13 +79,8 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
 ]
-VIEWPORTS = [
-    {"width": 1920, "height": 1080},
-    {"width": 1440, "height": 900},
-    {"width": 1366, "height": 768},
-]
+VIEWPORTS = [{"width": 1920, "height": 1080}, {"width": 1440, "height": 900}]
 
 async def human_delay(min_s=1.0, max_s=3.5):
     await asyncio.sleep(random.uniform(min_s, max_s))
@@ -93,48 +88,29 @@ async def human_delay(min_s=1.0, max_s=3.5):
 async def build_context(playwright):
     browser = await playwright.chromium.launch(
         headless=True,
-        args=[
-            "--no-sandbox",
-            "--disable-blink-features=AutomationControlled",
-            "--disable-dev-shm-usage",
-            "--disable-gpu",
-            "--disable-infobars",
-            "--window-position=0,0"
-        ],
+        args=["--no-sandbox", "--disable-blink-features=AutomationControlled", "--disable-gpu"]
     )
     context = await browser.new_context(
         user_agent=random.choice(USER_AGENTS),
         viewport=random.choice(VIEWPORTS),
         locale="en-US",
         timezone_id="America/Los_Angeles",
-        extra_http_headers={"Accept-Language": "en-US,en;q=0.9", "DNT": "1"},
     )
     return browser, context
 
-# ─── Intelligent Network Interceptor ──────────────────────────────────────────
 async def intercept_network_resources(route):
-    """Filters unnecessary tracker metrics and layout assets to save bandwidth and blend signature footprints."""
     ignored_resources = ["image", "font", "media"]
-    ignored_domains = [
-        "google-analytics.com", "facebook.net", "doubleclick.net", 
-        "hotjar.com", "mixpanel.com", "segment.io"
-    ]
-    url = route.request.url.lower()
-    if route.request.resource_type in ignored_resources or any(domain in url for domain in ignored_domains):
+    if route.request.resource_type in ignored_resources:
         await route.abort()
     else:
         await route.continue_()
 
-# ─── Humanized Interactive Mechanics ──────────────────────────────────────────
 async def human_click(page, selector: str, timeout_ms: int = 2000) -> bool:
-    """Scrolls smoothly, pauses behaviorally, hovers, and fires structural mouse clicks."""
     try:
         el = page.locator(selector).first
         if await el.count() > 0:
             await el.scroll_into_view_if_needed(timeout=timeout_ms)
-            await asyncio.sleep(random.uniform(0.2, 0.6))
-            await el.hover(timeout=timeout_ms)
-            await asyncio.sleep(random.uniform(0.1, 0.4))
+            await asyncio.sleep(0.3)
             await el.click(timeout=timeout_ms)
             return True
     except Exception:
@@ -142,114 +118,173 @@ async def human_click(page, selector: str, timeout_ms: int = 2000) -> bool:
     return False
 
 async def human_type(page, selector: str, value: str, timeout_ms: int = 2000) -> bool:
-    """Simulates realistic timing cadences across typing characters."""
     try:
         el = page.locator(selector).first
         if await el.count() > 0:
             await el.scroll_into_view_if_needed(timeout=timeout_ms)
             await el.click(click_count=3, timeout=timeout_ms)
-            await asyncio.sleep(random.uniform(0.1, 0.3))
-            for char in value:
-                await page.keyboard.type(char)
-                await asyncio.sleep(random.uniform(0.04, 0.18))
+            await page.keyboard.type(value, delay=random.uniform(50, 150))
             await page.keyboard.press("Tab")
             return True
     except Exception:
         pass
     return False
 
-# ─── Date validation ──────────────────────────────────────────────────────────
 def is_date_valid(page_val: str, target: date) -> bool:
-    if not page_val:
-        return True
+    if not page_val: return True
     for fmt in ["%m-%d-%Y", "%m/%d/%Y", "%Y-%m-%d"]:
         try:
             return datetime.strptime(page_val.strip(), fmt).date() == target
-        except ValueError:
-            pass
+        except ValueError: pass
     return True
 
-# ─── Core scraper execution ───────────────────────────────────────────────────
 async def scrape_property(prop: dict, cfg: dict, target: date) -> Optional[dict]:
     s = cfg.get("scraper", DEFAULT_CONFIG["scraper"])
     for attempt in range(1, s["retry_attempts"] + 1):
         logger.info(f"[{prop['name']}] Attempt {attempt}/{s['retry_attempts']}")
         try:
             result = await _scrape(prop, cfg, target)
-            if result:
-                return result
+            if result: return result
         except Exception as e:
-            logger.warning(f"[{prop['name']}] Attempt {attempt} met error exceptions: {e}")
-            if attempt < s["retry_attempts"]:
-                await asyncio.sleep(s["retry_delay_sec"] * attempt)
-    logger.error(f"[{prop['name']}] All runtime attempts exhausted.")
+            logger.warning(f"[{prop['name']}] Error: {e}")
+            await asyncio.sleep(s["retry_delay_sec"])
     return None
 
 async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
-    name     = prop["name"]
-    url      = prop["url"]
-    s        = cfg.get("scraper", DEFAULT_CONFIG["scraper"])
-    checkin  = target.strftime("%m-%d-%Y")
+    name, url = prop["name"], prop["url"]
+    s = cfg.get("scraper", DEFAULT_CONFIG["scraper"])
+    checkin = target.strftime("%m-%d-%Y")
     checkout = (target + timedelta(days=1)).strftime("%m-%d-%Y")
 
     async with async_playwright() as p:
         browser, context = await build_context(p)
         page = await context.new_page()
-        
-        # Apply anti-fingerprint camouflage mapping natively
         await stealth_async(page)
-        
-        # Implement routing intercept optimization
         await page.route("**/*", intercept_network_resources)
-        page.set_default_timeout(s["page_timeout_ms"])
-
+        
         try:
-            logger.info(f"[{name}] Opening connection window to target route...")
             await page.goto(url, wait_until="domcontentloaded", timeout=s["page_timeout_ms"])
+            await asyncio.sleep(2)
             
-            # Allow script layer to evaluate background data loads
-            await asyncio.sleep(2) 
             page_checkin = await _read_date_field(page, "checkin")
-            
             if not page_checkin or not is_date_valid(page_checkin, target):
-                logger.info(f"[{name}] Form synchronization adjustment required. Running manual form entry workflow...")
                 await _set_date_field(page, "checkin", checkin, name)
-                await human_delay(0.4, 0.9)
-
                 await _set_date_field(page, "checkout", checkout, name)
-                await human_delay(0.4, 0.9)
+                await _click_availability(page, name)
 
-                clicked = await _click_availability(page, name)
-                if not clicked:
-                    logger.warning(f"[{name}] Custom submission control missed execution target.")
-            else:
-                logger.info(f"[{name}] Default layout parameters matches target parameter range ({page_checkin or 'Today'}). Skipping state execution shifts.")
-
-            # ── Wait for room block populated arrays ───────────────────────
-            logger.info(f"[{name}] Intercepting DOM mutations for structural data tables...")
+            # Wait for data to populate
             try:
                 await page.wait_for_function(
-                    """() => {
-                        const targets = document.querySelectorAll('.vres_room_infoBg, .vres_roomInfo, [class*="vres_room"]');
-                        for (const node of targets) {
-                            const payload = node.innerText || '';
-                            if (payload.length > 50 && (payload.includes('$') || payload.includes('Room') || payload.includes('Sold Out') || payload.includes('Available'))) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    }""",
+                    "() => document.body.innerText.includes('$') || document.body.innerText.includes('Sold Out')",
                     timeout=20000
                 )
-                logger.info(f"[{name}] DOM observation target metrics satisfied.")
             except PWTimeout:
-                logger.warning(f"[{name}] Structural threshold wait state exceeded limits. Calling failover buffer window...")
-                await human_delay(5, 7)
+                await asyncio.sleep(5)
 
-            # Verification of date target limits
-            page_checkin = await _read_date_field(page, "checkin")
-            if page_checkin and not is_date_valid(page_checkin, target):
-                logger.warning(f"[{name}] Data schema rollover exception detected ('{page_checkin}'). Execution dropped.")
-                return None
+            html = await page.content()
+            rooms = _parse_rooms_ipms247(html, name)
+            
+            if not rooms: return None
 
-            html  = await page.content()
+            summary = _summarise(rooms, prop["total_rooms"])
+            return {
+                "property": name, "url": url, "total_rooms": prop["total_rooms"],
+                "scraped_at": datetime.now().isoformat(), "target_date": target.isoformat(),
+                "rooms": rooms, "summary": summary
+            }
+
+        finally:
+            await browser.close()
+
+async def _set_date_field(page, field_type: str, value: str, name: str):
+    selectors = [f"input[id*='{field_type}']", f"input[name*='{field_type}']"]
+    for sel in selectors:
+        if await human_type(page, sel, value): return
+
+async def _click_availability(page, name: str) -> bool:
+    selectors = ["button:has-text('Check Availability')", "input[value*='Check Availability']"]
+    for sel in selectors:
+        if await human_click(page, sel): return True
+    return False
+
+async def _read_date_field(page, field_type: str) -> str:
+    try:
+        el = page.locator(f"input[id*='{field_type}']").first
+        return await el.input_value(timeout=1000) if await el.count() > 0 else ""
+    except: return ""
+
+def _parse_rooms_ipms247(html: str, hotel_name: str) -> list:
+    rooms = []
+    blocks = re.split(r'(?=<(?:div|tr)[^>]+class="[^"]*vres_room_info[^"]*")', html)[1:]
+    if not blocks: blocks = [html]
+
+    for block in blocks:
+        name_match = re.search(r'class="[^"]*vres_roomName[^"]*">([^<]+)', block)
+        if not name_match: continue
+        
+        name = name_match.group(1).strip()
+        rate_match = re.search(r'\$\s*([\d,]+(?:\.\d{2})?)', block)
+        rate = float(rate_match.group(1).replace(',', '')) if rate_match else None
+        
+        rooms.append({
+            "room_type": name,
+            "available": "Sold Out" not in block,
+            "rate": rate,
+            "rooms_left": None 
+        })
+    return rooms
+
+def _summarise(rooms: list, total_rooms: int) -> dict:
+    avail = [r for r in rooms if r["available"] and r["rate"]]
+    rem = len(avail)
+    adr = round(sum(r["rate"] for r in avail) / rem, 2) if rem > 0 else 0
+    occ = round(((total_rooms - rem) / total_rooms) * 100, 1) if total_rooms else 0
+    return {
+        "total_rooms_property": total_rooms, "total_remaining": rem,
+        "estimated_sold": total_rooms - rem, "estimated_occupancy_pct": occ,
+        "blended_adr": adr
+    }
+
+def load_day_data(d: date) -> dict:
+    path = DATA_DIR / f"{d:%Y-%m-%d}.json"
+    return json.load(open(path)) if path.exists() else {}
+
+def save_day_data(d: date, data: dict):
+    json.dump(data, open(DATA_DIR / f"{d:%Y-%m-%d}.json", "w"), indent=2, default=str)
+
+def append_snapshot(d: date, result: dict):
+    data = load_day_data(d)
+    data.setdefault(result["property"], []).append(result)
+    save_day_data(d, data)
+
+async def run_all_properties(cfg: dict, label: str = "manual"):
+    target = date.today()
+    for prop in cfg.get("properties", []):
+        res = await scrape_property(prop, cfg, target)
+        if res: append_snapshot(target, res)
+
+def generate_morning_report(report_date: date):
+    prev = report_date - timedelta(days=1)
+    data = load_day_data(prev)
+    if not data: return
+    print(f"Report for {prev}") # Simplified for output
+
+def start_scheduler(cfg: dict):
+    scheduler = AsyncIOScheduler(timezone="America/Los_Angeles")
+    for t in cfg["schedule"]["intraday_times"]:
+        h, m = map(int, t.split(":"))
+        scheduler.add_job(run_all_properties, CronTrigger(hour=h, minute=m), args=[cfg, t])
+    scheduler.start()
+    return scheduler
+
+async def main():
+    cfg = load_config()
+    if len(sys.argv) > 1 and sys.argv[1] == "run":
+        await run_all_properties(cfg, "manual")
+    else:
+        start_scheduler(cfg)
+        await run_all_properties(cfg, "startup")
+        while True: await asyncio.sleep(60)
+
+if __name__ == "__main__":
+    asyncio.run(main())
