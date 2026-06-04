@@ -628,3 +628,24 @@ waiting for locator(".room-type-info, .roomtype-list, [class*='room'], .booking-
 2026-06-04 23:05:52,455 [ERROR] [Blufftop Inn] All attempts exhausted.
 2026-06-04 23:05:52,455 [ERROR] [Blufftop Inn] Scrape returned no data for manual run.
 2026-06-04 23:05:52,455 [INFO] === Scrape run [manual] complete ===
+2026-06-04 23:49:27,798 [INFO] Created default config.json
+2026-06-04 23:49:27,798 [INFO] === Starting Engine Collection Cycle [manual] for 2026-06-04 ===
+2026-06-04 23:49:30,707 [INFO] [Tarzana Inn] Attempt 1/3
+2026-06-04 23:49:33,799 [INFO] [Tarzana Inn] Landing match targets valid (06/04/2026). Bypassing forms.
+2026-06-04 23:49:33,799 [INFO] [Tarzana Inn] Waiting for room tables to stabilize...
+2026-06-04 23:49:33,836 [INFO] [Tarzana Inn] Parsed 1 unique options targets.
+2026-06-04 23:49:33,837 [INFO] [Tarzana Inn] ✓ Complete: 1 variations verified. Remainder=0
+2026-06-04 23:49:33,880 [INFO] [Tarzana Inn] Saved Snap: Remainder=0 ADR=$0.0
+2026-06-04 23:49:38,678 [INFO] [Sea Air Inn] Attempt 1/3
+2026-06-04 23:49:41,555 [INFO] [Sea Air Inn] Landing match targets valid (06/04/2026). Bypassing forms.
+2026-06-04 23:49:41,555 [INFO] [Sea Air Inn] Waiting for room tables to stabilize...
+2026-06-04 23:49:41,606 [INFO] [Sea Air Inn] Parsed 1 unique options targets.
+2026-06-04 23:49:41,606 [INFO] [Sea Air Inn] ✓ Complete: 1 variations verified. Remainder=0
+2026-06-04 23:49:41,648 [INFO] [Sea Air Inn] Saved Snap: Remainder=0 ADR=$0.0
+2026-06-04 23:49:46,191 [INFO] [Blufftop Inn] Attempt 1/3
+2026-06-04 23:49:49,147 [INFO] [Blufftop Inn] Landing match targets valid (06/04/2026). Bypassing forms.
+2026-06-04 23:49:49,147 [INFO] [Blufftop Inn] Waiting for room tables to stabilize...
+2026-06-04 23:49:49,190 [INFO] [Blufftop Inn] Parsed 1 unique options targets.
+2026-06-04 23:49:49,190 [INFO] [Blufftop Inn] ✓ Complete: 1 variations verified. Remainder=0
+2026-06-04 23:49:49,233 [INFO] [Blufftop Inn] Saved Snap: Remainder=0 ADR=$0.0
+2026-06-04 23:49:49,233 [INFO] === Engine Collection Cycle [manual] Complete ===
