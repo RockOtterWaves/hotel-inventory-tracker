@@ -113,7 +113,7 @@
   main { padding: 32px 40px; display: flex; flex-direction: column; gap: 32px; }
 
   /* ── KPI row ── */
-  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; }
   .kpi-card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 20px 22px;
@@ -129,7 +129,6 @@
   .kpi-prop {
     font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
     color: var(--muted); margin-bottom: 10px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .kpi-value {
     font-family: var(--font-display); font-size: 38px; font-weight: 900;
@@ -172,4 +171,631 @@
     position: absolute; inset: 0;
     background: var(--surface);
     display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font
+    color: var(--muted); font-size: 11px; letter-spacing: 0.05em;
+    z-index: 5; pointer-events: none;
+    border-radius: var(--radius);
+  }
+
+  /* ── Property breakdown table ── */
+  .prop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px; }
+
+  .prop-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .prop-card-header {
+    background: var(--surface2); padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .prop-name {
+    font-family: var(--font-display); font-size: 14px; font-weight: 700;
+  }
+  .prop-occ-badge {
+    font-size: 11px; font-weight: 500; letter-spacing: .06em;
+    padding: 3px 10px; border-radius: 20px;
+  }
+  .prop-occ-badge.high { background: rgba(62,207,178,.12); color: var(--teal); border: 1px solid rgba(62,207,178,.3); }
+  .prop-occ-badge.mid  { background: rgba(201,168,76,.12); color: var(--gold); border: 1px solid rgba(201,168,76,.3); }
+  .prop-occ-badge.low  { background: rgba(224,92,110,.12); color: var(--rose); border: 1px solid rgba(224,92,110,.3); }
+
+  .prop-stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .prop-stat {
+    padding: 14px 16px; border-right: 1px solid var(--border);
+  }
+  .prop-stat:last-child { border-right: none; }
+  .prop-stat-label { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .prop-stat-val   { font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+
+  /* Occ bar */
+  .occ-bar-wrap { padding: 14px 18px; }
+  .occ-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 6px; }
+  .occ-bar-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .occ-bar-fill  { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+
+  /* Room table */
+  .room-table { width: 100%; border-collapse: collapse; }
+  .room-table th {
+    text-align: left; padding: 8px 18px;
+    font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--border);
+  }
+  .room-table td { padding: 9px 18px; font-size: 12px; border-bottom: 1px solid rgba(38,44,62,.5); }
+  .room-table tr:last-child td { border-bottom: none; }
+  .room-table tr:hover td { background: var(--surface2); }
+  .avail-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
+  .avail-dot.yes { background: var(--teal); }
+  .avail-dot.no  { background: var(--rose); }
+
+  /* ── Timeline snapshot table ── */
+  .timeline-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .timeline-table { width: 100%; border-collapse: collapse; }
+  .timeline-table th {
+    text-align: left; padding: 11px 18px;
+    font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline-table td { padding: 10px 18px; font-size: 12px; border-bottom: 1px solid rgba(38,44,62,.5); }
+  .timeline-table tr:last-child td { border-bottom: none; }
+  .timeline-table tr:hover td { background: var(--surface2); }
+  .mini-bar { display: inline-block; height: 10px; border-radius: 2px; vertical-align: middle; margin-left: 8px; }
+
+  /* ── Empty / loading states ── */
+  .empty-state {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 20px; color: var(--muted); gap: 12px; text-align: center;
+  }
+  .empty-state svg { opacity: .25; }
+  .empty-state p { font-size: 12px; letter-spacing: .06em; max-width: 320px; line-height: 1.6; }
+
+  .spinner {
+    display: inline-block; width: 14px; height: 14px;
+    border: 2px solid var(--border); border-top-color: var(--gold);
+    border-radius: 50%; animation: spin .6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 10px; letter-spacing: .1em;
+  }
+  footer a { color: var(--gold-dim); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-title">Hotel Intelligence</div>
+    <div class="brand-sub">Inventory &amp; Rate Dashboard</div>
+  </div>
+  <div class="header-right">
+    <div class="date-wrap">
+      <label for="datePicker">Date</label>
+      <input type="date" id="datePicker">
+    </div>
+    <button class="btn-refresh" id="btnRefresh">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M13.5 8A5.5 5.5 0 1 1 8 2.5c1.8 0 3.4.87 4.4 2.2M14 2v3h-3"/>
+      </svg>
+      Refresh
+    </button>
+    <div class="status-pill" id="statusPill">
+      <span class="dot"></span>
+      <span id="statusText">Loading…</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="kpi-row" id="kpiRow">
+    <div class="kpi-card"><div class="empty-state"><div class="spinner"></div></div></div>
+    <div class="kpi-card"><div class="empty-state"><div class="spinner"></div></div></div>
+    <div class="kpi-card"><div class="empty-state"><div class="spinner"></div></div></div>
+  </div>
+
+  <div>
+    <div class="section-header">
+      <div class="section-title">Intraday Trend</div>
+      <div class="section-sub">All scheduled run snapshots</div>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-card-title">Occupancy % · by property</div>
+        <div class="chart-placeholder" id="occPlaceholder" style="display:none;">No data compiled for trend timeline</div>
+        <div class="chart-wrap"><canvas id="chartOcc"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-title">Blended ADR ($) · by property</div>
+        <div class="chart-placeholder" id="adrPlaceholder" style="display:none;">No data compiled for trend timeline</div>
+        <div class="chart-wrap"><canvas id="chartAdr"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-header">
+      <div class="section-title">Property Breakdown</div>
+      <div class="section-sub">Latest snapshot</div>
+    </div>
+    <div class="prop-grid" id="propGrid">
+      <div class="prop-card"><div class="empty-state"><div class="spinner"></div></div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-header">
+      <div class="section-title">Snapshot Log</div>
+      <div class="section-sub">All runs for selected day</div>
+    </div>
+    <div class="timeline-wrap">
+      <table class="timeline-table" id="timelineTable">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Property</th>
+            <th>Remaining Rooms</th>
+            <th>Blended ADR</th>
+            <th>Est. Occupancy</th>
+            <th>Rooms Sold</th>
+          </tr>
+        </thead>
+        <tbody id="timelineBody">
+          <tr><td colspan="6"><div class="empty-state"><div class="spinner"></div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span>Hotel Intelligence Dashboard · Data refreshes automatically with each scraper run</span>
+  <span>Powered by <a href="https://github.com" target="_blank">GitHub Actions</a> · <a id="repoLink" href="#" target="_blank">View Raw Data</a></span>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  !! AUTOMATIC GITHUB ENDPOINT CONFIGURATION !!
+// ════════════════════════════════════════════════════════════
+const GITHUB_CONFIG = {
+  username: "rockotterwaves",   
+  repo:      "hotel-inventory-tracker" 
+};
+// ════════════════════════════════════════════════════════════
+
+const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/main`;
+const AGG_URL = `${RAW_BASE}/data/aggregates.json`;
+
+const PROP_COLORS = [
+  { line: '#c9a84c', fill: 'rgba(201,168,76,.12)' },
+  { line: '#3ecfb2', fill: 'rgba(62,207,178,.10)' },
+  { line: '#a78bfa', fill: 'rgba(167,139,250,.10)' },
+  { line: '#f97316', fill: 'rgba(249,115,22,.10)' },
+];
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let chartOcc = null, chartAdr = null;
+let currentData = null;
+let aggregateData = null;
+
+// Wait for document DOM to build safely before assigning handles
+document.addEventListener('DOMContentLoaded', async () => {
+  const picker = document.getElementById('datePicker');
+  const repoLink = document.getElementById('repoLink');
+  
+  if (repoLink) {
+    repoLink.href = `https://github.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}`;
+  }
+
+  // Set default picker view to today's date adjusted to Los Angeles/Pacific Time zone
+  const pacificDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
+  const dateStr     = pacificDate.getFullYear() + '-' + 
+                      String(pacificDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                      String(pacificDate.getDate()).padStart(2, '0');
+                      
+  if (picker) {
+    picker.value = dateStr;
+    picker.max   = dateStr;
+    picker.addEventListener('change', () => loadData(picker.value));
+  }
+  
+  const refreshBtn = document.getElementById('btnRefresh');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', () => loadData(picker ? picker.value : dateStr));
+  }
+
+  loadData(dateStr);
+});
+
+// ── Data loading ──────────────────────────────────────────────────────────────
+async function loadAggregateData() {
+  try {
+    const res = await fetch(`${AGG_URL}?t=${Date.now()}`);
+    if (res.ok) {
+      aggregateData = await res.json();
+      console.log("✅ Aggregates loaded:", aggregateData);
+    }
+  } catch (e) {
+    console.warn("No aggregate data found or structure unbuilt yet.");
+  }
+}
+
+async function loadData(dateStr) {
+  setStatus('loading');
+  await loadAggregateData();
+
+  const url = `${RAW_BASE}/data/${dateStr}.json?nocache=${Date.now()}`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const raw = await res.json();
+    currentData = raw;
+    render(raw, dateStr);
+    setStatus('ok', `Updated ${new Date().toLocaleTimeString()}`);
+  } catch (e) {
+    console.error("Fetch failure:", e);
+    setStatus('err', 'No records found for selected date');
+    renderEmpty();
+  }
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function render(raw, dateStr) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    renderEmpty();
+    return;
+  }
+
+  const props = Object.keys(raw).filter(p => Array.isArray(raw[p]) && raw[p].length > 0);
+  
+  if (props.length === 0) {
+    renderEmpty();
+    return;
+  }
+
+  // Clear placeholders if data exists
+  document.getElementById('occPlaceholder').style.display = 'none';
+  document.getElementById('adrPlaceholder').style.display = 'none';
+
+  renderKPIs(raw, props);
+  renderCharts(raw, props);
+  renderPropCards(raw, props);
+  renderTimeline(raw, props);
+}
+
+function getPropMeta() {
+  return {
+    "Tarzana Inn":  49,
+    "Sea Air Inn":  24,
+    "Blufftop Inn": 32,
+  };
+}
+
+// ── KPI row ───────────────────────────────────────────────────────────────────
+function renderKPIs(raw, props) {
+  const kpiRow = document.getElementById('kpiRow');
+  if (!kpiRow) return;
+
+  const meta = getPropMeta();
+  let totalRooms = 0, totalRemaining = 0, totalSold = 0;
+  let adrs = [];
+
+  props.forEach(p => {
+    const snaps = raw[p] || [];
+    const last  = lastValid(snaps);
+    if (!last) return;
+    
+    const s = last.summary;
+    const cap = s.total_rooms_property || meta[p] || 30;
+    
+    totalRooms     += cap;
+    totalRemaining += (s.total_remaining !== undefined) ? s.total_remaining : cap;
+    totalSold      += (s.estimated_sold !== undefined) ? s.estimated_sold : 0;
+    if (s.blended_adr) adrs.push(s.blended_adr);
+  });
+
+  const portOcc = totalRooms ? Math.round((totalSold / totalRooms) * 100) : 0;
+  const portAdr = adrs.length ? (adrs.reduce((a,b)=>a+b,0)/adrs.length).toFixed(2) : '—';
+
+  let baseHtml = `
+    <div class="kpi-card">
+      <div class="kpi-prop">Portfolio Total</div>
+      <div class="kpi-value gold">${portOcc}<span style="font-size:18px;color:var(--gold-dim)">%</span></div>
+      <div class="kpi-label">Est. Occupancy</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-prop">Portfolio · Blended</div>
+      <div class="kpi-value teal">${portAdr !== '—' ? '$' + portAdr : '—'}</div>
+      <div class="kpi-label">Average Daily Rate</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-prop">Portfolio Total</div>
+      <div class="kpi-value">${totalRemaining}</div>
+      <div class="kpi-label">Rooms Remaining</div>
+    </div>
+    ${props.map((p, i) => {
+      const last = lastValid(raw[p]);
+      if (!last) return '';
+      const s   = last.summary;
+      const col = PROP_COLORS[i % PROP_COLORS.length];
+      return `
+        <div class="kpi-card">
+          <div class="kpi-prop">${p}</div>
+          <div class="kpi-value" style="color:${col.line}">${s.estimated_occupancy_pct ?? '—'}<span style="font-size:16px;opacity:.6">%</span></div>
+          <div class="kpi-label">Occupancy · ${s.blended_adr ? '$' + s.blended_adr : '—'} ADR</div>
+        </div>`;
+    }).join('')}
+  `;
+
+  // Append aggregate data elements if present
+  if (aggregateData) {
+    let extra = "";
+    Object.keys(aggregateData.weekly || {}).forEach(p => {
+      const w = aggregateData.weekly[p] || {};
+      const m = (aggregateData.monthly || {})[p] || {};
+      extra += `
+        <div class="kpi-card">
+          <div class="kpi-prop">${p} · Weekly</div>
+          <div class="kpi-value teal">${w.avg_adr ? '$' + w.avg_adr : '—'}</div>
+          <div class="kpi-label">${w.avg_occ ?? '—'}% Occ</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-prop">${p} · Monthly</div>
+          <div class="kpi-value gold">${m.avg_adr ? '$' + m.avg_adr : '—'}</div>
+          <div class="kpi-label">${m.avg_occ ?? '—'}% Occ</div>
+        </div>`;
+    });
+    baseHtml += extra;
+  }
+
+  kpiRow.innerHTML = baseHtml;
+}
+
+// ── Charts ────────────────────────────────────────────────────────────────────
+function renderCharts(raw, props) {
+  const allTimes = new Set();
+  props.forEach(p => (raw[p] || []).forEach(s => {
+    if (s && s.scraped_at) allTimes.add(fmtTime(s.scraped_at));
+  }));
+  const labels = [...allTimes].sort();
+
+  if (labels.length === 0) {
+    document.getElementById('occPlaceholder').style.display = 'flex';
+    document.getElementById('adrPlaceholder').style.display = 'flex';
+    return;
+  }
+
+  const occDatasets = props.map((p, i) => {
+    const col = PROP_COLORS[i % PROP_COLORS.length];
+    const pts = labels.map(t => {
+      const snap = (raw[p] || []).find(s => s && s.scraped_at && fmtTime(s.scraped_at) === t);
+      return snap && snap.summary ? snap.summary.estimated_occupancy_pct : null;
+    });
+    return { label: p, data: pts, borderColor: col.line, backgroundColor: col.fill,
+             tension: .35, fill: true, spanGaps: true,
+             pointBackgroundColor: col.line, pointRadius: 4, pointHoverRadius: 6 };
+  });
+
+  const adrDatasets = props.map((p, i) => {
+    const col = PROP_COLORS[i % PROP_COLORS.length];
+    const pts = labels.map(t => {
+      const snap = (raw[p] || []).find(s => s && s.scraped_at && fmtTime(s.scraped_at) === t);
+      return snap && snap.summary ? snap.summary.blended_adr : null;
+    });
+    return { label: p, data: pts, borderColor: col.line, backgroundColor: col.fill,
+             tension: .35, fill: true, spanGaps: true,
+             pointBackgroundColor: col.line, pointRadius: 4, pointHoverRadius: 6 };
+  });
+
+  const chartOpts = (suffix='') => ({
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#6b7280', font: { family: "'DM Mono'", size: 11 }, boxWidth: 12 } },
+      tooltip: {
+        backgroundColor: '#1c2030', borderColor: '#262c3e', borderWidth: 1,
+        titleColor: '#e8e4d8', bodyColor: '#9ca3af',
+        titleFont: { family: "'DM Mono'" }, bodyFont: { family: "'DM Mono'" },
+        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}${suffix}` }
+      }
+    },
+    scales: {
+      x: { grid: { color: 'rgba(38,44,62,.3)' }, ticks: { color: '#6b7280', font: { family: "'DM Mono'", size: 10 } } },
+      y: { grid: { color: 'rgba(38,44,62,.3)' }, ticks: { color: '#6b7280', font: { family: "'DM Mono'", size: 10 },
+           callback: v => v + suffix } }
+    }
+  });
+
+  if (chartOcc) chartOcc.destroy();
+  if (chartAdr) chartAdr.destroy();
+
+  const elOcc = document.getElementById('chartOcc');
+  const elAdr = document.getElementById('chartAdr');
+
+  if (elOcc) chartOcc = new Chart(elOcc.getContext('2d'), { type: 'line', data: { labels, datasets: occDatasets }, options: chartOpts('%') });
+  if (elAdr) chartAdr = new Chart(elAdr.getContext('2d'), { type: 'line', data: { labels, datasets: adrDatasets }, options: chartOpts(' $') });
+}
+
+// ── Property cards ────────────────────────────────────────────────────────────
+function renderPropCards(raw, props) {
+  const meta = getPropMeta();
+  const grid = document.getElementById('propGrid');
+  if (!grid) return;
+
+  grid.innerHTML = props.map((p, i) => {
+    const snaps = raw[p] || [];
+    const last  = lastValid(snaps);
+    if (!last || !last.summary) return `<div class="prop-card"><div class="empty-state"><p>No snapshot entries parsed for ${p}</p></div></div>`;
+
+    const s   = last.summary;
+    const occ = s.estimated_occupancy_pct ?? 0;
+    const col = PROP_COLORS[i % PROP_COLORS.length];
+
+    const occClass = occ >= 80 ? 'high' : occ >= 50 ? 'mid' : 'low';
+    const barColor = occ >= 80 ? 'var(--teal)' : occ >= 50 ? 'var(--gold)' : 'var(--rose)';
+    const rooms    = last.rooms || [];
+
+    return `
+      <div class="prop-card">
+        <div class="prop-card-header">
+          <div class="prop-name" style="color:${col.line}">${p}</div>
+          <div class="prop-occ-badge ${occClass}">${occ}% occ.</div>
+        </div>
+        <div class="prop-stats">
+          <div class="prop-stat">
+            <div class="prop-stat-label">ADR</div>
+            <div class="prop-stat-val" style="color:${col.line}">${s.blended_adr ? '$' + s.blended_adr : '—'}</div>
+          </div>
+          <div class="prop-stat">
+            <div class="prop-stat-label">Remaining</div>
+            <div class="prop-stat-val">${s.total_remaining}</div>
+          </div>
+          <div class="prop-stat">
+            <div class="prop-stat-label">Sold</div>
+            <div class="prop-stat-val">${s.estimated_sold}</div>
+          </div>
+        </div>
+        <div class="occ-bar-wrap">
+          <div class="occ-bar-label"><span>Occupancy</span><span>${occ}%</span></div>
+          <div class="occ-bar-track">
+            <div class="occ-bar-fill" style="width:${occ}%;background:${barColor}"></div>
+          </div>
+        </div>
+        <table class="room-table">
+          <thead><tr>
+            <th>Room Type</th>
+            <th>Left</th>
+            <th>Rate</th>
+          </tr></thead>
+          <tbody>
+            ${rooms.length ? rooms.map(r => `
+              <tr>
+                <td><span class="avail-dot ${r.available ? 'yes':'no'}"></span>${r.room_type}</td>
+                <td>${r.available ? (r.rooms_left ?? '—') : '<span style="color:var(--rose)">Sold out</span>'}</td>
+                <td>${r.rate ? '$'+r.rate : '—'}</td>
+              </tr>`).join('') : '<tr><td colspan="3" style="color:var(--muted);padding:14px 18px">No room detail available</td></tr>'}
+          </tbody>
+        </table>
+      </div>`;
+  }).join('');
+}
+
+// ── Timeline table ────────────────────────────────────────────────────────────
+function renderTimeline(raw, props) {
+  const tbody = document.getElementById('timelineBody');
+  if (!tbody) return;
+  const rows  = [];
+
+  props.forEach((p, pi) => {
+    const col = PROP_COLORS[pi % PROP_COLORS.length];
+    (raw[p] || []).forEach(snap => {
+      if (!snap || !snap.summary) return;
+      const s = snap.summary;
+      rows.push({
+        time: snap.scraped_at,
+        prop: p,
+        remaining: s.total_remaining,
+        adr:  s.blended_adr,
+        occ:  s.estimated_occupancy_pct,
+        sold: s.estimated_sold,
+        total: s.total_rooms_property,
+        col: col.line,
+      });
+    });
+  });
+
+  rows.sort((a,b) => b.time.localeCompare(a.time));
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No snapshots log files found for this calendar target.</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.map(r => {
+    const occW = Math.round((r.occ ?? 0) * 1.4);
+    const barC = (r.occ??0) >= 80 ? 'var(--teal)' : (r.occ??0) >= 50 ? 'var(--gold)' : 'var(--rose)';
+    return `<tr>
+      <td>${fmtTime(r.time)}</td>
+      <td style="color:${r.col}">${r.prop}</td>
+      <td>${r.remaining} <small style="color:var(--muted)">/ ${r.total}</small></td>
+      <td>${r.adr ? '$'+r.adr : '—'}</td>
+      <td>
+        ${r.occ ?? '—'}%
+        <span class="mini-bar" style="width:${occW}px;background:${barC}"></span>
+      </td>
+      <td>${r.sold ?? '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+function renderEmpty() {
+  const kpiRow = document.getElementById('kpiRow');
+  const propGrid = document.getElementById('propGrid');
+  const timelineBody = document.getElementById('timelineBody');
+
+  if (kpiRow) {
+    kpiRow.innerHTML = `
+      <div class="kpi-card" style="grid-column:1/-1">
+        <div class="empty-state">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <p>No data found for this date.<br>The system scraper logs might still be running or empty.</p>
+        </div>
+      </div>`;
+  }
+      
+  if (propGrid) propGrid.innerHTML = '';
+  if (timelineBody) timelineBody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No logs compiled.</p></div></td></tr>`;
+  
+  if (chartOcc) { chartOcc.destroy(); chartOcc = null; }
+  if (chartAdr) { chartAdr.destroy(); chartAdr = null; }
+  
+  document.getElementById('occPlaceholder').style.display = 'flex';
+  document.getElementById('adrPlaceholder').style.display = 'flex';
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function lastValid(snaps) {
+  if (!Array.isArray(snaps) || !snaps.length) return null;
+  for (let i = snaps.length - 1; i >= 0; i--) {
+    if (snaps[i] && snaps[i].summary) return snaps[i];
+  }
+  return null;
+}
+
+function fmtTime(iso) {
+  try {
+    return new Date(iso).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+  } catch { return iso; }
+}
+
+function setStatus(state, msg) {
+  const pill = document.getElementById('statusPill');
+  const txt  = document.getElementById('statusText');
+  if (!pill || !txt) return;
+  
+  pill.className = 'status-pill';
+  if (state === 'loading') { 
+    pill.innerHTML = `<div class="spinner"></div> <span>Loading Data…</span>`; 
+    return; 
+  }
+  if (state === 'ok')  { pill.classList.add('ok');  txt.textContent = msg || 'Connected'; }
+  if (state === 'err') { pill.classList.add('err'); txt.textContent = msg || 'Offline'; }
+  pill.innerHTML = `<span class="dot"></span><span>${txt.textContent}</span>`;
+}
+</script>
+</body>
+</html>
