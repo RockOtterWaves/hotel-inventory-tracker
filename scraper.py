@@ -130,4 +130,4 @@ async def scrape_property(prop: dict, cfg: dict, target: date) -> Optional[dict]
         except Exception as e:
             logger.warning(f"[{prop['name']}] Attempt {attempt} failed: {e}")
             if attempt < s["retry_attempts"]:
-                await asyncio.
+                await asyncio.sleep(s["retry_delay_sec"])
