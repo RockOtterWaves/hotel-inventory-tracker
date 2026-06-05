@@ -80,7 +80,14 @@ jobs:
       - name: Run scraper
         if: steps.run_type.outputs.type == 'scrape'
         run: python scraper.py run
-
+      
+      - name: Upload debug files
+        if: steps.run_type.outputs.type == 'scrape'
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-files
+          path: debug_*.json
+          
       - name: Generate morning report
         if: steps.run_type.outputs.type == 'report'
         run: python scraper.py report
@@ -102,3 +109,4 @@ jobs:
             reports/
             logs/
           retention-days: 30
+     
