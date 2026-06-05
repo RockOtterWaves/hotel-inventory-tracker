@@ -1,63 +1,621 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hotel Intelligence Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #0d0f14; --surface: #141720; --border: #262c3e; --gold: #c9a84c; --text: #e8e4d8; --teal: #3ecfb2; }
-  body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 1rem; }
-  .grid { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 1200px; margin: 0 auto; }
-  .card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; border-radius: 6px; }
-  .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
-  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-  th, td { padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: left; font-size: 0.85rem; }
-  @media (min-width: 768px) { .grid { grid-template-columns: repeat(12, 1fr); } .card { grid-column: span 12; } }
+:root {
+  --bg:#0d0f14; --surface:#141720; --surface2:#1c2030; --border:#262c3e;
+  --gold:#c9a84c; --gold-dim:#7a6230; --gold-glow:rgba(201,168,76,.12);
+  --teal:#3ecfb2; --rose:#e05c6e; --violet:#a78bfa;
+  --text:#e8e4d8; --muted:#6b7280; --label:#9ca3af;
+  --font-d:'Playfair Display',Georgia,serif;
+  --font-m:'DM Mono','Courier New',monospace;
+  --r:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-m);font-size:13px;min-height:100vh}
+
+/* ── Header ── */
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 36px 20px;border-bottom:1px solid var(--border);position:relative}
+header::after{content:'';position:absolute;bottom:-1px;left:36px;width:160px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+.brand-title{font-family:var(--font-d);font-size:20px;font-weight:700;letter-spacing:.02em}
+.brand-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.header-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+input[type="date"]{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:var(--font-m);font-size:12px;padding:6px 10px;border-radius:var(--r);outline:none;cursor:pointer}
+input[type="date"]:focus{border-color:var(--gold-dim)}
+.date-wrap{display:flex;align-items:center;gap:6px}
+.date-wrap label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.btn{background:transparent;border:1px solid var(--gold-dim);color:var(--gold);font-family:var(--font-m);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:var(--r);cursor:pointer;transition:.2s}
+.btn:hover{background:var(--gold-glow);border-color:var(--gold)}
+.pill{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted);display:flex;align-items:center;gap:5px}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0}
+.pill.ok{border-color:rgba(62,207,178,.25);color:var(--teal)}.pill.ok .dot{background:var(--teal);box-shadow:0 0 6px var(--teal)}
+.pill.err{border-color:rgba(224,92,110,.25);color:var(--rose)}.pill.err .dot{background:var(--rose)}
+
+/* ── Nav tabs ── */
+nav{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 36px}
+.tab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:12px 18px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-m)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover{color:var(--text)}
+
+/* ── Main ── */
+main{padding:28px 36px;display:flex;flex-direction:column;gap:28px;max-width:1400px}
+
+/* ── Views ── */
+.view{display:none}.view.active{display:contents}
+
+/* ── KPI row ── */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;transition:border-color .2s}
+.kpi:hover{border-color:var(--gold-dim)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.kpi-val{font-family:var(--font-d);font-size:34px;font-weight:900;line-height:1;color:var(--text)}
+.kpi-val.gold{color:var(--gold)}.kpi-val.teal{color:var(--teal)}.kpi-val.violet{color:var(--violet)}
+.kpi-sub{font-size:10px;letter-spacing:.08em;color:var(--muted);margin-top:4px}
+
+/* ── Section header ── */
+.sh{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+.sh-title{font-family:var(--font-d);font-size:15px;font-weight:700}
+.sh-sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ── Charts ── */
+.charts-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:860px){.charts-2{grid-template-columns:1fr}}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.chart-card-title{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.chart-wrap{position:relative;height:200px}
+
+/* ── Property cards ── */
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.prop-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.prop-head{background:var(--surface2);padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.prop-name{font-family:var(--font-d);font-size:14px;font-weight:700}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px}
+.badge.hi{background:rgba(62,207,178,.12);color:var(--teal);border:1px solid rgba(62,207,178,.3)}
+.badge.mid{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.badge.lo{background:rgba(224,92,110,.12);color:var(--rose);border:1px solid rgba(224,92,110,.3)}
+.prop-stats{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border)}
+.stat{padding:12px 14px;border-right:1px solid var(--border)}.stat:last-child{border-right:none}
+.stat-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.stat-val{font-family:var(--font-d);font-size:18px;font-weight:700}
+.bar-wrap{padding:12px 16px}
+.bar-label{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:5px}
+.bar-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.room-tbl{width:100%;border-collapse:collapse}
+.room-tbl th{text-align:left;padding:7px 16px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.room-tbl td{padding:8px 16px;font-size:12px;border-bottom:1px solid rgba(38,44,62,.5)}
+.room-tbl tr:last-child td{border-bottom:none}
+.room-tbl tr:hover td{background:var(--surface2)}
+.adot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px}
+.adot.y{background:var(--teal)}.adot.n{background:var(--rose)}
+
+/* ── Snapshot timeline ── */
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.data-tbl{width:100%;border-collapse:collapse}
+.data-tbl th{text-align:left;padding:10px 16px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border)}
+.data-tbl td{padding:9px 16px;font-size:12px;border-bottom:1px solid rgba(38,44,62,.5)}
+.data-tbl tr:last-child td{border-bottom:none}
+.data-tbl tr:hover td{background:var(--surface2)}
+.mbar{display:inline-block;height:8px;border-radius:2px;vertical-align:middle;margin-left:6px}
+
+/* ── Analytics view ── */
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.prop-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.ptab{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:var(--font-m);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border-radius:var(--r);cursor:pointer;transition:.2s}
+.ptab.active{border-color:var(--gold-dim);color:var(--gold);background:var(--gold-glow)}
+.analytics-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.analytics-section-title{background:var(--surface2);padding:11px 16px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border)}
+
+/* ── Empty / spinner ── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;color:var(--muted);gap:10px;text-align:center}
+.empty p{font-size:12px;max-width:320px;line-height:1.6}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+footer{border-top:1px solid var(--border);padding:14px 36px;display:flex;justify-content:space-between;color:var(--muted);font-size:10px;letter-spacing:.08em}
+footer a{color:var(--gold-dim);text-decoration:none}
+footer a:hover{color:var(--gold)}
 </style>
 </head>
 <body>
-<div class="grid" id="app">
-  <div class="card" id="propBtns"></div>
-  <div class="card">
-    <h3>Active Room Inventory</h3>
-    <div class="room-grid" id="roomList"></div>
+
+<header>
+  <div>
+    <div class="brand-title">Hotel Intelligence</div>
+    <div class="brand-sub">Inventory &amp; Rate Dashboard</div>
   </div>
-  <div class="card">
-    <canvas id="chart"></canvas>
-    <div id="tableContainer"></div>
+  <div class="header-right">
+    <div class="date-wrap">
+      <label for="dp">Date</label>
+      <input type="date" id="dp">
+    </div>
+    <button class="btn" id="btnRefresh">↻ Refresh</button>
+    <div class="pill" id="pill"><span class="dot"></span><span id="pillTxt">Loading…</span></div>
   </div>
-</div>
+</header>
+
+<nav>
+  <button class="tab active" data-view="today">Today</button>
+  <button class="tab" data-view="analytics">Analytics</button>
+  <button class="tab" data-view="log">Snapshot Log</button>
+</nav>
+
+<main>
+
+  <!-- ══ TODAY VIEW ══════════════════════════════════════════════════════ -->
+  <div class="view active" id="view-today">
+
+    <!-- KPIs -->
+    <div class="kpi-row" id="kpiRow">
+      <div class="kpi"><div class="empty"><div class="spinner"></div></div></div>
+    </div>
+
+    <!-- Intraday charts -->
+    <div>
+      <div class="sh"><div class="sh-title">Intraday Trend</div><div class="sh-sub">All runs today</div></div>
+      <div class="charts-2">
+        <div class="chart-card">
+          <div class="chart-card-title">Occupancy % · by property</div>
+          <div class="chart-wrap"><canvas id="chartOcc"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Blended ADR ($) · by property</div>
+          <div class="chart-wrap"><canvas id="chartAdr"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Property breakdown -->
+    <div>
+      <div class="sh"><div class="sh-title">Property Breakdown</div><div class="sh-sub">Latest snapshot</div></div>
+      <div class="prop-grid" id="propGrid">
+        <div class="prop-card"><div class="empty"><div class="spinner"></div></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ ANALYTICS VIEW ═════════════════════════════════════════════════ -->
+  <div class="view" id="view-analytics">
+
+    <div class="prop-tabs" id="propTabs"></div>
+
+    <!-- Weekly table -->
+    <div>
+      <div class="sh"><div class="sh-title">Weekly Performance</div><div class="sh-sub">Average per week</div></div>
+      <div class="tbl-wrap">
+        <table class="data-tbl" id="weeklyTable">
+          <thead><tr><th>Week</th><th>Avg Occ %</th><th>Avg ADR</th><th>RevPAR</th><th>Days</th></tr></thead>
+          <tbody id="weeklyBody"><tr><td colspan="5"><div class="empty"><div class="spinner"></div></div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Monthly table -->
+    <div>
+      <div class="sh"><div class="sh-title">Monthly Performance (MTD)</div><div class="sh-sub">Month-to-date averages</div></div>
+      <div class="tbl-wrap">
+        <table class="data-tbl" id="monthlyTable">
+          <thead><tr><th>Month</th><th>Avg Occ %</th><th>Avg ADR</th><th>RevPAR</th><th>Days</th></tr></thead>
+          <tbody id="monthlyBody"><tr><td colspan="5"><div class="empty"><div class="spinner"></div></div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Daily history chart -->
+    <div>
+      <div class="sh"><div class="sh-title">Daily History</div><div class="sh-sub">All tracked days</div></div>
+      <div class="charts-2">
+        <div class="chart-card">
+          <div class="chart-card-title">Daily Occupancy %</div>
+          <div class="chart-wrap"><canvas id="chartHistOcc"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Daily ADR ($)</div>
+          <div class="chart-wrap"><canvas id="chartHistAdr"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ SNAPSHOT LOG VIEW ══════════════════════════════════════════════ -->
+  <div class="view" id="view-log">
+    <div class="sh"><div class="sh-title">Snapshot Log</div><div class="sh-sub">All intraday runs for selected date</div></div>
+    <div class="tbl-wrap">
+      <table class="data-tbl">
+        <thead><tr><th>Time</th><th>Property</th><th>Remaining</th><th>Blended ADR</th><th>Est. Occ %</th><th>Sold</th></tr></thead>
+        <tbody id="logBody"><tr><td colspan="6"><div class="empty"><div class="spinner"></div></div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Hotel Intelligence · Auto-updated by GitHub Actions</span>
+  <span><a id="rawLink" href="#" target="_blank">View Raw Data</a> · <a href="https://github.com" target="_blank">GitHub</a></span>
+</footer>
+
 <script>
-async function load() {
-  const ledger = await fetch('data/history_ledger.json').then(r => r.json());
-  const aggs = await fetch('data/aggregates.json').then(r => r.json());
-  
-  function update(p) {
-    const dates = Object.keys(ledger).sort();
-    const latest = ledger[dates[dates.length-1]][p];
-    
-    // Update Rooms
-    document.getElementById('roomList').innerHTML = latest.rooms.map(r => `<div>${r.room_type}: $${r.rate} (${r.rooms_left})</div>`).join('');
-    
-    // Update Tables
-    const weeks = aggs[p].weeks;
-    const months = aggs[p].months;
-    let html = `<table><tr><th>Period</th><th>Occ%</th><th>ADR</th><th>RevPAR</th></tr>`;
-    Object.keys(weeks).sort().forEach(w => html += `<tr><td>${w}</td><td>${weeks[w].occ}%</td><td>$${weeks[w].adr}</td><td>$${weeks[w].rev}</td></tr>`);
-    Object.keys(months).sort().forEach(m => html += `<tr><td>${m} (MTD)</td><td>${months[m].occ}%</td><td>$${months[m].adr}</td><td>$${months[m].rev}</td></tr>`);
-    document.getElementById('tableContainer').innerHTML = html + `</table>`;
+// ════════════════════════════════════════════════════════════
+//  !! SET YOUR GITHUB USERNAME HERE !!
+// ════════════════════════════════════════════════════════════
+const GH = { user: "rockotterwaves", repo: "hotel-inventory-tracker" };
+// ════════════════════════════════════════════════════════════
+
+const RAW = `https://raw.githubusercontent.com/${GH.user}/${GH.repo}/main`;
+
+const COLORS = [
+  { line:'#c9a84c', fill:'rgba(201,168,76,.12)'  },
+  { line:'#3ecfb2', fill:'rgba(62,207,178,.10)'  },
+  { line:'#a78bfa', fill:'rgba(167,139,250,.10)' },
+  { line:'#f97316', fill:'rgba(249,115,22,.10)'  },
+];
+
+// ── State ────────────────────────────────────────────────────
+let dayData  = null;   // raw daily JSON
+let aggData  = null;   // aggregates.json
+let ledger   = null;   // history_ledger.json
+let chartOcc = null, chartAdr = null;
+let chartHistOcc = null, chartHistAdr = null;
+let activeAnalyticsProp = null;
+
+// ── Init ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('rawLink').href = `https://github.com/${GH.user}/${GH.repo}/tree/main/data`;
+
+  const dp = document.getElementById('dp');
+  const today = new Date().toISOString().slice(0,10);
+  dp.value = today; dp.max = today;
+  dp.addEventListener('change', () => loadDayData(dp.value));
+  document.getElementById('btnRefresh').addEventListener('click', () => {
+    loadDayData(dp.value);
+    loadAggData();
+  });
+
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('view-' + tab.dataset.view).classList.add('active');
+    });
+  });
+
+  loadDayData(today);
+  loadAggData();
+});
+
+// ── Fetch helpers ─────────────────────────────────────────────
+async function fetchJson(url) {
+  const res = await fetch(url + '?nc=' + Date.now());
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+// ── Load today's snapshot data ────────────────────────────────
+async function loadDayData(dateStr) {
+  setStatus('loading');
+  try {
+    dayData = await fetchJson(`${RAW}/data/${dateStr}.json`);
+    renderToday(dayData);
+    renderLog(dayData);
+    setStatus('ok', `Updated ${new Date().toLocaleTimeString()}`);
+  } catch(e) {
+    setStatus('err', 'No data for this date');
+    renderEmptyToday();
+    renderEmptyLog();
+  }
+}
+
+// ── Load aggregates + ledger ──────────────────────────────────
+async function loadAggData() {
+  try {
+    [aggData, ledger] = await Promise.all([
+      fetchJson(`${RAW}/data/aggregates.json`),
+      fetchJson(`${RAW}/data/history_ledger.json`),
+    ]);
+    const props = Object.keys(aggData);
+    if (!activeAnalyticsProp && props.length) activeAnalyticsProp = props[0];
+    renderPropTabs(props);
+    renderAnalytics(activeAnalyticsProp);
+  } catch(e) {
+    document.getElementById('weeklyBody').innerHTML  = `<tr><td colspan="5"><div class="empty"><p>Run the scraper first — aggregates.json will appear after the first successful scrape.</p></div></td></tr>`;
+    document.getElementById('monthlyBody').innerHTML = `<tr><td colspan="5"><div class="empty"><p>No aggregate data yet.</p></div></td></tr>`;
+  }
+}
+
+// ── TODAY: KPIs ───────────────────────────────────────────────
+function renderToday(raw) {
+  const props = Object.keys(raw);
+  let totalRooms=0, totalRemaining=0, totalSold=0, adrs=[];
+
+  props.forEach((p,i) => {
+    const last = lastValid(raw[p]);
+    if (!last) return;
+    const s = last.summary;
+    totalRooms     += s.total_rooms_property || 0;
+    totalRemaining += s.total_remaining      || 0;
+    totalSold      += s.estimated_sold       || 0;
+    if (s.blended_adr) adrs.push(s.blended_adr);
+  });
+
+  const portOcc = totalRooms ? Math.round(totalSold/totalRooms*100) : 0;
+  const portAdr = adrs.length ? (adrs.reduce((a,b)=>a+b,0)/adrs.length).toFixed(2) : '—';
+  const revpar  = portAdr !== '—' ? (portOcc/100*parseFloat(portAdr)).toFixed(2) : '—';
+
+  document.getElementById('kpiRow').innerHTML = `
+    <div class="kpi"><div class="kpi-label">Portfolio Occupancy</div>
+      <div class="kpi-val gold">${portOcc}<span style="font-size:16px;opacity:.6">%</span></div>
+      <div class="kpi-sub">${totalSold} of ${totalRooms} rooms</div></div>
+    <div class="kpi"><div class="kpi-label">Blended ADR</div>
+      <div class="kpi-val teal">$${portAdr}</div>
+      <div class="kpi-sub">Average daily rate</div></div>
+    <div class="kpi"><div class="kpi-label">Portfolio RevPAR</div>
+      <div class="kpi-val violet">$${revpar}</div>
+      <div class="kpi-sub">Revenue per available room</div></div>
+    <div class="kpi"><div class="kpi-label">Rooms Remaining</div>
+      <div class="kpi-val">${totalRemaining}</div>
+      <div class="kpi-sub">Across all properties</div></div>
+    ${props.map((p,i) => {
+      const last = lastValid(raw[p]);
+      if (!last) return '';
+      const s = last.summary; const c = COLORS[i%COLORS.length];
+      return `<div class="kpi">
+        <div class="kpi-label">${p}</div>
+        <div class="kpi-val" style="color:${c.line}">${s.estimated_occupancy_pct??'—'}<span style="font-size:14px;opacity:.6">%</span></div>
+        <div class="kpi-sub">$${s.blended_adr??'—'} ADR · ${s.total_remaining} left</div></div>`;
+    }).join('')}`;
+
+  renderIntradayCharts(raw, props);
+  renderPropCards(raw, props);
+}
+
+// ── TODAY: Intraday charts ────────────────────────────────────
+function renderIntradayCharts(raw, props) {
+  const allTimes = new Set();
+  props.forEach(p => (raw[p]||[]).forEach(s => { if(s?.summary) allTimes.add(fmtTime(s.scraped_at)); }));
+  const labels = [...allTimes].sort();
+
+  const mkDS = (key, suffix) => props.map((p,i) => {
+    const c = COLORS[i%COLORS.length];
+    return {
+      label:p, tension:.35, fill:true, spanGaps:true,
+      borderColor:c.line, backgroundColor:c.fill,
+      pointBackgroundColor:c.line, pointRadius:4, pointHoverRadius:6,
+      data: labels.map(t => {
+        const s = (raw[p]||[]).find(x=>x?.summary&&fmtTime(x.scraped_at)===t);
+        return s ? s.summary[key] : null;
+      })
+    };
+  });
+
+  const opts = (suffix) => ({
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{labels:{color:'#6b7280',font:{family:"'DM Mono'",size:11},boxWidth:12}},
+      tooltip:{backgroundColor:'#1c2030',borderColor:'#262c3e',borderWidth:1,
+        titleColor:'#e8e4d8',bodyColor:'#9ca3af',
+        titleFont:{family:"'DM Mono'"},bodyFont:{family:"'DM Mono'"},
+        callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y}${suffix}`}}
+    },
+    scales:{
+      x:{grid:{color:'rgba(38,44,62,.6)'},ticks:{color:'#6b7280',font:{family:"'DM Mono'",size:10}}},
+      y:{grid:{color:'rgba(38,44,62,.6)'},ticks:{color:'#6b7280',font:{family:"'DM Mono'",size:10},callback:v=>v+suffix}}
+    }
+  });
+
+  if(chartOcc) chartOcc.destroy();
+  if(chartAdr) chartAdr.destroy();
+  chartOcc = new Chart(document.getElementById('chartOcc'), {type:'line', data:{labels,datasets:mkDS('estimated_occupancy_pct','%')}, options:opts('%')});
+  chartAdr = new Chart(document.getElementById('chartAdr'),  {type:'line', data:{labels,datasets:mkDS('blended_adr',' $')},           options:opts(' $')});
+}
+
+// ── TODAY: Property cards ─────────────────────────────────────
+function renderPropCards(raw, props) {
+  document.getElementById('propGrid').innerHTML = props.map((p,i) => {
+    const last = lastValid(raw[p]);
+    if (!last) return `<div class="prop-card"><div class="empty"><p>No data for ${p}</p></div></div>`;
+    const s = last.summary; const c = COLORS[i%COLORS.length];
+    const occ = s.estimated_occupancy_pct ?? 0;
+    const occCls = occ>=80?'hi':occ>=50?'mid':'lo';
+    const barCol = occ>=80?'var(--teal)':occ>=50?'var(--gold)':'var(--rose)';
+    const rooms = last.rooms || [];
+    return `<div class="prop-card">
+      <div class="prop-head">
+        <div class="prop-name" style="color:${c.line}">${p}</div>
+        <div class="badge ${occCls}">${occ}% occ.</div>
+      </div>
+      <div class="prop-stats">
+        <div class="stat"><div class="stat-label">ADR</div><div class="stat-val" style="color:${c.line}">$${s.blended_adr??'—'}</div></div>
+        <div class="stat"><div class="stat-label">Remaining</div><div class="stat-val">${s.total_remaining}</div></div>
+        <div class="stat"><div class="stat-label">Sold</div><div class="stat-val">${s.estimated_sold}</div></div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-label"><span>Occupancy</span><span>${occ}%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${occ}%;background:${barCol}"></div></div>
+      </div>
+      <table class="room-tbl">
+        <thead><tr><th>Room Type</th><th>Left</th><th>Rate</th></tr></thead>
+        <tbody>${rooms.length ? rooms.map(r=>{
+          // Compatible with both scraper formats:
+          // New: {room_type, rate, rooms_left}  (no "available" key — rooms_left===0 means sold out)
+          // Old: {room_type, rate, rooms_left, available}
+          const avail = r.available !== undefined
+            ? r.available
+            : (r.rooms_left === undefined || r.rooms_left === null || r.rooms_left > 0);
+          const left = r.rooms_left ?? '—';
+          return `<tr>
+            <td><span class="adot ${avail?'y':'n'}"></span>${r.room_type}</td>
+            <td>${avail ? left : '<span style="color:var(--rose)">Sold out</span>'}</td>
+            <td>${r.rate?'$'+r.rate:'—'}</td></tr>`;
+        }).join('') :
+          '<tr><td colspan="3" style="color:var(--muted);padding:12px 16px">No room detail</td></tr>'
+        }</tbody>
+      </table>
+    </div>`;
+  }).join('');
+}
+
+// ── ANALYTICS: prop tabs ──────────────────────────────────────
+function renderPropTabs(props) {
+  document.getElementById('propTabs').innerHTML = props.map(p =>
+    `<button class="ptab${p===activeAnalyticsProp?' active':''}" data-prop="${p}">${p}</button>`
+  ).join('');
+  document.querySelectorAll('.ptab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeAnalyticsProp = btn.dataset.prop;
+      document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderAnalytics(activeAnalyticsProp);
+    });
+  });
+}
+
+// ── ANALYTICS: tables + history charts ───────────────────────
+function renderAnalytics(prop) {
+  if (!aggData || !aggData[prop]) {
+    ['weeklyBody','monthlyBody'].forEach(id => {
+      document.getElementById(id).innerHTML = `<tr><td colspan="5"><div class="empty"><p>No analytics data yet. Data accumulates after multiple scrape days.</p></div></td></tr>`;
+    });
+    return;
   }
 
-  const props = Object.keys(aggs);
-  props.forEach(p => {
-    let btn = document.createElement('button');
-    btn.innerText = p;
-    btn.onclick = () => update(p);
-    document.getElementById('propBtns').appendChild(btn);
-  });
-  update(props[0]);
+  const weeks  = aggData[prop].weeks  || {};
+  const months = aggData[prop].months || {};
+
+  // Weekly table
+  const wRows = Object.keys(weeks).sort().reverse().map(w => {
+    const v = weeks[w];
+    return `<tr>
+      <td>${w}</td>
+      <td>${v.occ}% <span class="mbar" style="width:${Math.round(v.occ*.9)}px;background:${occColor(v.occ)}"></span></td>
+      <td>$${v.adr}</td>
+      <td>$${v.rev}</td>
+      <td>${v.days}d</td></tr>`;
+  }).join('');
+  document.getElementById('weeklyBody').innerHTML = wRows || `<tr><td colspan="5" style="color:var(--muted);padding:14px 16px">No weekly data yet</td></tr>`;
+
+  // Monthly table
+  const mRows = Object.keys(months).sort().reverse().map(m => {
+    const v = months[m];
+    return `<tr>
+      <td>${formatMonth(m)}</td>
+      <td>${v.occ}% <span class="mbar" style="width:${Math.round(v.occ*.9)}px;background:${occColor(v.occ)}"></span></td>
+      <td>$${v.adr}</td>
+      <td>$${v.rev}</td>
+      <td>${v.days}d</td></tr>`;
+  }).join('');
+  document.getElementById('monthlyBody').innerHTML = mRows || `<tr><td colspan="5" style="color:var(--muted);padding:14px 16px">No monthly data yet</td></tr>`;
+
+  // History charts from ledger
+  renderHistoryCharts(prop);
 }
-load();
+
+function renderHistoryCharts(prop) {
+  if (!ledger) return;
+  const days = Object.keys(ledger).sort();
+  const occPts = days.map(d => ledger[d]?.[prop]?.occ ?? null);
+  const adrPts = days.map(d => ledger[d]?.[prop]?.adr ?? null);
+  const col = COLORS[Object.keys(aggData).indexOf(prop) % COLORS.length];
+
+  const histOpts = (suffix) => ({
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{backgroundColor:'#1c2030',borderColor:'#262c3e',borderWidth:1,
+        titleColor:'#e8e4d8',bodyColor:'#9ca3af',
+        titleFont:{family:"'DM Mono'"},bodyFont:{family:"'DM Mono'"},
+        callbacks:{label:ctx=>` ${ctx.parsed.y}${suffix}`}}
+    },
+    scales:{
+      x:{grid:{color:'rgba(38,44,62,.6)'},ticks:{color:'#6b7280',font:{family:"'DM Mono'",size:9},maxTicksLimit:10}},
+      y:{grid:{color:'rgba(38,44,62,.6)'},ticks:{color:'#6b7280',font:{family:"'DM Mono'",size:10},callback:v=>v+suffix}}
+    }
+  });
+
+  if(chartHistOcc) chartHistOcc.destroy();
+  if(chartHistAdr) chartHistAdr.destroy();
+  chartHistOcc = new Chart(document.getElementById('chartHistOcc'), {type:'bar',
+    data:{labels:days, datasets:[{label:'Occ%',data:occPts,backgroundColor:col.fill,borderColor:col.line,borderWidth:1}]},
+    options:histOpts('%')});
+  chartHistAdr = new Chart(document.getElementById('chartHistAdr'), {type:'bar',
+    data:{labels:days, datasets:[{label:'ADR',data:adrPts,backgroundColor:col.fill,borderColor:col.line,borderWidth:1}]},
+    options:histOpts(' $')});
+}
+
+// ── LOG view ──────────────────────────────────────────────────
+function renderLog(raw) {
+  const rows = [];
+  Object.keys(raw).forEach((p,pi) => {
+    const col = COLORS[pi%COLORS.length];
+    (raw[p]||[]).forEach(snap => {
+      if(!snap?.summary) return;
+      const s = snap.summary;
+      rows.push({time:snap.scraped_at,prop:p,col:col.line,
+        remaining:s.total_remaining,adr:s.blended_adr,
+        occ:s.estimated_occupancy_pct,sold:s.estimated_sold,total:s.total_rooms_property});
+    });
+  });
+  rows.sort((a,b) => b.time.localeCompare(a.time));
+  if (!rows.length) { renderEmptyLog(); return; }
+  document.getElementById('logBody').innerHTML = rows.map(r => {
+    const bw = Math.round((r.occ??0)*0.8);
+    const bc = occColor(r.occ??0);
+    return `<tr>
+      <td>${fmtTime(r.time)}</td>
+      <td style="color:${r.col}">${r.prop}</td>
+      <td>${r.remaining} <small style="color:var(--muted)">/ ${r.total}</small></td>
+      <td>${r.adr?'$'+r.adr:'—'}</td>
+      <td>${r.occ??'—'}% <span class="mbar" style="width:${bw}px;background:${bc}"></span></td>
+      <td>${r.sold??'—'}</td></tr>`;
+  }).join('');
+}
+
+// ── Empty states ──────────────────────────────────────────────
+function renderEmptyToday() {
+  document.getElementById('kpiRow').innerHTML = `<div class="kpi" style="grid-column:1/-1"><div class="empty"><p>No data for this date. Run the scraper first.</p></div></div>`;
+  document.getElementById('propGrid').innerHTML = '';
+}
+function renderEmptyLog() {
+  document.getElementById('logBody').innerHTML = `<tr><td colspan="6"><div class="empty"><p>No snapshots found for this date.</p></div></td></tr>`;
+}
+
+// ── Helpers ───────────────────────────────────────────────────
+function lastValid(snaps) {
+  if (!snaps?.length) return null;
+  for (let i=snaps.length-1;i>=0;i--) if(snaps[i]?.summary) return snaps[i];
+  return null;
+}
+function fmtTime(iso) {
+  try { return new Date(iso).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true}); }
+  catch { return iso; }
+}
+function occColor(occ) {
+  return occ>=80?'var(--teal)':occ>=50?'var(--gold)':'var(--rose)';
+}
+function formatMonth(m) {
+  try { const [y,mo]=m.split('-'); return new Date(y,mo-1).toLocaleString('en-US',{month:'long',year:'numeric'}); }
+  catch { return m; }
+}
+function setStatus(state, msg) {
+  const pill=document.getElementById('pill');
+  const txt=document.getElementById('pillTxt');
+  pill.className='pill';
+  if(state==='loading'){pill.innerHTML='<div class="spinner"></div> <span>Loading…</span>';return;}
+  if(state==='ok'){pill.classList.add('ok');txt.textContent=msg||'Live';}
+  if(state==='err'){pill.classList.add('err');txt.textContent=msg||'Error';}
+  pill.innerHTML=`<span class="dot"></span><span>${txt.textContent}</span>`;
+}
 </script>
 </body>
 </html>
