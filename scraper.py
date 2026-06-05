@@ -7,7 +7,11 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 
 DATA_DIR = Path("data")
+REPORTS_DIR = Path("reports")
+LOGS_DIR = Path("logs")
 DATA_DIR.mkdir(exist_ok=True)
+REPORTS_DIR.mkdir(exist_ok=True)
+LOGS_DIR.mkdir(exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
