@@ -23,129 +23,52 @@
     --label:     #94a3b8;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    padding: 2rem;
-    min-height: 100vh;
-  }
-  header {
-    max-width: 1400px;
-    margin: 0 auto 2.5rem auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1.5rem;
-  }
-  h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #fff;
-  }
+  body { background-color: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; padding: 2rem; min-height: 100vh; }
+  header { max-width: 1400px; margin: 0 auto 2.5rem auto; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+  h1 { font-family: 'Playfair Display', serif; font-size: 2.25rem; font-weight: 700; color: #fff; }
   h1 span { color: var(--gold); }
-  .status-pill {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    background: var(--surface2);
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .spinner {
-    width: 12px;
-    height: 12px;
-    border: 2px solid var(--muted);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
+  .status-pill { font-family: 'DM Mono', monospace; font-size: 0.75rem; text-transform: uppercase; background: var(--surface2); padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; gap: 0.5rem; }
+  .spinner { width: 12px; height: 12px; border: 2px solid var(--muted); border-top-color: var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   
-  .dashboard-grid {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(12, 11fr);
-    gap: 1.5rem;
-  }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-  }
+  .dashboard-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; position: relative; overflow: hidden; }
   .property-selector-card { grid-column: span 3; }
   .overview-metrics-card { grid-column: span 9; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
   .chart-card-occ { grid-column: span 6; }
   .chart-card-adr { grid-column: span 6; }
   .table-card { grid-column: span 12; }
 
-  .card-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--label);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.75rem;
-  }
-  .prop-btn {
-    width: 100%;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 1rem;
-    text-align: left;
-    font-size: 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 0.75rem;
-    transition: all 0.2s ease;
-  }
+  .card-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--label); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+  .prop-btn { width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 1rem; text-align: left; font-size: 1rem; border-radius: 4px; cursor: pointer; margin-bottom: 0.75rem; transition: all 0.2s ease; }
   .prop-btn:hover { border-color: var(--gold-dim); background: rgba(255,255,255,0.01); }
   .prop-btn.active { border-color: var(--gold); background: var(--gold-glow); color: var(--gold); font-weight: 500; }
   
   .big-stat { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
   .trend-sub { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
-  .trend-sub span.up { color: var(--teal); }
-  .trend-sub span.down { color: var(--rose); }
 
   table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 1rem; }
   th { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--label); text-transform: uppercase; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
   td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-  tr:last-child td { border-bottom: none; }
   .badge { display: inline-block; padding: 0.25rem 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; border-radius: 3px; font-weight: 500; }
   .badge.avail { background: rgba(62,207,178,0.1); color: var(--teal); border: 1px solid rgba(62,207,178,0.2); }
   .badge.sold { background: rgba(224,92,110,0.1); color: var(--rose); border: 1px solid rgba(224,92,110,0.2); }
 
-  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.85rem; }
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; color: var(--muted); font-family: 'DM Mono', monospace; }
   .chart-container { position: relative; width: 100%; height: 280px; }
-  .chart-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(13,15,20,0.6); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.8rem; pointer-events: none; }
+  .chart-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(13,15,20,0.6); color: var(--muted); font-family: 'DM Mono', monospace; pointer-events: none; }
 </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <h1>Hotel Intelligence <span>Dashboard</span></h1>
-  </div>
-  <div class="status-pill" id="statusPill">
-    <div class="spinner"></div> <span id="statusText">Initialise System Engine…</span>
-  </div>
+  <div><h1>Hotel Intelligence <span>Dashboard</span></h1></div>
+  <div class="status-pill" id="statusPill"><div class="spinner"></div><span id="statusText">Initializing Pipelines…</span></div>
 </header>
 
 <div class="dashboard-grid">
   <div class="card property-selector-card">
-    <div class="card-label">Properties</div>
+    <div class="card-label">Active Portfolios</div>
     <div id="propertyContainer"></div>
   </div>
 
@@ -161,7 +84,7 @@
       <div class="trend-sub" id="trendAdr">vs Rolling Period: --</div>
     </div>
     <div class="card">
-      <div class="card-label">Remaining Space Allocation</div>
+      <div class="card-label">Remaining Vacant Keys</div>
       <div class="big-stat" id="statRooms">0</div>
       <div class="trend-sub" id="trendRooms">Total Capacity: --</div>
     </div>
@@ -176,7 +99,7 @@
   </div>
 
   <div class="card chart-card-adr">
-    <div class="card-label">Rate Fluctuations Profile</div>
+    <div class="card-label">Rate Fluctuation Index Mapping</div>
     <div class="chart-container">
       <canvas id="chartAdr"></canvas>
       <div class="chart-placeholder" id="adrPlaceholder">No Trend Line Compiled</div>
@@ -195,9 +118,7 @@
         </tr>
       </thead>
       <tbody id="inventoryTableBody">
-        <tr>
-          <td colspan="4"><div class="empty-state">Select a property above to hydrate current asset feeds.</div></td>
-        </tr>
+        <tr><td colspan="4"><div class="empty-state">Select a property above to hydrate metrics assets fields.</div></td></tr>
       </tbody>
     </table>
   </div>
@@ -210,157 +131,111 @@ let activeProperty = null;
 let cOcc = null;
 let cAdr = null;
 
-// Cleanly resolve local date stamps to match your repository tracking patterns
-function getPacificDateString() {
-  const options = { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" };
-  const formatter = new Intl.DateTimeFormat("en-US", options);
-  const [{ value: mo }, , { value: da }, , { value: ye }] = formatter.formatToParts(new Date());
-  return `${ye}-${mo}-${da}`;
-}
-
-function getPriorPacificDateString() {
+function getPacificDateString(offsetDays = 0) {
   const d = new Date();
-  d.setHours(d.getHours() - 24);
+  if (offsetDays) d.setDate(d.getDate() + offsetDays);
   const options = { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" };
   const formatter = new Intl.DateTimeFormat("en-US", options);
   const [{ value: mo }, , { value: da }, , { value: ye }] = formatter.formatToParts(d);
   return `${ye}-${mo}-${da}`;
 }
 
-async defInitSequence() {
+async function runDashboardInit() {
   setStatus('loading');
-  const today = getPacificDateString();
-  const yesterday = getPriorPacificDateString();
+  const todayPath = `data/${getPacificDateString(0)}.json`;
+  const yesterdayPath = `data/${getPacificDateString(-1)}.json`;
   
-  // Clear file mapping pathways across date zone limits securely
-  let fileLoaded = await tryFetchData(`data/${today}.json`);
-  if (!fileLoaded) {
-    console.warn("Primary path missing. Attempting yesterday's historical backup feed...");
-    fileLoaded = await tryFetchData(`data/${yesterday}.json`);
+  let loaded = await tryLoadData(todayPath);
+  if (!loaded) {
+    console.warn("Target day log offline. Syncing historical fallback record path...");
+    loaded = await tryLoadData(yesterdayPath);
   }
   
-  // Pull trend statistics aggregates
   try {
-    const r = await fetch('data/aggregates.json');
-    if (r.ok) globalAggs = await r.json();
-  } catch(e) { console.error("Historical aggregates offline.", e); }
+    const res = await fetch('data/aggregates.json');
+    if (res.ok) globalAggs = await res.json();
+  } catch(e) { console.error("Aggregates offline.", e); }
 
   if (!globalData) {
     setStatus('error', 'Feeds Offline');
-    renderBlankSlate();
     return;
   }
 
-  setStatus('success', 'Active Logs Restored');
-  populatePropertySelectors();
+  setStatus('success', 'Operational Metrics Loaded');
+  populateSelectors();
 }
 
-async function tryFetchData(url) {
+async function tryLoadData(path) {
   try {
-    const res = await fetch(url);
-    if (res.ok) {
-      globalData = await res.json();
-      return true;
-    }
-  } catch (e) { console.error(`Error pulling target context from path: ${url}`, e); }
+    const r = await fetch(path);
+    if (r.ok) { globalData = await r.json(); return true; }
+  } catch(e) {}
   return false;
 }
 
-function populatePropertySelectors() {
+function populateSelectors() {
   const container = document.getElementById('propertyContainer');
   container.innerHTML = '';
-  const properties = Object.keys(globalData);
+  const props = Object.keys(globalData);
 
-  if (!properties.length) {
-    renderBlankSlate();
-    return;
-  }
-
-  properties.forEach((p, idx) => {
+  props.forEach((p, i) => {
     const btn = document.createElement('button');
-    btn.className = `prop-btn ${idx === 0 ? 'active' : ''}`;
+    btn.className = `prop-btn ${i === 0 ? 'active' : ''}`;
     btn.innerText = p;
     btn.onclick = () => selectProperty(p, btn);
     container.appendChild(btn);
   });
-
-  selectProperty(properties[0]);
+  if(props.length) selectProperty(props[0]);
 }
 
-function selectProperty(propName, targetBtn) {
-  activeProperty = propName;
-  if (targetBtn) {
+function selectProperty(name, btn) {
+  activeProperty = name;
+  if(btn) {
     document.querySelectorAll('.prop-btn').forEach(b => b.classList.remove('active'));
-    targetBtn.classList.add('active');
+    btn.classList.add('active');
   }
+  const timeline = globalData[name];
+  if(!timeline || !timeline.length) return;
 
-  const dataset = globalData[propName];
-  if (!dataset || !dataset.length) {
-    renderBlankSlate();
-    return;
-  }
+  const latest = timeline[timeline.length - 1];
+  const summary = latest.summary;
 
-  // Identify last compiled metrics block cleanly
-  const lastSnap = dataset[dataset.length - 1];
-  const summary = lastSnap.summary;
-
-  // Hydrate top stat display panels
   document.getElementById('statOcc').innerText = `${summary.estimated_occupancy_pct}%`;
   document.getElementById('statAdr').innerText = summary.blended_adr > 0 ? `$${summary.blended_adr.toFixed(2)}` : 'Sold Out';
   document.getElementById('statRooms').innerText = summary.total_remaining;
   document.getElementById('trendRooms').innerText = `Total Capacity: ${summary.total_rooms_property}`;
 
-  // Process historical trend targets
-  if (globalAggs && globalAggs.weekly && globalAggs.weekly[propName]) {
-    const weeklyOcc = globalAggs.weekly[propName].avg_occ || 0;
-    const weeklyAdr = globalAggs.weekly[propName].avg_adr || 0;
-    
-    document.getElementById('trendOcc').innerText = `vs 7-Day Running Avg: ${weeklyOcc}%`;
-    document.getElementById('trendAdr').innerText = `vs 7-Day Running Avg: $${weeklyAdr.toFixed(2)}`;
+  if (globalAggs && globalAggs.weekly && globalAggs.weekly[name]) {
+    document.getElementById('trendOcc').innerText = `vs 7-Day Running Avg: ${globalAggs.weekly[name].avg_occ}%`;
+    document.getElementById('trendAdr').innerText = `vs 7-Day Running Avg: $${globalAggs.weekly[name].avg_adr.toFixed(2)}`;
   } else {
-    document.getElementById('trendOcc').innerText = 'vs Rolling Period: No baseline';
-    document.getElementById('trendAdr').innerText = 'vs Rolling Period: No baseline';
+    document.getElementById('trendOcc').innerText = 'vs Rolling Period: Calculating...';
+    document.getElementById('trendAdr').innerText = 'vs Rolling Period: Calculating...';
   }
 
-  // Build clean layout table fields
-  hydrateTable(lastSnap.rooms);
-
-  // Generate visualization timelines
-  renderCharts(dataset);
+  renderTable(latest.rooms);
+  renderTrendLines(timeline);
 }
 
-function hydrateTable(rooms) {
+function renderTable(rooms) {
   const body = document.getElementById('inventoryTableBody');
   body.innerHTML = '';
-
-  if (!rooms || !rooms.length) {
-    body.innerHTML = `<tr><td colspan="4"><div class="empty-state">No category rooms identified inside data entry layers.</div></td></tr>`;
-    return;
-  }
-
   rooms.forEach(r => {
-    const row = document.createElement('tr');
     const isAvail = r.rooms_left > 0;
-    
-    row.innerHTML = `
-      <td style="font-weight: 500;">${r.room_type}</td>
-      <td>${r.rate > 0 ? `$${r.rate.toFixed(2)}` : '—'}</td>
-      <td><span class="badge ${isAvail ? 'avail' : 'sold'}">${isAvail ? 'Available' : 'Sold Out'}</span></td>
-      <td style="font-family: 'DM Mono', monospace;">${r.rooms_left}</td>
-    `;
-    body.innerHTML += row.outerHTML;
+    body.innerHTML += `
+      <tr>
+        <td style="font-weight:500;">${r.room_type}</td>
+        <td>${r.rate > 0 ? `$${r.rate.toFixed(2)}` : '—'}</td>
+        <td><span class="badge ${isAvail ? 'avail' : 'sold'}">${isAvail ? 'Available' : 'Sold Out'}</span></td>
+        <td style="font-family:'DM Mono';">${r.rooms_left}</td>
+      </tr>`;
   });
 }
 
-function renderCharts(snapshots) {
-  const labels = snapshots.map(s => {
-    try {
-      return new Date(s.scraped_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-    } catch { return '—'; }
-  });
-
-  const occData = snapshots.map(s => s.summary.estimated_occupancy_pct);
-  const adrData = snapshots.map(s => s.summary.blended_adr);
+function renderTrendLines(snaps) {
+  const labels = snaps.map(s => new Date(s.scraped_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
+  const occs = snaps.map(s => s.summary.estimated_occupancy_pct);
+  const adrs = snaps.map(s => s.summary.blended_adr);
 
   document.getElementById('occPlaceholder').style.display = 'none';
   document.getElementById('adrPlaceholder').style.display = 'none';
@@ -368,9 +243,8 @@ function renderCharts(snapshots) {
   if (cOcc) cOcc.destroy();
   if (cAdr) cAdr.destroy();
 
-  const baseOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
+  const chartCfg = {
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
       x: { grid: { color: '#1c2030' }, ticks: { color: '#6b7280', font: { family: 'DM Mono' } } },
@@ -380,40 +254,25 @@ function renderCharts(snapshots) {
 
   cOcc = new Chart(document.getElementById('chartOcc'), {
     type: 'line',
-    data: {
-      labels,
-      datasets: [{ data: occData, borderColor: '#3ecfb2', backgroundColor: 'rgba(62,207,178,0.05)', tension: 0.2, fill: true }]
-    },
-    options: baseOptions
+    data: { labels, datasets: [{ data: occs, borderColor: '#3ecfb2', backgroundColor: 'rgba(62,207,178,0.03)', fill: true, tension: 0.15 }] },
+    options: chartCfg
   });
 
   cAdr = new Chart(document.getElementById('chartAdr'), {
     type: 'line',
-    data: {
-      labels,
-      datasets: [{ data: adrData, borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.05)', tension: 0.2, fill: true }]
-    },
-    options: baseOptions
+    data: { labels, datasets: [{ data: adrs, borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.03)', fill: true, tension: 0.15 }] },
+    options: chartCfg
   });
 }
 
 function setStatus(state, msg) {
   const pill = document.getElementById('statusPill');
-  if (!pill) return;
-  if (state === 'loading') {
-    pill.innerHTML = `<div class=\"spinner\"></div> <span>Syncing Asset Pipeline…</span>`;
-  } else if (state === 'error') {
-    pill.innerHTML = `<span style="color: var(--rose);">●</span> <span>${msg}</span>`;
-  } else {
-    pill.innerHTML = `<span style="color: var(--teal);">●</span> <span>${msg}</span>`;
-  }
+  if (state === 'loading') { pill.innerHTML = `<div class="spinner"></div> <span>Loading App Layers...</span>`; }
+  else if (state === 'error') { pill.innerHTML = `<span style="color:var(--rose);">●</span> <span>${msg}</span>`; }
+  else { pill.innerHTML = `<span style="color:var(--teal);">●</span> <span>${msg}</span>`; }
 }
 
-function renderBlankSlate() {
-  document.getElementById('inventoryTableBody').innerHTML = `<tr><td colspan="4"><div class="empty-state">No tracking snapshots loaded.</div></td></tr>`;
-}
-
-window.onload = defInitSequence;
+window.onload = runDashboardInit;
 </script>
 </body>
 </html>
