@@ -22,14 +22,14 @@ PROPERTIES = [
 # RESILIENT WAITING & HYDRATION CHECK
 # ─────────────────────────────────────────────────────────────
 async def wait_for_room_data(page):
-    """Waits for core layout structures to hydrate and paints text nodes safely."""
-    # Step 1: Wait for loading wheels/screens to explicitly hide
+    """Waits for core layout structures to hydrate and paint text nodes safely."""
+    # Step 1: Wait for loading spinners to explicitly hide
     try:
-        await page.wait_for_selector(".vres-prog-wrap, #squaresWaveG, .loading", state="hidden", timeout=10000)
+        await page.wait_for_selector(".vres-prog-wrap, #squaresWaveG, .loading, #loading", state="hidden", timeout=12000)
     except:
         pass
 
-    # Step 2: Wait for known structural IPMS wrapper containers instead of regex text strings
+    # Step 2: Wait for known structural content elements to bind to the page frame
     selectors = [
         ".vres_room_infoBg", 
         ".vres_roomInfo", 
@@ -41,18 +41,17 @@ async def wait_for_room_data(page):
     hydrated = False
     for sel in selectors:
         try:
-            await page.wait_for_selector(sel, state="attached", timeout=4000)
+            await page.wait_for_selector(sel, state="attached", timeout=5000)
             hydrated = True
             break
         except:
             continue
             
     if not hydrated:
-        # Fallback: check if page body contains basic plain text text clues
         logger.warning("Target structural classes not found. Checking document stream fallback...")
         await page.wait_for_load_state("networkidle")
 
-    # Give Javascript bindings an extra cushion to safely map variables onto elements
+    # Give Javascript engine an extra cushion to securely map data properties onto text blocks
     await asyncio.sleep(4)
 
 
@@ -79,90 +78,84 @@ async def scrape_property(prop):
         # Load document framework safely
         await page.goto(prop["url"], timeout=60000, wait_until="domcontentloaded")
 
-        # Execute our custom layout validation framework
+        # Execute our validation hydration check
         await wait_for_room_data(page)
 
+        # Grab the full text body of the main layout element container directly
+        full_text = await page.locator("body").inner_text()
+
+        # Isolate individual room variants by using a regex split lookahead 
+        # Whenever a line contains room classifications (King, Queen, Suite, etc.) next to an expected price structure, we slice.
+        room_blocks = re.split(
+            r'(?=(?:Deluxe|Comfort|Standard|Superior|Suite|King|Queen|Double|Twin|Studio|Single|Accessible)[^\n]{0,50}\n)', 
+            full_text, 
+            flags=re.I
+        )
+
+        logger.info(f"{prop['name']} → Split page stream into {len(room_blocks)} potential block clusters")
+
         rooms = []
+        seen_types = set()
 
-        # Target the primary card/row wrappers directly
-        room_cards = page.locator(".vres_room_infoBg, .vres_roomInfo, .roomTypeRow, [id*='roomType']")
-        card_count = await room_cards.count()
-
-        # Final structural fallback: loop over text-bearing row tags if classes are dynamic
-        if card_count == 0:
-            room_cards = page.locator("tr, div").filter(has_text="$")
-            card_count = await room_cards.count()
-
-        logger.info(f"{prop['name']} → Processing {card_count} parsing targets")
-
-        for i in range(card_count):
-            try:
-                card = room_cards.nth(i)
-                block_text = await card.inner_text()
-                
-                if not block_text.strip():
-                    continue
-
-                # 1. Parse Room Rate
-                price_match = re.search(r"\$\s*([\d,]+(?:\.\d{2})?)", block_text)
-                if not price_match:
-                    continue
-                price = float(price_match.group(1).replace(",", ""))
-
-                # 2. Extract Room Title
-                lines = [l.strip() for l in block_text.split("\n") if l.strip()]
-                name = lines[0]
-                
-                # Scan lines for explicit hotel classifications to isolate actual name text
-                for line in lines:
-                    if any(kw in line.lower() for kw in ["king", "queen", "suite", "room", "standard", "deluxe", "twin"]):
-                        name = line
-                        break
-
-                # Strip trailing cleanups
-                name = re.sub(r'(?i)(no pets|non-smoking|non smoking|smoking|view details)\s*[,\-]?\s*', '', name).strip(' -,')
-
-                if len(name) < 4 or any(x in name.lower() for x in ["policy", "login", "terms", "total"]):
-                    continue
-
-                # 3. Parse Allocation Inventory Left
-                left_match = re.search(r"(\d+)\s*[Rr]oom[s]?\s*[Ll]eft|only\s*(\d+)\s*[Rr]oom|(\d+)\s*[Ll]eft", block_text, re.I)
-                
-                rooms_left = 1  # Standard fallback default assuming 1 room remains available
-                if left_match:
-                    val = next(g for g in left_match.groups() if g is not None)
-                    rooms_left = int(val)
-                elif any(x in block_text.lower() for x in ["sold out", "not available", "unavailable"]):
-                    rooms_left = 0
-
-                rooms.append({
-                    "room_type": name,
-                    "rate": price,
-                    "rooms_left": rooms_left
-                })
-
-            except Exception as card_err:
+        for block in room_blocks:
+            if not block.strip():
                 continue
+
+            # 1. Parse Room Rate
+            price_match = re.search(r"\$\s*([\d,]+(?:\.\d{2})?)", block)
+            if not price_match:
+                continue
+            price = float(price_match.group(1).replace(",", ""))
+
+            # 2. Isolate Room Title Row
+            lines = [l.strip() for l in block.split("\n") if l.strip()]
+            if not lines:
+                continue
+            
+            # Find the line that represents our clean room categorization
+            name = lines[0]
+            for line in lines:
+                if any(kw in line.lower() for kw in ["king", "queen", "suite", "room", "standard", "deluxe", "twin"]):
+                    name = line
+                    break
+
+            # Scrub structural filler components from the descriptor string
+            name = re.sub(r'(?i)(no pets|non-smoking|non smoking|smoking|view details|room details|book now|avg/night)\s*[,\-]?\s*', '', name).strip(' -,')
+
+            if len(name) < 4 or any(x in name.lower() for x in ["policy", "login", "terms", "total", "select"]):
+                continue
+
+            # Prevent duplication processing inside same target snapshot block
+            if name in seen_types:
+                continue
+
+            # 3. Parse Allocation Inventory Left
+            left_match = re.search(r"(\d+)\s*[Rr]oom[s]?\s*[Ll]eft|only\s*(\d+)\s*[Rr]oom|(\d+)\s*[Ll]eft", block, re.I)
+            
+            rooms_left = 1  # Standard fallback configuration assuming 1 remains available if hidden
+            if left_match:
+                val = next(g for g in left_match.groups() if g is not None)
+                rooms_left = int(val)
+            elif any(x in block.lower() for x in ["sold out", "not available", "unavailable"]):
+                rooms_left = 0
+
+            rooms.append({
+                "room_type": name,
+                "rate": price,
+                "rooms_left": rooms_left
+            })
+            seen_types.add(name)
 
         await browser.close()
 
         if not rooms:
-            raise Exception("No room configurations extracted after system load")
-
-        # Deduplicate results records cleanly
-        unique = []
-        seen = set()
-        for r in rooms:
-            key = (r["room_type"], r["rate"])
-            if key not in seen:
-                seen.add(key)
-                unique.append(r)
+            raise Exception("No clean room configurations extracted after stream split conversion")
 
         return {
             "property": prop["name"],
             "scraped_at": datetime.utcnow().isoformat(),
-            "rooms": unique,
-            "summary": summarize(prop, unique)
+            "rooms": rooms,
+            "summary": summarize(prop, rooms)
         }
 
 
@@ -203,7 +196,7 @@ async def run():
         try:
             res = await scrape_property(prop)
             save(res)
-            logger.info(f"{prop['name']} ✅ Execution complete ({len(res['rooms'])} types gathered)")
+            logger.info(f"{prop['name']} ✅ Gathered successfully ({len(res['rooms'])} types matched)")
         except Exception as e:
             logger.error(f"{prop['name']} ❌ {e}")
 
