@@ -1,77 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Intelligence Dashboard</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STR Dashboard</title>
 <style>
-  :root {
-    --bg: #0d0f14; --surface: #141720; --surface2: #1c2030;
-    --border: #262c3e; --gold: #c9a84c; --gold-glow: rgba(201,168,76,0.12);
-    --teal: #3ecfb2; --text: #e8e4d8; --muted: #6b7280; --label: #94a3b8;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; padding: 1rem; }
-  
-  /* Mobile-First Layout */
-  .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 1200px; margin: 0 auto; }
-  .card { background: var(--surface); border: 1px solid var(--border); padding: 1.25rem; border-radius: 6px; }
-  .card-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--label); text-transform: uppercase; margin-bottom: 0.5rem; }
-  
-  #propertyContainer { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
-  .prop-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; white-space: nowrap; }
-  .prop-btn.active { border-color: var(--gold); background: var(--gold-glow); color: var(--gold); }
-
-  .big-stat { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; }
-  .trend-sub { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); }
-
-  .table-responsive { overflow-x: auto; margin-top: 1rem; border: 1px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; min-width: 500px; }
-  th { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--label); padding: 0.75rem; border-bottom: 1px solid var(--border); }
-  td { padding: 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-
-  /* Desktop Override */
-  @media (min-width: 768px) {
-    .dashboard-grid { grid-template-columns: repeat(12, 1fr); gap: 1.5rem; }
-    .property-selector-card { grid-column: span 3; }
-    .overview-metrics-wrapper { grid-column: span 9; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .room-inventory-card, .table-card, .section-title { grid-column: span 12; }
-    .chart-card { grid-column: span 6; }
-    #propertyContainer { flex-direction: column; overflow-x: visible; }
-    .prop-btn { width: 100%; text-align: left; }
-  }
+  body { background: #0d0f14; color: #e8e4d8; font-family: sans-serif; padding: 1rem; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 1200px; margin: 0 auto; }
+  .card { background: #141720; border: 1px solid #262c3e; padding: 1.5rem; border-radius: 6px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td { padding: 0.75rem; border-bottom: 1px solid #262c3e; text-align: left; font-size: 0.85rem; }
+  .active-row { background: rgba(201,168,76,0.1); }
 </style>
 </head>
 <body>
-
-<div class="dashboard-grid">
-  <div class="card property-selector-card">
-    <div class="card-label">Select Hotel</div>
-    <div id="propertyContainer"></div>
+<div class="grid" id="app">
+  <div class="card">
+    <div id="propBtns"></div>
+    <div id="tableContainer"></div>
   </div>
-
-  <div class="overview-metrics-wrapper">
-    <div class="card"><div class="card-label">Occupancy</div><div class="big-stat" id="statOcc">0%</div></div>
-    <div class="card"><div class="card-label">ADR</div><div class="big-stat" id="statAdr">$0</div></div>
-    <div class="card"><div class="card-label">RevPAR</div><div class="big-stat" id="statRevpar">$0</div></div>
-  </div>
-
-  <div class="section-title">Historical Performance</div>
-  <div class="card chart-card"><canvas id="chartOcc" height="250"></canvas></div>
-  <div class="card chart-card"><canvas id="chartAdr" height="250"></canvas></div>
 </div>
-
 <script>
-async function loadData() {
-  const [ledger, aggs] = await Promise.all([
-    fetch('data/history_ledger.json').then(r => r.json()),
-    fetch('data/aggregates.json').then(r => r.json())
-  ]);
-  // Add logic to populate elements based on ledger and aggs
+async function load() {
+  const aggs = await fetch('data/aggregates.json').then(r => r.json());
+  
+  function update(p) {
+    const weeks = aggs[p].weeks;
+    const months = aggs[p].months;
+    const sortedWeeks = Object.keys(weeks).sort();
+    const sortedMonths = Object.keys(months).sort();
+    
+    let html = `<h3>${p} Historical Performance</h3><table><tr><th>Period</th><th>Occ%</th><th>ADR</th><th>RevPAR</th></tr>`;
+    sortedWeeks.forEach(w => html += `<tr><td>${w}</td><td>${weeks[w].occ}%</td><td>$${weeks[w].adr}</td><td>$${weeks[w].rev}</td></tr>`);
+    sortedMonths.forEach(m => html += `<tr><td>${m} (MTD)</td><td>${months[m].occ}%</td><td>$${months[m].adr}</td><td>$${months[m].rev}</td></tr>`);
+    document.getElementById('tableContainer').innerHTML = html + `</table>`;
+  }
+
+  const props = Object.keys(aggs);
+  props.forEach(p => {
+    let btn = document.createElement('button');
+    btn.innerText = p;
+    btn.onclick = () => update(p);
+    document.getElementById('propBtns').appendChild(btn);
+  });
+  update(props[0]);
 }
-window.onload = loadData;
+load();
 </script>
 </body>
 </html>
