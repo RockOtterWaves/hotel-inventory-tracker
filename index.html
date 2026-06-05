@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  /* ── DESIGN DIRECTION: Luxury hotel operations — dark slate, warm gold, editorial typography ── */
   :root {
     --bg:        #0d0f14;
     --surface:   #141720;
@@ -21,781 +20,400 @@
     --rose:      #e05c6e;
     --text:      #e8e4d8;
     --muted:     #6b7280;
-    --label:     #9ca3af;
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-mono:    'DM Mono', 'Courier New', monospace;
-    --radius:    6px;
+    --label:     #94a3b8;
   }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: var(--bg);
+    background-color: var(--bg);
     color: var(--text);
-    font-family: var(--font-mono);
-    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 2rem;
     min-height: 100vh;
-    overflow-x: hidden;
   }
-
-  /* ── Grain overlay ── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 999; opacity: .5;
-  }
-
-  /* ── Header ── */
   header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 28px 40px 24px;
+    max-width: 1400px;
+    margin: 0 auto 2.5rem auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     border-bottom: 1px solid var(--border);
-    position: relative;
+    padding-bottom: 1.5rem;
   }
-  header::after {
-    content: '';
-    position: absolute; bottom: -1px; left: 40px;
-    width: 180px; height: 1px;
-    background: linear-gradient(90deg, var(--gold), transparent);
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
   }
-  .brand { display: flex; flex-direction: column; gap: 2px; }
-  .brand-title {
-    font-family: var(--font-display);
-    font-size: 22px; font-weight: 700;
-    color: var(--text); letter-spacing: .02em;
-  }
-  .brand-sub {
-    font-size: 10px; letter-spacing: .18em;
-    text-transform: uppercase; color: var(--gold);
-  }
-  .header-right { display: flex; align-items: center; gap: 20px; }
-
-  /* Date picker */
-  .date-wrap { display: flex; align-items: center; gap: 8px; }
-  .date-wrap label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-  input[type="date"] {
-    background: var(--surface2); border: 1px solid var(--border);
-    color: var(--text); font-family: var(--font-mono); font-size: 12px;
-    padding: 6px 10px; border-radius: var(--radius); cursor: pointer;
-    outline: none;
-  }
-  input[type="date"]:focus { border-color: var(--gold-dim); }
-
-  /* Refresh btn */
-  .btn-refresh {
-    background: transparent; border: 1px solid var(--gold-dim);
-    color: var(--gold); font-family: var(--font-mono); font-size: 11px;
-    letter-spacing: .1em; text-transform: uppercase;
-    padding: 7px 16px; border-radius: var(--radius); cursor: pointer;
-    transition: background .2s, border-color .2s;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .btn-refresh:hover { background: var(--gold-glow); border-color: var(--gold); }
-  .btn-refresh svg { width: 12px; height: 12px; }
-
-  /* Status pill */
+  h1 span { color: var(--gold); }
   .status-pill {
-    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 20px;
-    border: 1px solid var(--border); color: var(--muted);
-    display: flex; align-items: center; gap: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    background: var(--surface2);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
-  .status-pill .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--muted); flex-shrink: 0;
-  }
-  .status-pill.ok .dot  { background: var(--teal); box-shadow: 0 0 6px var(--teal); }
-  .status-pill.err .dot { background: var(--rose); }
-  .status-pill.ok  { border-color: rgba(62,207,178,.25); color: var(--teal); }
-
-  /* ── Main layout ── */
-  main { padding: 32px 40px; display: flex; flex-direction: column; gap: 32px; }
-
-  /* ── KPI row ── */
-  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; }
-  .kpi-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 20px 22px;
-    position: relative; overflow: hidden;
-    transition: border-color .2s;
-  }
-  .kpi-card:hover { border-color: var(--gold-dim); }
-  .kpi-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--gold), transparent);
-  }
-  .kpi-prop {
-    font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 10px;
-  }
-  .kpi-value {
-    font-family: var(--font-display); font-size: 38px; font-weight: 900;
-    color: var(--text); line-height: 1; margin-bottom: 4px;
-  }
-  .kpi-value.gold { color: var(--gold); }
-  .kpi-value.teal { color: var(--teal); }
-  .kpi-label {
-    font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
-  }
-
-  /* ── Section header ── */
-  .section-header {
-    display: flex; align-items: baseline; gap: 12px;
-    margin-bottom: 16px;
-  }
-  .section-title {
-    font-family: var(--font-display); font-size: 16px; font-weight: 700;
-    color: var(--text); letter-spacing: .02em;
-  }
-  .section-sub { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-
-  /* ── Charts grid ── */
-  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
-
-  .chart-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 22px;
-    position: relative;
-  }
-  .chart-card-title {
-    font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 18px;
-  }
-  .chart-wrap { position: relative; height: 220px; width: 100%; }
-
-  /* Chart placeholder layer */
-  .chart-placeholder {
-    position: absolute; inset: 0;
-    background: var(--surface);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 11px; letter-spacing: 0.05em;
-    z-index: 5; pointer-events: none;
-    border-radius: var(--radius);
-  }
-
-  /* ── Property breakdown table ── */
-  .prop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px; }
-
-  .prop-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); overflow: hidden;
-  }
-  .prop-card-header {
-    background: var(--surface2); padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .prop-name {
-    font-family: var(--font-display); font-size: 14px; font-weight: 700;
-  }
-  .prop-occ-badge {
-    font-size: 11px; font-weight: 500; letter-spacing: .06em;
-    padding: 3px 10px; border-radius: 20px;
-  }
-  .prop-occ-badge.high { background: rgba(62,207,178,.12); color: var(--teal); border: 1px solid rgba(62,207,178,.3); }
-  .prop-occ-badge.mid  { background: rgba(201,168,76,.12); color: var(--gold); border: 1px solid rgba(201,168,76,.3); }
-  .prop-occ-badge.low  { background: rgba(224,92,110,.12); color: var(--rose); border: 1px solid rgba(224,92,110,.3); }
-
-  .prop-stats {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    border-bottom: 1px solid var(--border);
-  }
-  .prop-stat {
-    padding: 14px 16px; border-right: 1px solid var(--border);
-  }
-  .prop-stat:last-child { border-right: none; }
-  .prop-stat-label { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
-  .prop-stat-val   { font-family: var(--font-display); font-size: 20px; font-weight: 700; }
-
-  /* Occ bar */
-  .occ-bar-wrap { padding: 14px 18px; }
-  .occ-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 6px; }
-  .occ-bar-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .occ-bar-fill  { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(.4,0,.2,1); }
-
-  /* Room table */
-  .room-table { width: 100%; border-collapse: collapse; }
-  .room-table th {
-    text-align: left; padding: 8px 18px;
-    font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--muted); border-bottom: 1px solid var(--border);
-  }
-  .room-table td { padding: 9px 18px; font-size: 12px; border-bottom: 1px solid rgba(38,44,62,.5); }
-  .room-table tr:last-child td { border-bottom: none; }
-  .room-table tr:hover td { background: var(--surface2); }
-  .avail-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
-  .avail-dot.yes { background: var(--teal); }
-  .avail-dot.no  { background: var(--rose); }
-
-  /* ── Timeline snapshot table ── */
-  .timeline-wrap {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); overflow: hidden;
-  }
-  .timeline-table { width: 100%; border-collapse: collapse; }
-  .timeline-table th {
-    text-align: left; padding: 11px 18px;
-    font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--muted); background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-  }
-  .timeline-table td { padding: 10px 18px; font-size: 12px; border-bottom: 1px solid rgba(38,44,62,.5); }
-  .timeline-table tr:last-child td { border-bottom: none; }
-  .timeline-table tr:hover td { background: var(--surface2); }
-  .mini-bar { display: inline-block; height: 10px; border-radius: 2px; vertical-align: middle; margin-left: 8px; }
-
-  /* ── Empty / loading states ── */
-  .empty-state {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 60px 20px; color: var(--muted); gap: 12px; text-align: center;
-  }
-  .empty-state svg { opacity: .25; }
-  .empty-state p { font-size: 12px; letter-spacing: .06em; max-width: 320px; line-height: 1.6; }
-
   .spinner {
-    display: inline-block; width: 14px; height: 14px;
-    border: 2px solid var(--border); border-top-color: var(--gold);
-    border-radius: 50%; animation: spin .6s linear infinite;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--muted);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── Footer ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
-    color: var(--muted); font-size: 10px; letter-spacing: .1em;
+  
+  .dashboard-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(12, 11fr);
+    gap: 1.5rem;
   }
-  footer a { color: var(--gold-dim); text-decoration: none; }
-  footer a:hover { color: var(--gold); }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .property-selector-card { grid-column: span 3; }
+  .overview-metrics-card { grid-column: span 9; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .chart-card-occ { grid-column: span 6; }
+  .chart-card-adr { grid-column: span 6; }
+  .table-card { grid-column: span 12; }
+
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--label);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+  .prop-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 1rem;
+    text-align: left;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+  }
+  .prop-btn:hover { border-color: var(--gold-dim); background: rgba(255,255,255,0.01); }
+  .prop-btn.active { border-color: var(--gold); background: var(--gold-glow); color: var(--gold); font-weight: 500; }
+  
+  .big-stat { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; }
+  .trend-sub { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+  .trend-sub span.up { color: var(--teal); }
+  .trend-sub span.down { color: var(--rose); }
+
+  table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 1rem; }
+  th { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--label); text-transform: uppercase; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+  td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 0.25rem 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; border-radius: 3px; font-weight: 500; }
+  .badge.avail { background: rgba(62,207,178,0.1); color: var(--teal); border: 1px solid rgba(62,207,178,0.2); }
+  .badge.sold { background: rgba(224,92,110,0.1); color: var(--rose); border: 1px solid rgba(224,92,110,0.2); }
+
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.85rem; }
+  .chart-container { position: relative; width: 100%; height: 280px; }
+  .chart-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(13,15,20,0.6); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.8rem; pointer-events: none; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">
-    <div class="brand-title">Hotel Intelligence</div>
-    <div class="brand-sub">Inventory &amp; Rate Dashboard</div>
+  <div>
+    <h1>Hotel Intelligence <span>Dashboard</span></h1>
   </div>
-  <div class="header-right">
-    <div class="date-wrap">
-      <label for="datePicker">Date</label>
-      <input type="date" id="datePicker">
-    </div>
-    <button class="btn-refresh" id="btnRefresh">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M13.5 8A5.5 5.5 0 1 1 8 2.5c1.8 0 3.4.87 4.4 2.2M14 2v3h-3"/>
-      </svg>
-      Refresh
-    </button>
-    <div class="status-pill" id="statusPill">
-      <span class="dot"></span>
-      <span id="statusText">Loading…</span>
-    </div>
+  <div class="status-pill" id="statusPill">
+    <div class="spinner"></div> <span id="statusText">Initialise System Engine…</span>
   </div>
 </header>
 
-<main>
-  <div class="kpi-row" id="kpiRow">
-    <div class="kpi-card"><div class="empty-state"><div class="spinner"></div></div></div>
-    <div class="kpi-card"><div class="empty-state"><div class="spinner"></div></div></div>
-    <div class="kpi-card"><div class="empty-state"><div class="spinner"></div></div></div>
+<div class="dashboard-grid">
+  <div class="card property-selector-card">
+    <div class="card-label">Properties</div>
+    <div id="propertyContainer"></div>
   </div>
 
-  <div>
-    <div class="section-header">
-      <div class="section-title">Intraday Trend</div>
-      <div class="section-sub">All scheduled run snapshots</div>
+  <div class="overview-metrics-card">
+    <div class="card">
+      <div class="card-label">Est. Occupancy Today</div>
+      <div class="big-stat" id="statOcc">0%</div>
+      <div class="trend-sub" id="trendOcc">vs Rolling Period: --</div>
     </div>
-    <div class="charts-grid">
-      <div class="chart-card">
-        <div class="chart-card-title">Occupancy % · by property</div>
-        <div class="chart-placeholder" id="occPlaceholder" style="display:none;">No data compiled for trend timeline</div>
-        <div class="chart-wrap"><canvas id="chartOcc"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-card-title">Blended ADR ($) · by property</div>
-        <div class="chart-placeholder" id="adrPlaceholder" style="display:none;">No data compiled for trend timeline</div>
-        <div class="chart-wrap"><canvas id="chartAdr"></canvas></div>
-      </div>
+    <div class="card">
+      <div class="card-label">Blended ADR</div>
+      <div class="big-stat" id="statAdr">$0.00</div>
+      <div class="trend-sub" id="trendAdr">vs Rolling Period: --</div>
     </div>
-  </div>
-
-  <div>
-    <div class="section-header">
-      <div class="section-title">Property Breakdown</div>
-      <div class="section-sub">Latest snapshot</div>
-    </div>
-    <div class="prop-grid" id="propGrid">
-      <div class="prop-card"><div class="empty-state"><div class="spinner"></div></div></div>
+    <div class="card">
+      <div class="card-label">Remaining Space Allocation</div>
+      <div class="big-stat" id="statRooms">0</div>
+      <div class="trend-sub" id="trendRooms">Total Capacity: --</div>
     </div>
   </div>
 
-  <div>
-    <div class="section-header">
-      <div class="section-title">Snapshot Log</div>
-      <div class="section-sub">All runs for selected day</div>
-    </div>
-    <div class="timeline-wrap">
-      <table class="timeline-table" id="timelineTable">
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Property</th>
-            <th>Remaining Rooms</th>
-            <th>Blended ADR</th>
-            <th>Est. Occupancy</th>
-            <th>Rooms Sold</th>
-          </tr>
-        </thead>
-        <tbody id="timelineBody">
-          <tr><td colspan="6"><div class="empty-state"><div class="spinner"></div></div></td></tr>
-        </tbody>
-      </table>
+  <div class="card chart-card-occ">
+    <div class="card-label">Today's Occupancy Vector Trajectory</div>
+    <div class="chart-container">
+      <canvas id="chartOcc"></canvas>
+      <div class="chart-placeholder" id="occPlaceholder">No Trend Line Compiled</div>
     </div>
   </div>
-</main>
 
-<footer>
-  <span>Hotel Intelligence Dashboard · Data refreshes automatically with each scraper run</span>
-  <span>Powered by <a href="https://github.com" target="_blank">GitHub Actions</a> · <a id="repoLink" href="#" target="_blank">View Raw Data</a></span>
-</footer>
+  <div class="card chart-card-adr">
+    <div class="card-label">Rate Fluctuations Profile</div>
+    <div class="chart-container">
+      <canvas id="chartAdr"></canvas>
+      <div class="chart-placeholder" id="adrPlaceholder">No Trend Line Compiled</div>
+    </div>
+  </div>
+
+  <div class="card table-card">
+    <div class="card-label">Live Inventory Category Breakdown</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Room Category Allocation</th>
+          <th>Rate Option Baseline</th>
+          <th>Calculated Allocation Status</th>
+          <th>Capacity Left</th>
+        </tr>
+      </thead>
+      <tbody id="inventoryTableBody">
+        <tr>
+          <td colspan="4"><div class="empty-state">Select a property above to hydrate current asset feeds.</div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <script>
-// ════════════════════════════════════════════════════════════
-//  !! AUTOMATIC GITHUB ENDPOINT CONFIGURATION !!
-// ════════════════════════════════════════════════════════════
-const GITHUB_CONFIG = {
-  username: "rockotterwaves",   
-  repo:      "hotel-inventory-tracker" 
-};
-// ════════════════════════════════════════════════════════════
+let globalData = null;
+let globalAggs = null;
+let activeProperty = null;
+let cOcc = null;
+let cAdr = null;
 
-const RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/main`;
-const AGG_URL = `${RAW_BASE}/data/aggregates.json`;
-
-const PROP_COLORS = [
-  { line: '#c9a84c', fill: 'rgba(201,168,76,.12)' },
-  { line: '#3ecfb2', fill: 'rgba(62,207,178,.10)' },
-  { line: '#a78bfa', fill: 'rgba(167,139,250,.10)' },
-  { line: '#f97316', fill: 'rgba(249,115,22,.10)' },
-];
-
-// ── State ─────────────────────────────────────────────────────────────────────
-let chartOcc = null, chartAdr = null;
-let currentData = null;
-let aggregateData = null;
-
-// Wait for document DOM to build safely before assigning handles
-document.addEventListener('DOMContentLoaded', async () => {
-  const picker = document.getElementById('datePicker');
-  const repoLink = document.getElementById('repoLink');
-  
-  if (repoLink) {
-    repoLink.href = `https://github.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}`;
-  }
-
-  // Set default picker view to today's date adjusted to Los Angeles/Pacific Time zone
-  const pacificDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
-  const dateStr     = pacificDate.getFullYear() + '-' + 
-                      String(pacificDate.getMonth() + 1).padStart(2, '0') + '-' + 
-                      String(pacificDate.getDate()).padStart(2, '0');
-                      
-  if (picker) {
-    picker.value = dateStr;
-    picker.max   = dateStr;
-    picker.addEventListener('change', () => loadData(picker.value));
-  }
-  
-  const refreshBtn = document.getElementById('btnRefresh');
-  if (refreshBtn) {
-    refreshBtn.addEventListener('click', () => loadData(picker ? picker.value : dateStr));
-  }
-
-  loadData(dateStr);
-});
-
-// ── Data loading ──────────────────────────────────────────────────────────────
-async function loadAggregateData() {
-  try {
-    const res = await fetch(`${AGG_URL}?t=${Date.now()}`);
-    if (res.ok) {
-      aggregateData = await res.json();
-      console.log("✅ Aggregates loaded:", aggregateData);
-    }
-  } catch (e) {
-    console.warn("No aggregate data found or structure unbuilt yet.");
-  }
+// Cleanly resolve local date stamps to match your repository tracking patterns
+function getPacificDateString() {
+  const options = { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" };
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const [{ value: mo }, , { value: da }, , { value: ye }] = formatter.formatToParts(new Date());
+  return `${ye}-${mo}-${da}`;
 }
 
-async function loadData(dateStr) {
+function getPriorPacificDateString() {
+  const d = new Date();
+  d.setHours(d.getHours() - 24);
+  const options = { timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit" };
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const [{ value: mo }, , { value: da }, , { value: ye }] = formatter.formatToParts(d);
+  return `${ye}-${mo}-${da}`;
+}
+
+async defInitSequence() {
   setStatus('loading');
-  await loadAggregateData();
+  const today = getPacificDateString();
+  const yesterday = getPriorPacificDateString();
+  
+  // Clear file mapping pathways across date zone limits securely
+  let fileLoaded = await tryFetchData(`data/${today}.json`);
+  if (!fileLoaded) {
+    console.warn("Primary path missing. Attempting yesterday's historical backup feed...");
+    fileLoaded = await tryFetchData(`data/${yesterday}.json`);
+  }
+  
+  // Pull trend statistics aggregates
+  try {
+    const r = await fetch('data/aggregates.json');
+    if (r.ok) globalAggs = await r.json();
+  } catch(e) { console.error("Historical aggregates offline.", e); }
 
-  const url = `${RAW_BASE}/data/${dateStr}.json?nocache=${Date.now()}`;
+  if (!globalData) {
+    setStatus('error', 'Feeds Offline');
+    renderBlankSlate();
+    return;
+  }
 
+  setStatus('success', 'Active Logs Restored');
+  populatePropertySelectors();
+}
+
+async function tryFetchData(url) {
   try {
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const raw = await res.json();
-    currentData = raw;
-    render(raw, dateStr);
-    setStatus('ok', `Updated ${new Date().toLocaleTimeString()}`);
-  } catch (e) {
-    console.error("Fetch failure:", e);
-    setStatus('err', 'No records found for selected date');
-    renderEmpty();
-  }
+    if (res.ok) {
+      globalData = await res.json();
+      return true;
+    }
+  } catch (e) { console.error(`Error pulling target context from path: ${url}`, e); }
+  return false;
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
-function render(raw, dateStr) {
-  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
-    renderEmpty();
+function populatePropertySelectors() {
+  const container = document.getElementById('propertyContainer');
+  container.innerHTML = '';
+  const properties = Object.keys(globalData);
+
+  if (!properties.length) {
+    renderBlankSlate();
     return;
   }
 
-  const props = Object.keys(raw).filter(p => Array.isArray(raw[p]) && raw[p].length > 0);
-  
-  if (props.length === 0) {
-    renderEmpty();
+  properties.forEach((p, idx) => {
+    const btn = document.createElement('button');
+    btn.className = `prop-btn ${idx === 0 ? 'active' : ''}`;
+    btn.innerText = p;
+    btn.onclick = () => selectProperty(p, btn);
+    container.appendChild(btn);
+  });
+
+  selectProperty(properties[0]);
+}
+
+function selectProperty(propName, targetBtn) {
+  activeProperty = propName;
+  if (targetBtn) {
+    document.querySelectorAll('.prop-btn').forEach(b => b.classList.remove('active'));
+    targetBtn.classList.add('active');
+  }
+
+  const dataset = globalData[propName];
+  if (!dataset || !dataset.length) {
+    renderBlankSlate();
     return;
   }
 
-  // Clear placeholders if data exists
+  // Identify last compiled metrics block cleanly
+  const lastSnap = dataset[dataset.length - 1];
+  const summary = lastSnap.summary;
+
+  // Hydrate top stat display panels
+  document.getElementById('statOcc').innerText = `${summary.estimated_occupancy_pct}%`;
+  document.getElementById('statAdr').innerText = summary.blended_adr > 0 ? `$${summary.blended_adr.toFixed(2)}` : 'Sold Out';
+  document.getElementById('statRooms').innerText = summary.total_remaining;
+  document.getElementById('trendRooms').innerText = `Total Capacity: ${summary.total_rooms_property}`;
+
+  // Process historical trend targets
+  if (globalAggs && globalAggs.weekly && globalAggs.weekly[propName]) {
+    const weeklyOcc = globalAggs.weekly[propName].avg_occ || 0;
+    const weeklyAdr = globalAggs.weekly[propName].avg_adr || 0;
+    
+    document.getElementById('trendOcc').innerText = `vs 7-Day Running Avg: ${weeklyOcc}%`;
+    document.getElementById('trendAdr').innerText = `vs 7-Day Running Avg: $${weeklyAdr.toFixed(2)}`;
+  } else {
+    document.getElementById('trendOcc').innerText = 'vs Rolling Period: No baseline';
+    document.getElementById('trendAdr').innerText = 'vs Rolling Period: No baseline';
+  }
+
+  // Build clean layout table fields
+  hydrateTable(lastSnap.rooms);
+
+  // Generate visualization timelines
+  renderCharts(dataset);
+}
+
+function hydrateTable(rooms) {
+  const body = document.getElementById('inventoryTableBody');
+  body.innerHTML = '';
+
+  if (!rooms || !rooms.length) {
+    body.innerHTML = `<tr><td colspan="4"><div class="empty-state">No category rooms identified inside data entry layers.</div></td></tr>`;
+    return;
+  }
+
+  rooms.forEach(r => {
+    const row = document.createElement('tr');
+    const isAvail = r.rooms_left > 0;
+    
+    row.innerHTML = `
+      <td style="font-weight: 500;">${r.room_type}</td>
+      <td>${r.rate > 0 ? `$${r.rate.toFixed(2)}` : '—'}</td>
+      <td><span class="badge ${isAvail ? 'avail' : 'sold'}">${isAvail ? 'Available' : 'Sold Out'}</span></td>
+      <td style="font-family: 'DM Mono', monospace;">${r.rooms_left}</td>
+    `;
+    body.innerHTML += row.outerHTML;
+  });
+}
+
+function renderCharts(snapshots) {
+  const labels = snapshots.map(s => {
+    try {
+      return new Date(s.scraped_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    } catch { return '—'; }
+  });
+
+  const occData = snapshots.map(s => s.summary.estimated_occupancy_pct);
+  const adrData = snapshots.map(s => s.summary.blended_adr);
+
   document.getElementById('occPlaceholder').style.display = 'none';
   document.getElementById('adrPlaceholder').style.display = 'none';
 
-  renderKPIs(raw, props);
-  renderCharts(raw, props);
-  renderPropCards(raw, props);
-  renderTimeline(raw, props);
-}
+  if (cOcc) cOcc.destroy();
+  if (cAdr) cAdr.destroy();
 
-function getPropMeta() {
-  return {
-    "Tarzana Inn":  49,
-    "Sea Air Inn":  24,
-    "Blufftop Inn": 32,
-  };
-}
-
-// ── KPI row ───────────────────────────────────────────────────────────────────
-function renderKPIs(raw, props) {
-  const kpiRow = document.getElementById('kpiRow');
-  if (!kpiRow) return;
-
-  const meta = getPropMeta();
-  let totalRooms = 0, totalRemaining = 0, totalSold = 0;
-  let adrs = [];
-
-  props.forEach(p => {
-    const snaps = raw[p] || [];
-    const last  = lastValid(snaps);
-    if (!last) return;
-    
-    const s = last.summary;
-    const cap = s.total_rooms_property || meta[p] || 30;
-    
-    totalRooms     += cap;
-    totalRemaining += (s.total_remaining !== undefined) ? s.total_remaining : cap;
-    totalSold      += (s.estimated_sold !== undefined) ? s.estimated_sold : 0;
-    if (s.blended_adr) adrs.push(s.blended_adr);
-  });
-
-  const portOcc = totalRooms ? Math.round((totalSold / totalRooms) * 100) : 0;
-  const portAdr = adrs.length ? (adrs.reduce((a,b)=>a+b,0)/adrs.length).toFixed(2) : '—';
-
-  let baseHtml = `
-    <div class="kpi-card">
-      <div class="kpi-prop">Portfolio Total</div>
-      <div class="kpi-value gold">${portOcc}<span style="font-size:18px;color:var(--gold-dim)">%</span></div>
-      <div class="kpi-label">Est. Occupancy</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-prop">Portfolio · Blended</div>
-      <div class="kpi-value teal">${portAdr !== '—' ? '$' + portAdr : '—'}</div>
-      <div class="kpi-label">Average Daily Rate</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-prop">Portfolio Total</div>
-      <div class="kpi-value">${totalRemaining}</div>
-      <div class="kpi-label">Rooms Remaining</div>
-    </div>
-    ${props.map((p, i) => {
-      const last = lastValid(raw[p]);
-      if (!last) return '';
-      const s   = last.summary;
-      const col = PROP_COLORS[i % PROP_COLORS.length];
-      return `
-        <div class="kpi-card">
-          <div class="kpi-prop">${p}</div>
-          <div class="kpi-value" style="color:${col.line}">${s.estimated_occupancy_pct ?? '—'}<span style="font-size:16px;opacity:.6">%</span></div>
-          <div class="kpi-label">Occupancy · ${s.blended_adr ? '$' + s.blended_adr : '—'} ADR</div>
-        </div>`;
-    }).join('')}
-  `;
-
-  // Append aggregate data elements if present
-  if (aggregateData) {
-    let extra = "";
-    Object.keys(aggregateData.weekly || {}).forEach(p => {
-      const w = aggregateData.weekly[p] || {};
-      const m = (aggregateData.monthly || {})[p] || {};
-      extra += `
-        <div class="kpi-card">
-          <div class="kpi-prop">${p} · Weekly</div>
-          <div class="kpi-value teal">${w.avg_adr ? '$' + w.avg_adr : '—'}</div>
-          <div class="kpi-label">${w.avg_occ ?? '—'}% Occ</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-prop">${p} · Monthly</div>
-          <div class="kpi-value gold">${m.avg_adr ? '$' + m.avg_adr : '—'}</div>
-          <div class="kpi-label">${m.avg_occ ?? '—'}% Occ</div>
-        </div>`;
-    });
-    baseHtml += extra;
-  }
-
-  kpiRow.innerHTML = baseHtml;
-}
-
-// ── Charts ────────────────────────────────────────────────────────────────────
-function renderCharts(raw, props) {
-  const allTimes = new Set();
-  props.forEach(p => (raw[p] || []).forEach(s => {
-    if (s && s.scraped_at) allTimes.add(fmtTime(s.scraped_at));
-  }));
-  const labels = [...allTimes].sort();
-
-  if (labels.length === 0) {
-    document.getElementById('occPlaceholder').style.display = 'flex';
-    document.getElementById('adrPlaceholder').style.display = 'flex';
-    return;
-  }
-
-  const occDatasets = props.map((p, i) => {
-    const col = PROP_COLORS[i % PROP_COLORS.length];
-    const pts = labels.map(t => {
-      const snap = (raw[p] || []).find(s => s && s.scraped_at && fmtTime(s.scraped_at) === t);
-      return snap && snap.summary ? snap.summary.estimated_occupancy_pct : null;
-    });
-    return { label: p, data: pts, borderColor: col.line, backgroundColor: col.fill,
-             tension: .35, fill: true, spanGaps: true,
-             pointBackgroundColor: col.line, pointRadius: 4, pointHoverRadius: 6 };
-  });
-
-  const adrDatasets = props.map((p, i) => {
-    const col = PROP_COLORS[i % PROP_COLORS.length];
-    const pts = labels.map(t => {
-      const snap = (raw[p] || []).find(s => s && s.scraped_at && fmtTime(s.scraped_at) === t);
-      return snap && snap.summary ? snap.summary.blended_adr : null;
-    });
-    return { label: p, data: pts, borderColor: col.line, backgroundColor: col.fill,
-             tension: .35, fill: true, spanGaps: true,
-             pointBackgroundColor: col.line, pointRadius: 4, pointHoverRadius: 6 };
-  });
-
-  const chartOpts = (suffix='') => ({
-    responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { labels: { color: '#6b7280', font: { family: "'DM Mono'", size: 11 }, boxWidth: 12 } },
-      tooltip: {
-        backgroundColor: '#1c2030', borderColor: '#262c3e', borderWidth: 1,
-        titleColor: '#e8e4d8', bodyColor: '#9ca3af',
-        titleFont: { family: "'DM Mono'" }, bodyFont: { family: "'DM Mono'" },
-        callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}${suffix}` }
-      }
-    },
+  const baseOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
     scales: {
-      x: { grid: { color: 'rgba(38,44,62,.3)' }, ticks: { color: '#6b7280', font: { family: "'DM Mono'", size: 10 } } },
-      y: { grid: { color: 'rgba(38,44,62,.3)' }, ticks: { color: '#6b7280', font: { family: "'DM Mono'", size: 10 },
-           callback: v => v + suffix } }
+      x: { grid: { color: '#1c2030' }, ticks: { color: '#6b7280', font: { family: 'DM Mono' } } },
+      y: { grid: { color: '#1c2030' }, ticks: { color: '#6b7280', font: { family: 'DM Mono' } } }
     }
+  };
+
+  cOcc = new Chart(document.getElementById('chartOcc'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{ data: occData, borderColor: '#3ecfb2', backgroundColor: 'rgba(62,207,178,0.05)', tension: 0.2, fill: true }]
+    },
+    options: baseOptions
   });
 
-  if (chartOcc) chartOcc.destroy();
-  if (chartAdr) chartAdr.destroy();
-
-  const elOcc = document.getElementById('chartOcc');
-  const elAdr = document.getElementById('chartAdr');
-
-  if (elOcc) chartOcc = new Chart(elOcc.getContext('2d'), { type: 'line', data: { labels, datasets: occDatasets }, options: chartOpts('%') });
-  if (elAdr) chartAdr = new Chart(elAdr.getContext('2d'), { type: 'line', data: { labels, datasets: adrDatasets }, options: chartOpts(' $') });
-}
-
-// ── Property cards ────────────────────────────────────────────────────────────
-function renderPropCards(raw, props) {
-  const meta = getPropMeta();
-  const grid = document.getElementById('propGrid');
-  if (!grid) return;
-
-  grid.innerHTML = props.map((p, i) => {
-    const snaps = raw[p] || [];
-    const last  = lastValid(snaps);
-    if (!last || !last.summary) return `<div class="prop-card"><div class="empty-state"><p>No snapshot entries parsed for ${p}</p></div></div>`;
-
-    const s   = last.summary;
-    const occ = s.estimated_occupancy_pct ?? 0;
-    const col = PROP_COLORS[i % PROP_COLORS.length];
-
-    const occClass = occ >= 80 ? 'high' : occ >= 50 ? 'mid' : 'low';
-    const barColor = occ >= 80 ? 'var(--teal)' : occ >= 50 ? 'var(--gold)' : 'var(--rose)';
-    const rooms    = last.rooms || [];
-
-    return `
-      <div class="prop-card">
-        <div class="prop-card-header">
-          <div class="prop-name" style="color:${col.line}">${p}</div>
-          <div class="prop-occ-badge ${occClass}">${occ}% occ.</div>
-        </div>
-        <div class="prop-stats">
-          <div class="prop-stat">
-            <div class="prop-stat-label">ADR</div>
-            <div class="prop-stat-val" style="color:${col.line}">${s.blended_adr ? '$' + s.blended_adr : '—'}</div>
-          </div>
-          <div class="prop-stat">
-            <div class="prop-stat-label">Remaining</div>
-            <div class="prop-stat-val">${s.total_remaining}</div>
-          </div>
-          <div class="prop-stat">
-            <div class="prop-stat-label">Sold</div>
-            <div class="prop-stat-val">${s.estimated_sold}</div>
-          </div>
-        </div>
-        <div class="occ-bar-wrap">
-          <div class="occ-bar-label"><span>Occupancy</span><span>${occ}%</span></div>
-          <div class="occ-bar-track">
-            <div class="occ-bar-fill" style="width:${occ}%;background:${barColor}"></div>
-          </div>
-        </div>
-        <table class="room-table">
-          <thead><tr>
-            <th>Room Type</th>
-            <th>Left</th>
-            <th>Rate</th>
-          </tr></thead>
-          <tbody>
-            ${rooms.length ? rooms.map(r => `
-              <tr>
-                <td><span class="avail-dot ${r.available ? 'yes':'no'}"></span>${r.room_type}</td>
-                <td>${r.available ? (r.rooms_left ?? '—') : '<span style="color:var(--rose)">Sold out</span>'}</td>
-                <td>${r.rate ? '$'+r.rate : '—'}</td>
-              </tr>`).join('') : '<tr><td colspan="3" style="color:var(--muted);padding:14px 18px">No room detail available</td></tr>'}
-          </tbody>
-        </table>
-      </div>`;
-  }).join('');
-}
-
-// ── Timeline table ────────────────────────────────────────────────────────────
-function renderTimeline(raw, props) {
-  const tbody = document.getElementById('timelineBody');
-  if (!tbody) return;
-  const rows  = [];
-
-  props.forEach((p, pi) => {
-    const col = PROP_COLORS[pi % PROP_COLORS.length];
-    (raw[p] || []).forEach(snap => {
-      if (!snap || !snap.summary) return;
-      const s = snap.summary;
-      rows.push({
-        time: snap.scraped_at,
-        prop: p,
-        remaining: s.total_remaining,
-        adr:  s.blended_adr,
-        occ:  s.estimated_occupancy_pct,
-        sold: s.estimated_sold,
-        total: s.total_rooms_property,
-        col: col.line,
-      });
-    });
+  cAdr = new Chart(document.getElementById('chartAdr'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{ data: adrData, borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.05)', tension: 0.2, fill: true }]
+    },
+    options: baseOptions
   });
-
-  rows.sort((a,b) => b.time.localeCompare(a.time));
-
-  if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No snapshots log files found for this calendar target.</p></div></td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = rows.map(r => {
-    const occW = Math.round((r.occ ?? 0) * 1.4);
-    const barC = (r.occ??0) >= 80 ? 'var(--teal)' : (r.occ??0) >= 50 ? 'var(--gold)' : 'var(--rose)';
-    return `<tr>
-      <td>${fmtTime(r.time)}</td>
-      <td style="color:${r.col}">${r.prop}</td>
-      <td>${r.remaining} <small style="color:var(--muted)">/ ${r.total}</small></td>
-      <td>${r.adr ? '$'+r.adr : '—'}</td>
-      <td>
-        ${r.occ ?? '—'}%
-        <span class="mini-bar" style="width:${occW}px;background:${barC}"></span>
-      </td>
-      <td>${r.sold ?? '—'}</td>
-    </tr>`;
-  }).join('');
-}
-
-// ── Empty state ───────────────────────────────────────────────────────────────
-function renderEmpty() {
-  const kpiRow = document.getElementById('kpiRow');
-  const propGrid = document.getElementById('propGrid');
-  const timelineBody = document.getElementById('timelineBody');
-
-  if (kpiRow) {
-    kpiRow.innerHTML = `
-      <div class="kpi-card" style="grid-column:1/-1">
-        <div class="empty-state">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          <p>No data found for this date.<br>The system scraper logs might still be running or empty.</p>
-        </div>
-      </div>`;
-  }
-      
-  if (propGrid) propGrid.innerHTML = '';
-  if (timelineBody) timelineBody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No logs compiled.</p></div></td></tr>`;
-  
-  if (chartOcc) { chartOcc.destroy(); chartOcc = null; }
-  if (chartAdr) { chartAdr.destroy(); chartAdr = null; }
-  
-  document.getElementById('occPlaceholder').style.display = 'flex';
-  document.getElementById('adrPlaceholder').style.display = 'flex';
-}
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-function lastValid(snaps) {
-  if (!Array.isArray(snaps) || !snaps.length) return null;
-  for (let i = snaps.length - 1; i >= 0; i--) {
-    if (snaps[i] && snaps[i].summary) return snaps[i];
-  }
-  return null;
-}
-
-function fmtTime(iso) {
-  try {
-    return new Date(iso).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-  } catch { return iso; }
 }
 
 function setStatus(state, msg) {
   const pill = document.getElementById('statusPill');
-  const txt  = document.getElementById('statusText');
-  if (!pill || !txt) return;
-  
-  pill.className = 'status-pill';
-  if (state === 'loading') { 
-    pill.innerHTML = `<div class="spinner"></div> <span>Loading Data…</span>`; 
-    return; 
+  if (!pill) return;
+  if (state === 'loading') {
+    pill.innerHTML = `<div class=\"spinner\"></div> <span>Syncing Asset Pipeline…</span>`;
+  } else if (state === 'error') {
+    pill.innerHTML = `<span style="color: var(--rose);">●</span> <span>${msg}</span>`;
+  } else {
+    pill.innerHTML = `<span style="color: var(--teal);">●</span> <span>${msg}</span>`;
   }
-  if (state === 'ok')  { pill.classList.add('ok');  txt.textContent = msg || 'Connected'; }
-  if (state === 'err') { pill.classList.add('err'); txt.textContent = msg || 'Offline'; }
-  pill.innerHTML = `<span class="dot"></span><span>${txt.textContent}</span>`;
 }
+
+function renderBlankSlate() {
+  document.getElementById('inventoryTableBody').innerHTML = `<tr><td colspan="4"><div class="empty-state">No tracking snapshots loaded.</div></td></tr>`;
+}
+
+window.onload = defInitSequence;
 </script>
 </body>
 </html>
