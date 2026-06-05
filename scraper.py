@@ -30,69 +30,75 @@ async def scrape_property(prop):
 
         await page.goto(prop["url"], timeout=60000)
 
-        await asyncio.sleep(5)  # allow iframe to load
+        await asyncio.sleep(6)
 
-        # ✅ find iframe (IPMS always uses one)
+        # ✅ find correct iframe
         frame = None
         for f in page.frames:
-            if "book" in f.url.lower():
+            if "booking" in f.url.lower():
                 frame = f
                 break
 
         if not frame:
             raise Exception("No booking iframe found")
 
-        # ✅ wait for actual room content inside iframe
+        # ✅ wait for actual room cards (IMPORTANT FIX)
         await frame.wait_for_selector("text=$", timeout=20000)
-
-        # ✅ extract visible content
-        text = await frame.inner_text("body")
-
-        lines = text.split("\n")
 
         rooms = []
 
-        for i in range(len(lines)):
-            line = lines[i].strip()
+        # ✅ get all price elements
+        price_elements = frame.locator("text=/\\$\\d+/")
+        count = await price_elements.count()
 
-            if "$" not in line:
+        for i in range(count):
+            try:
+                el = price_elements.nth(i)
+
+                text = await el.inner_text()
+
+                import re
+                match = re.search(r"\$(\d+)", text)
+                if not match:
+                    continue
+
+                price = int(match.group(1))
+
+                # ✅ walk up DOM dynamically
+                container = el.locator("xpath=ancestor::*[self::div or self::tr][1]")
+
+                block_text = await container.inner_text()
+
+                lines = block_text.split("\n")
+
+                # ✅ extract name from top line
+                name = lines[0].strip() if lines else ""
+
+                if len(name) < 4:
+                    continue
+
+                if any(x in name.lower() for x in [
+                    "policy", "terms", "loading", "please"
+                ]):
+                    continue
+
+                if price < 50 or price > 500:
+                    continue
+
+                rooms.append({
+                    "room_type": name[:50],
+                    "rate": price,
+                    "rooms_left": None,
+                    "available": True
+                })
+
+            except:
                 continue
-
-            # extract price
-            import re
-            price_match = re.search(r"\$(\d+)", line)
-            if not price_match:
-                continue
-
-            price = int(price_match.group(1))
-
-            # find room name (look above)
-            name = ""
-            if i > 0:
-                name = lines[i - 1].strip()
-
-            if len(name) < 4:
-                continue
-
-            if any(x in name.lower() for x in [
-                "policy", "terms", "loading", "please"
-            ]):
-                continue
-
-            if price < 50 or price > 500:
-                continue
-
-            rooms.append({
-                "room_type": name[:50],
-                "rate": price,
-                "rooms_left": None,
-                "available": True
-            })
 
         await browser.close()
 
         if not rooms:
-            raise Exception("Iframe loaded but no rooms parsed")
+            raise Exception("DOM loaded but no rooms extracted")
 
         # ✅ dedupe
         unique = []
@@ -110,7 +116,6 @@ async def scrape_property(prop):
             "rooms": unique,
             "summary": summarize(prop, unique)
         }
-
 
 # ─────────────────────────────────────────────
 # SUMMARY (REAL INVENTORY)
