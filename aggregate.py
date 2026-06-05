@@ -7,7 +7,7 @@ DATA_DIR = Path("data")
 OUTPUT_FILE = DATA_DIR / "aggregates.json"
 HISTORY_LEDGER = DATA_DIR / "history_ledger.json"
 
-# Fixed capacity rules matching your structural portfolio parameters
+# Portfolio Capacity Map
 CAPACITIES = {
     "Tarzana Inn": 49,
     "Sea Air Inn": 24,
@@ -15,7 +15,7 @@ CAPACITIES = {
 }
 
 def load_raw_daily_files():
-    """Groups raw scraping files chronologically by calendar date."""
+    """Groups raw tracking records by operational calendar date."""
     daily_snapshots = {}
     if not DATA_DIR.exists():
         return daily_snapshots
@@ -36,8 +36,8 @@ def load_raw_daily_files():
 
 def process_final_daily_data(date_str, data_dict):
     """
-    Evaluates intraday data increments to calculate absolute EOD remaining keys 
-    and estimates ADR based on room pickup pricing streams.
+    Computes precise interval pickup pricing. If zero pickup occurs,
+    maps to the lowest active captured baseline rate of sold inventory.
     """
     day_compiled = {}
     
@@ -46,17 +46,16 @@ def process_final_daily_data(date_str, data_dict):
         if not entries:
             continue
             
-        # Sort files chronologically by execution run time
+        # Sort files chronologically to measure interval step-downs
         entries.sort(key=lambda x: x.get("scraped_at", ""))
         
         last_valid_summary = None
         last_valid_rooms = []
         
-        # Room tracking variables for pickup tracking
         previous_rooms = {}
         total_pickup_revenue = 0.0
         total_rooms_picked_up = 0
-        all_observed_rates = []
+        baseline_rates = []
 
         for e in entries:
             rooms_list = e.get("rooms", [])
@@ -64,25 +63,23 @@ def process_final_daily_data(date_str, data_dict):
             if not summary or not rooms_list:
                 continue
 
-            # Skip snapshots where the hotel is offline or closed (total remaining = 0 but ADR = 0)
+            # Skip blank offline fields resulting from early office closures
             if summary.get("total_remaining", 0) == 0 and summary.get("blended_adr", 0) == 0:
                 continue
                 
-            # Keep track of the last available snapshot before any office closures
             last_valid_summary = summary
             last_valid_rooms = rooms_list
             
-            # Loop through room types to identify pickup variations
             for r in rooms_list:
                 rtype = r["room_type"]
                 rate = r["rate"]
                 left = r["rooms_left"]
                 if rate > 0:
-                    all_observed_rates.append(rate)
+                    baseline_rates.append(rate)
                 
                 if rtype in previous_rooms:
                     prev_left = previous_rooms[rtype]
-                    # If vacancy dropped, rooms were picked up at this rate
+                    # Direct Interval Pickup Isolation
                     if left < prev_left:
                         picked_up = prev_left - left
                         total_pickup_revenue += (picked_up * rate)
@@ -90,7 +87,6 @@ def process_final_daily_data(date_str, data_dict):
                 
                 previous_rooms[rtype] = left
 
-        # Fallback values if no valid data points remain open
         if not last_valid_summary:
             continue
 
@@ -98,17 +94,16 @@ def process_final_daily_data(date_str, data_dict):
         final_sold = max(capacity - final_remaining, 0)
         final_occ = round((final_sold / capacity) * 100, 1) if capacity else 0.0
 
-        # Calculate estimated ADR
+        # STRICT ADR CALCULATION:
+        # 1. Use pure interval-step velocity revenue if pickup happened.
+        # 2. If no pickup happened, use the lowest captured baseline rate (actual realization value).
         if total_rooms_picked_up > 0:
             estimated_adr = round(total_pickup_revenue / total_rooms_picked_up, 2)
-        elif last_valid_summary.get("blended_adr", 0) > 0:
-            estimated_adr = last_valid_summary["blended_adr"]
-        elif all_observed_rates:
-            estimated_adr = round(sum(all_observed_rates) / len(all_observed_rates), 2)
+        elif baseline_rates:
+            estimated_adr = min(baseline_rates)
         else:
             estimated_adr = 0.0
 
-        # Calculate RevPAR
         estimated_revpar = round((final_occ / 100.0) * estimated_adr, 2)
 
         day_compiled[prop_name] = {
@@ -120,13 +115,13 @@ def process_final_daily_data(date_str, data_dict):
             "occupancy_pct": final_occ,
             "estimated_adr": estimated_adr,
             "revpar": estimated_revpar,
-            "rooms": last_valid_rooms
+            "rooms": last_valid_rooms  # Preserved for live room type tables
         }
         
     return day_compiled
 
 def compile_periodic_averages(ledger_data):
-    """Groups daily data blocks into fixed weekly and monthly windows."""
+    """Calculates running metrics for the summary cards."""
     output = {}
     for prop_name in CAPACITIES.keys():
         prop_history = [day[prop_name] for day in ledger_data.values() if prop_name in day]
@@ -135,13 +130,13 @@ def compile_periodic_averages(ledger_data):
             
         prop_history.sort(key=lambda x: x["date"])
         
-        # Running Weekly (Last 7 Records)
+        # 7-Day Window
         w_slice = prop_history[-7:]
         w_occ = sum(d["occupancy_pct"] for d in w_slice) / len(w_slice) if w_slice else 0
         w_adr = sum(d["estimated_adr"] for d in w_slice) / len(w_slice) if w_slice else 0
         w_rev = sum(d["revpar"] for d in w_slice) / len(w_slice) if w_slice else 0
         
-        # Running Monthly (Last 30 Records)
+        # 30-Day Window
         m_slice = prop_history[-30:]
         m_occ = sum(d["occupancy_pct"] for d in m_slice) / len(m_slice) if m_slice else 0
         m_adr = sum(d["estimated_adr"] for d in m_slice) / len(m_slice) if m_slice else 0
@@ -154,24 +149,20 @@ def compile_periodic_averages(ledger_data):
     return output
 
 def run():
-    print("Beginning STR-Standard Historical Ledger consolidation process...")
+    print("Consolidating operational interval records...")
     daily_snapshots = load_raw_daily_files()
     
     master_ledger = {}
-    # Process files sequentially by date
     for date_str in sorted(daily_snapshots.keys()):
         master_ledger[date_str] = process_final_daily_data(date_str, daily_snapshots[date_str])
         
-    # Write historical ledger to file
     with open(HISTORY_LEDGER, "w") as f:
         json.dump(master_ledger, f, indent=2)
-    print(f"Successfully finalized {len(master_ledger)} tracking entries inside {HISTORY_LEDGER}")
 
-    # Compute rolling metrics for the dashboard cards
     aggregates = compile_periodic_averages(master_ledger)
     with open(OUTPUT_FILE, "w") as f:
         json.dump(aggregates, f, indent=2)
-    print("Successfully compiled metrics arrays into aggregates.json!")
+    print("STR Database updates successfully written to disk.")
 
 if __name__ == "__main__":
     run()
