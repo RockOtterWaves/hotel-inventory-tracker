@@ -4,22 +4,24 @@ async def scrape_property(prop):
         context = await browser.new_context()
         page = await context.new_page()
 
-        responses = []
+        logs = []
 
         async def log_response(response):
             try:
+                url = response.url
                 ct = response.headers.get("content-type", "")
-                if "json" in ct or "text" in ct:
-                    text = await response.text()
+                text = await response.text()
 
-                    # dump only large payloads (likely data)
-                    if len(text) > 500:
-                        responses.append({
-                            "url": response.url,
-                            "text": text[:2000]  # preview
-                        })
-            except:
-                pass
+                logs.append({
+                    "url": url,
+                    "content_type": ct,
+                    "preview": text[:2000]
+                })
+
+            except Exception as e:
+                logs.append({
+                    "error": str(e)
+                })
 
         page.on("response", log_response)
 
@@ -29,10 +31,16 @@ async def scrape_property(prop):
 
         await browser.close()
 
-        # ✅ SAVE DEBUG FILE
-        import json, time
-        fname = f"debug_{prop['name'].replace(' ', '_')}.json"
-        with open(fname, "w") as f:
-            json.dump(responses, f, indent=2)
+        # ✅ ALWAYS WRITE DEBUG FILE — NO CONDITIONS
+        from pathlib import Path
+        import json
 
-        raise Exception(f"Debug saved → {fname}")
+        fname = Path(f"debug_{prop['name'].replace(' ', '_')}.json")
+
+        with open(fname, "w") as f:
+            json.dump(logs, f, indent=2)
+
+        print(f"✅ Debug file created: {fname}")
+
+        # ✅ Stop after debug — DO NOT try to parse yet
+        return None
