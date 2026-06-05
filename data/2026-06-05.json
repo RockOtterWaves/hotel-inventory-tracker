@@ -1,0 +1,65 @@
+{
+  "Tarzana Inn": [
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-06-05T19:55:50.576069Z",
+      "rooms": [
+        {
+          "room_type": "2 Adults , 0 Child, 1 Room",
+          "rate": 169.0,
+          "rooms_left": 3
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 3,
+        "estimated_sold": 46,
+        "estimated_occupancy_pct": 93,
+        "blended_adr": 169.0
+      }
+    }
+  ],
+  "Sea Air Inn": [
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-06-05T19:55:56.976631Z",
+      "rooms": [
+        {
+          "room_type": "2 Adults , 0 Child, 1 Room",
+          "rate": 154.49,
+          "rooms_left": 0
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 0,
+        "estimated_sold": 24,
+        "estimated_occupancy_pct": 100,
+        "blended_adr": 0.0
+      }
+    }
+  ],
+  "Blufftop Inn": [
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-06-05T19:56:03.107682Z",
+      "rooms": [
+        {
+          "room_type": "2 Adults , 0 Child, 1 Room",
+          "rate": 149.49,
+          "rooms_left": 0
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 0,
+        "estimated_sold": 32,
+        "estimated_occupancy_pct": 100,
+        "blended_adr": 0.0
+      }
+    }
+  ]
+}
