@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Intelligence Dashboard - STR History Edition</title>
+<title>Hotel Intelligence Dashboard - STR Tracking Profile</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
@@ -33,6 +33,8 @@
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; position: relative; overflow: hidden; }
   .property-selector-card { grid-column: span 3; }
   .overview-metrics-card { grid-column: span 9; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  
+  .room-inventory-card { grid-column: span 12; }
   .chart-card-occ { grid-column: span 6; }
   .chart-card-adr { grid-column: span 6; }
   .table-card { grid-column: span 12; }
@@ -49,22 +51,28 @@
   th { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--label); text-transform: uppercase; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.1); }
   td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
   
-  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem 2rem; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 0.5rem; }
+  .room-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+  .room-title { font-weight: 600; font-size: 0.95rem; color: #fff; }
+  .room-details { text-align: right; font-family: 'DM Mono', monospace; font-size: 0.85rem; }
+  .room-price { color: var(--gold); font-weight: 600; font-size: 1rem; }
+  .room-count { color: var(--teal); margin-top: 0.25rem; }
+
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; color: var(--muted); font-family: 'DM Mono', monospace; }
   .chart-container { position: relative; width: 100%; height: 300px; }
-  
   .section-title { grid-column: span 12; font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fff; margin-top: 1.5rem; margin-bottom: -0.5rem; border-left: 3px solid var(--gold); padding-left: 0.75rem; }
 </style>
 </head>
 <body>
 
 <header>
-  <div><h1>Hotel Intelligence <span>Performance History</span></h1></div>
-  <div class="status-pill" id="statusPill"><span>Initializing Tracking Framework…</span></div>
+  <div><h1>Hotel Intelligence <span>System Performance</span></h1></div>
+  <div class="status-pill" id="statusPill"><span>Syncing Components…</span></div>
 </header>
 
 <div class="dashboard-grid">
   <div class="card property-selector-card">
-    <div class="card-label">Active Hotel Portfolios</div>
+    <div class="card-label">Select Hotel Profile</div>
     <div id="propertyContainer"></div>
   </div>
 
@@ -80,9 +88,17 @@
       <div class="trend-sub" id="trendAdr">vs 7-Day Running Avg: --</div>
     </div>
     <div class="card">
-      <div class="card-label">Yield Metric RevPAR</div>
+      <div class="card-label">Realized RevPAR Yield</div>
       <div class="big-stat" id="statRevpar">$0.00</div>
       <div class="trend-sub" id="trendRevpar">vs 7-Day Running Avg: --</div>
+    </div>
+  </div>
+
+  <div class="section-title">Current Remaining Inventory Distribution</div>
+  <div class="card room-inventory-card">
+    <div class="card-label">Live Active Room Class Specifications & Pricing</div>
+    <div class="room-grid" id="liveRoomGrid">
+      <div class="empty-state">Select property to display live configuration rooms.</div>
     </div>
   </div>
 
@@ -94,14 +110,14 @@
   </div>
 
   <div class="card chart-card-adr">
-    <div class="card-label">Pickup Consolidated ADR Realization Curve</div>
+    <div class="card-label">Interval Pickup ADR Realization Curve</div>
     <div class="chart-container"><canvas id="chartAdr"></canvas></div>
   </div>
 
   <div class="section-title">Audited Performance Ledger Logs</div>
 
   <div class="card table-card">
-    <div class="card-label">Daily Performance Archives (Pickup & Room Closure Resolved)</div>
+    <div class="card-label">Daily Performance Archives (Interval Pickup Resolved)</div>
     <div style="max-height: 300px; overflow-y: auto;">
       <table>
         <thead>
@@ -110,7 +126,7 @@
             <th>Total Available Capacity</th>
             <th>Final Unsold Keys</th>
             <th>Final Occupancy %</th>
-            <th>Calculated Pickup ADR</th>
+            <th>Calculated Interval ADR</th>
             <th>Realized RevPAR</th>
           </tr>
         </thead>
@@ -129,7 +145,7 @@
           <th>Reporting Window Horizon</th>
           <th>Aggregated Occupancy %</th>
           <th>Aggregated Average Daily Rate (ADR)</th>
-          <th>Aggregated RevPAR yield</th>
+          <th>Aggregated RevPAR Yield</th>
         </tr>
       </thead>
       <tbody id="periodicTableBody">
@@ -148,7 +164,6 @@ let chartAdrInstance = null;
 
 async function runDashboardInit() {
   try {
-    // Load historical ledger data and calculated running averages
     const [resLedger, resAggs] = await Promise.all([
       fetch('data/history_ledger.json'),
       fetch('data/aggregates.json')
@@ -158,11 +173,11 @@ async function runDashboardInit() {
     if (resAggs.ok) globalAggs = await resAggs.json();
 
     if (!globalLedger || Object.keys(globalLedger).length === 0) {
-      document.getElementById('statusPill').innerHTML = `<span style="color:var(--rose);">●</span> <span>Ledger Database Empty</span>`;
+      document.getElementById('statusPill').innerHTML = `<span style="color:var(--rose);">●</span> <span>Ledger Empty</span>`;
       return;
     }
 
-    document.getElementById('statusPill').innerHTML = `<span style="color:var(--teal);">●</span> <span>STR Data Streams Online</span>`;
+    document.getElementById('statusPill').innerHTML = `<span style="color:var(--teal);">●</span> <span>STR Streams Online</span>`;
     populateSelectors();
   } catch (e) {
     console.error("Pipeline failure fetching operational ledger profiles.", e);
@@ -174,7 +189,6 @@ function populateSelectors() {
   const container = document.getElementById('propertyContainer');
   container.innerHTML = '';
   
-  // Extract all property names dynamically out of the historical entries matrix
   const detectedProperties = new Set();
   Object.values(globalLedger).forEach(dayObj => {
     Object.keys(dayObj).forEach(pName => detectedProperties.add(pName));
@@ -200,7 +214,6 @@ function selectProperty(pName, clickedButton) {
     clickedButton.classList.add('active');
   }
 
-  // Filter chronological data records specifically linked to the active property target
   const chronology = [];
   Object.keys(globalLedger).sort().forEach(dateStr => {
     if (globalLedger[dateStr][pName]) {
@@ -212,12 +225,11 @@ function selectProperty(pName, clickedButton) {
 
   const latestRecord = chronology[chronology.length - 1];
 
-  // Update real-time metric display values
+  // Update Core Metrics
   document.getElementById('statOcc').innerText = `${latestRecord.occupancy_pct}%`;
   document.getElementById('statAdr').innerText = `$${latestRecord.estimated_adr.toFixed(2)}`;
   document.getElementById('statRevpar').innerText = `$${latestRecord.revpar.toFixed(2)}`;
 
-  // Bind rolling baseline comparison metrics
   if (globalAggs && globalAggs[pName]) {
     const weeklyAgg = globalAggs[pName].weekly;
     document.getElementById('trendOcc').innerText = `vs 7-Day Running Avg: ${weeklyAgg.avg_occ}%`;
@@ -225,16 +237,38 @@ function selectProperty(pName, clickedButton) {
     document.getElementById('trendRevpar').innerText = `vs 7-Day Running Avg: $${weeklyAgg.avg_revpar.toFixed(2)}`;
   }
 
+  // Render Sub-Components
+  renderLiveRooms(latestRecord.rooms);
   renderDailyTable(chronology);
   renderPeriodicMatrix(pName, latestRecord);
   renderTrendLinesChart(chronology);
+}
+
+function renderLiveRooms(roomsArray) {
+  const grid = document.getElementById('liveRoomGrid');
+  grid.innerHTML = '';
+
+  if (!roomsArray || roomsArray.length === 0) {
+    grid.innerHTML = `<div class="empty-state">No unsold room types remaining for this operational date block (100% Sold Out).</div>`;
+    return;
+  }
+
+  roomsArray.forEach(r => {
+    grid.innerHTML += `
+      <div class="room-badge">
+        <div class="room-title">${r.room_type}</div>
+        <div class="room-details">
+          <div class="room-price">$${r.rate.toFixed(2)}</div>
+          <div class="room-count">${r.rooms_left} Remaining</div>
+        </div>
+      </div>`;
+  });
 }
 
 function renderDailyTable(chronology) {
   const body = document.getElementById('dailyTableBody');
   body.innerHTML = '';
   
-  // Render records in reverse chronological order so the newest dates sit on top
   [...chronology].reverse().forEach(row => {
     body.innerHTML += `
       <tr>
@@ -253,32 +287,25 @@ function renderPeriodicMatrix(pName, latestRecord) {
   body.innerHTML = '';
 
   if (!globalAggs || !globalAggs[pName]) {
-    body.innerHTML = `<tr><td colspan="4"><div class="empty-state">No periodic matrices computed.</div></td></tr>`;
+    body.innerHTML = `<tr><td colspan="4"><div class="empty-state">No matrices generated.</div></td></tr>`;
     return;
   }
 
   const aggregates = globalAggs[pName];
   
-  // Daily Row
   body.innerHTML += `
     <tr>
       <td style="font-weight:600;">Today Final Audited (EOD)</td>
       <td>${latestRecord.occupancy_pct}%</td>
       <td>$${latestRecord.estimated_adr.toFixed(2)}</td>
       <td style="font-weight:500; color:var(--teal);">$${latestRecord.revpar.toFixed(2)}</td>
-    </tr>`;
-    
-  // Weekly Running Row
-  body.innerHTML += `
+    </tr>
     <tr>
       <td style="font-weight:600; color:var(--gold);">Weekly Running Matrix (7-Day Slice)</td>
       <td>${aggregates.weekly.avg_occ}%</td>
       <td>$${aggregates.weekly.avg_adr.toFixed(2)}</td>
       <td style="font-weight:500; color:var(--teal);">$${aggregates.weekly.avg_revpar.toFixed(2)}</td>
-    </tr>`;
-
-  // Monthly Running Row
-  body.innerHTML += `
+    </tr>
     <tr>
       <td style="font-weight:600; color:var(--label);">Monthly Running Matrix (30-Day Slice)</td>
       <td>${aggregates.monthly.avg_occ}%</td>
@@ -311,7 +338,7 @@ function renderTrendLinesChart(chronology) {
       datasets: [{
         data: occupancyData,
         borderColor: '#3ecfb2',
-        backgroundColor: 'rgba(62,207,178,0.02)',
+        backgroundColor: 'rgba(62,207,178,0.01)',
         fill: true, tension: 0.15, borderWidth: 2
       }]
     },
@@ -325,7 +352,7 @@ function renderTrendLinesChart(chronology) {
       datasets: [{
         data: adrData,
         borderColor: '#c9a84c',
-        backgroundColor: 'rgba(201,168,76,0.02)',
+        backgroundColor: 'rgba(201,168,76,0.01)',
         fill: true, tension: 0.15, borderWidth: 2
       }]
     },
