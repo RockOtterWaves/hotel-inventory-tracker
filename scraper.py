@@ -177,8 +177,7 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
 
         try:
             logger.info(f"[{name}] Navigating to {url}")
-            # networkidle handles waiting for all dynamic AJAX background connections to close
-            await page.goto(url, wait_until="networkidle", timeout=s["page_timeout_ms"])
+            await page.goto(url, wait_until="domcontentloaded", timeout=s["page_timeout_ms"])
 
             # ── Step 1: Validate date hasn't rolled over ───────────────────
             page_checkin = await _read_date_field(page, "checkin")
@@ -190,12 +189,15 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
 
             # ── Step 2: Ensure pricing elements are visible ────────────────
             logger.info(f"[{name}] Waiting for any room pricing element to paint...")
+            
+            # Explicitly wait for the structural row layout block to exist
             try:
-                await page.wait_for_selector("body:has-text('$')", timeout=15000)
-                logger.info(f"[{name}] Room content confirmed ready.")
+                await page.wait_for_selector(".vres_room_infoBg, .vres_roomInfo, .roomTypeRow", state="attached", timeout=15000)
             except PWTimeout:
-                logger.warning(f"[{name}] Strict element lookup assertion timed out. Proceeding to fallback parsing engine...")
-                await asyncio.sleep(2)
+                logger.warning(f"[{name}] Layout target elements not attached yet.")
+
+            # Force a static stability sleep window for async hydration to complete safely
+            await asyncio.sleep(6)
 
             # ── Step 3: Grab full page HTML and parse ─────────────────────
             html  = await page.content()
@@ -414,109 +416,3 @@ def generate_morning_report(report_date: date):
         "=" * 60,
     ]
     for prop, snaps in data.items():
-        valid = [s for s in snaps if s.get("summary")]
-        if not valid:
-            continue
-        last = valid[-1]
-        s    = last["summary"]
-        lines += [
-            f"\n  🏨  {prop}",
-            f"  {'─'*50}",
-            f"  Total Rooms       : {s['total_rooms_property']}",
-            f"  Est. Rooms Sold   : {s['estimated_sold']}",
-            f"  Remaining         : {s['total_remaining']}",
-            f"  EST. OCCUPANCY    : {s['estimated_occupancy_pct']}%",
-            f"  Blended ADR       : ${s['blended_adr'] or 'N/A'}",
-            f"\n  Snapshot Timeline:",
-            f"  {'Time':<10} {'Remaining':>10} {'ADR':>10} {'Occ%':>8}",
-            f"  {'-'*40}",
-        ]
-        for snap in valid:
-            t   = datetime.fromisoformat(snap["scraped_at"]).strftime("%H:%M")
-            rm  = snap["summary"]["total_remaining"]
-            adr = snap["summary"]["blended_adr"] or "—"
-            oc  = snap["summary"]["estimated_occupancy_pct"]
-            lines.append(f"  {t:<10} {str(rm):>10} {str(adr):>10} {str(oc)+' %':>8}")
-
-    lines.append(f"\n{'='*60}\n")
-    text = "\n".join(lines)
-
-    rpath = REPORT_DIR / f"morning_report_{prev:%Y-%m-%d}.txt"
-    with open(rpath, "w") as f:
-        f.write(text)
-    print(text)
-    logger.info(f"Morning report written → {rpath}")
-
-    rows = []
-    for prop, snaps in data.items():
-        for snap in snaps:
-            if snap.get("summary"):
-                rows.append({"property": prop, "scraped_at": snap["scraped_at"], **snap["summary"]})
-    if rows:
-        pd.DataFrame(rows).to_csv(REPORT_DIR / f"data_{prev:%Y-%m-%d}.csv", index=False)
-
-
-# ─── Orchestrator ─────────────────────────────────────────────────────────────
-async def run_all_properties(cfg: dict, label: str = "manual"):
-    target = date.today()
-    logger.info(f"=== Scrape run [{label}] for {target} ===")
-    for prop in cfg.get("properties", []):
-        await asyncio.sleep(random.uniform(4, 8))
-        result = await scrape_property(prop, cfg, target)
-        if result:
-            append_snapshot(target, result)
-            s = result["summary"]
-            print(f"\n  [{result['property']}] remaining={s['total_remaining']} ADR=${s['blended_adr']} occ={s['estimated_occupancy_pct']}%\n")
-        else:
-            logger.error(f"[{prop['name']}] No data returned for [{label}].")
-            
-    logger.info(f"=== Run [{label}] complete ===")
-    github_push_changes(f"chore: data snapshot update [{label}] {target.isoformat()}")
-
-
-# ─── Scheduler ────────────────────────────────────────────────────────────────
-def start_scheduler(cfg: dict):
-    tz        = "America/Los_Angeles"
-    scheduler = AsyncIOScheduler(timezone=tz)
-    sched_cfg = cfg.get("schedule", DEFAULT_CONFIG["schedule"])
-
-    for t in sched_cfg.get("intraday_times", []):
-        h, m = map(int, t.split(":"))
-        scheduler.add_job(run_all_properties, CronTrigger(hour=h, minute=m, timezone=tz),
-                          args=[cfg, f"scheduled-{t}"], id=f"scrape_{t.replace(':','')}")
-        logger.info(f"Scheduled scrape at {t} PT")
-
-    rt = sched_cfg.get("morning_report_time", "07:00")
-    rh, rm = map(int, rt.split(":"))
-    scheduler.add_job(generate_morning_report, CronTrigger(hour=rh, minute=rm, timezone=tz),
-                      args=[date.today()], id="morning_report")
-    logger.info(f"Scheduled morning report at {rt} PT")
-
-    scheduler.start()
-    return scheduler
-
-
-# ─── Entry point ──────────────────────────────────────────────────────────────
-async def main():
-    cfg = load_config()
-    if len(sys.argv) > 1:
-        cmd = sys.argv[1].lower()
-        if cmd == "run":
-            await run_all_properties(cfg, "manual")
-            return
-        elif cmd == "report":
-            generate_morning_report(date.today())
-            github_push_changes(f"chore: morning summary report compile {date.today().isoformat()}")
-            return
-
-    logger.info("Starting Hotel Inventory Tracker (scheduled mode)...")
-    scheduler = start_scheduler(cfg)
-    await run_all_properties(cfg, "startup")
-    try:
-        while True:
-            await asyncio.sleep(60)
-    except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown()
-
-if __name__ == "__main__":
-    asyncio.run(main())
