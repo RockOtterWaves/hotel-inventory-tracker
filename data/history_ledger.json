@@ -1,0 +1,91 @@
+{
+  "2026-06-04": {},
+  "2026-06-05": {
+    "Tarzana Inn": {
+      "date": "2026-06-05",
+      "property": "Tarzana Inn",
+      "capacity": 49,
+      "rooms_remaining": 3,
+      "rooms_sold": 46,
+      "occupancy_pct": 93.9,
+      "estimated_adr": 169.0,
+      "revpar": 158.69,
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 169.0,
+          "rooms_left": 3
+        }
+      ]
+    },
+    "Sea Air Inn": {
+      "date": "2026-06-05",
+      "property": "Sea Air Inn",
+      "capacity": 24,
+      "rooms_remaining": 8,
+      "rooms_sold": 16,
+      "occupancy_pct": 66.7,
+      "estimated_adr": 185.32,
+      "revpar": 123.61,
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 144.49,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Deluxe Partial View Queen Upstairs",
+          "rate": 159.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Junior King Suite Downstairs",
+          "rate": 184.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe King Suite Ocean View Upstairs",
+          "rate": 209.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Two Queen Beds Upstairs",
+          "rate": 194.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Two Queen Bed Suite Upstairs",
+          "rate": 219.49,
+          "rooms_left": 1
+        }
+      ]
+    },
+    "Blufftop Inn": {
+      "date": "2026-06-05",
+      "property": "Blufftop Inn",
+      "capacity": 32,
+      "rooms_remaining": 11,
+      "rooms_sold": 21,
+      "occupancy_pct": 65.6,
+      "estimated_adr": 189.49,
+      "revpar": 124.31,
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 149.49,
+          "rooms_left": 6
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "rate": 179.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 199.49,
+          "rooms_left": 3
+        }
+      ]
+    }
+  }
+}
