@@ -37,40 +37,66 @@ async def wait_for_rates(page):
 async def extract_rooms(page):
     rooms = []
 
-    nodes = page.locator("text=/\\$\\d+/")
-    count = await nodes.count()
+    # Grab all visible text
+    body_text = await page.inner_text("body")
 
-    for i in range(count):
-        try:
-            el = nodes.nth(i)
-            txt = await el.inner_text()
+    # Split into lines
+    lines = body_text.split("\n")
 
-            price = int(re.search(r"\$(\d+)", txt).group(1))
+    for i in range(len(lines)):
+        line = lines[i].strip()
 
-            parent = el.locator("xpath=ancestor::div[1]")
-            block = await parent.inner_text()
-
-            if len(block) < 10 or len(block) > 120:
-                continue
-
-            if any(x in block.lower() for x in ["please wait", "policy", "terms"]):
-                continue
-
-            if price < 50 or price > 500:
-                continue
-
-            name = re.sub(r"\$.*", "", block).strip()
-
-            rooms.append({
-                "room_type": name[:50],
-                "rate": price,
-                "available": True
-            })
-
-        except:
+        # Look for prices
+        price_match = re.search(r"\$(\d+)", line)
+        if not price_match:
             continue
 
-    return rooms
+        price = int(price_match.group(1))
+
+        # Look for nearby room name (previous line or same line)
+        name = ""
+
+        # Try current line (before price)
+        name = line.split("$")[0].strip()
+
+        # If too short, try previous line
+        if len(name) < 5 and i > 0:
+            name = lines[i - 1].strip()
+
+        # Clean name
+        name = re.sub(r"[^\w\s\-]", "", name)
+        name = name.strip()
+
+        # FILTER JUNK (soft filters, not aggressive)
+        if len(name) < 4:
+            continue
+
+        if any(x in name.lower() for x in [
+            "copyright", "policy", "terms", "login",
+            "please wait", "loading", "javascript"
+        ]):
+            continue
+
+        if price < 50 or price > 500:
+            continue
+
+        rooms.append({
+            "room_type": name[:50],
+            "rate": price,
+            "available": True
+        })
+
+    # Deduplicate (important)
+    unique = []
+    seen = set()
+
+    for r in rooms:
+        key = (r["room_type"], r["rate"])
+        if key not in seen:
+            seen.add(key)
+            unique.append(r)
+
+    return unique
 
 # ─────────────────────────────────────────────
 # SUMMARY CALCULATION
