@@ -26,12 +26,14 @@ def process_final_daily_data(date_str, data_dict):
         entries.sort(key=lambda x: x.get("scraped_at", ""))
         
         last_valid_summary = next((e.get("summary") for e in reversed(entries) if e.get("summary")), {})
-        sold = max(capacity - last_valid_summary.get("total_remaining", capacity), 0)
+        last_valid_rooms = next((e.get("rooms") for e in reversed(entries) if e.get("rooms")), [])
         
+        sold = max(capacity - last_valid_summary.get("total_remaining", capacity), 0)
         day_compiled[prop_name] = {
             "date": date_str, "occ": round((sold / capacity) * 100, 1),
             "adr": round(last_valid_summary.get("blended_adr", 0), 2),
-            "rev": round(((sold / capacity) * last_valid_summary.get("blended_adr", 0)), 2)
+            "rev": round(((sold / capacity) * last_valid_summary.get("blended_adr", 0)), 2),
+            "rooms": last_valid_rooms
         }
     return day_compiled
 
@@ -39,7 +41,6 @@ def run():
     ledger = {d: process_final_daily_data(d, s) for d, s in load_raw_daily_files().items()}
     with open(HISTORY_LEDGER, "w") as f: json.dump(ledger, f, indent=2)
 
-    # Calendar Anchored Buckets
     aggs = defaultdict(lambda: {"weeks": defaultdict(list), "months": defaultdict(list)})
     for d_str, props in ledger.items():
         dt = datetime.strptime(d_str, "%Y-%m-%d")
@@ -55,7 +56,6 @@ def run():
             final[p]["weeks"][k] = {"occ": round(sum(i['occ'] for i in v)/len(v),1), "adr": round(sum(i['adr'] for i in v)/len(v),2), "rev": round(sum(i['rev'] for i in v)/len(v),2)}
         for k, v in periods["months"].items():
             final[p]["months"][k] = {"occ": round(sum(i['occ'] for i in v)/len(v),1), "adr": round(sum(i['adr'] for i in v)/len(v),2), "rev": round(sum(i['rev'] for i in v)/len(v),2)}
-            
     with open(OUTPUT_FILE, "w") as f: json.dump(final, f, indent=2)
 
 if __name__ == "__main__": run()
