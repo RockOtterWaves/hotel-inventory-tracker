@@ -102,38 +102,23 @@ def github_push_changes(commit_message: str):
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
 ]
-VIEWPORTS = [
-    {"width": 1920, "height": 1080},
-    {"width": 1440, "height": 900},
-    {"width": 1366, "height": 768},
-]
-
-async def human_delay(min_s=1.5, max_s=4.0):
-    await asyncio.sleep(random.uniform(min_s, max_s))
 
 async def build_context(playwright):
     browser = await playwright.chromium.launch(
         headless=True,
         args=[
             "--no-sandbox",
+            "--disable-setuid-sandbox",
             "--disable-blink-features=AutomationControlled",
-            "--disable-dev-shm-usage",
-            "--disable-gpu",
+            "--disable-infobars",
         ],
     )
     context = await browser.new_context(
         user_agent=random.choice(USER_AGENTS),
-        viewport=random.choice(VIEWPORTS),
+        viewport={"width": 1440, "height": 900},
         locale="en-US",
         timezone_id="America/Los_Angeles",
-        extra_http_headers={"Accept-Language": "en-US,en;q=0.9", "DNT": "1"},
-    )
-    await context.add_init_script(
-        "Object.defineProperty(navigator,'webdriver',{get:()=>undefined});"
-        "window.chrome={runtime:{}};"
     )
     return browser, context
 
@@ -159,8 +144,8 @@ async def scrape_property(prop: dict, cfg: dict, target: date) -> Optional[dict]
                 return result
         except Exception as e:
             logger.warning(f"[{prop['name']}] Attempt {attempt} failed: {e}")
-            if attempt < s["retry_attempts"]:
-                await asyncio.sleep(s["retry_delay_sec"] * attempt)
+        if attempt < s["retry_attempts"]:
+            await asyncio.sleep(s["retry_delay_sec"])
     logger.error(f"[{prop['name']}] All attempts exhausted.")
     return None
 
@@ -177,7 +162,12 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
 
         try:
             logger.info(f"[{name}] Navigating to {url}")
-            await page.goto(url, wait_until="domcontentloaded", timeout=s["page_timeout_ms"])
+            await page.goto(url, wait_until="commit", timeout=s["page_timeout_ms"])
+
+            # Human Simulation: Slight scroll to trigger asset lazy loading
+            await page.evaluate("window.scrollTo(0, 300);")
+            await asyncio.sleep(1.5)
+            await page.evaluate("window.scrollTo(0, 0);")
 
             # ── Step 1: Validate date hasn't rolled over ───────────────────
             page_checkin = await _read_date_field(page, "checkin")
@@ -187,16 +177,24 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
                     logger.warning(f"[{name}] Date rolled over to next day on page. Skipping tracking for {target}.")
                     return None
 
-            # ── Step 2: Ensure pricing elements are visible ────────────────
-            logger.info(f"[{name}] Waiting for any room pricing element to paint...")
+            # ── Step 2: Active DOM Hydration Polling Loop ─────────────────
+            logger.info(f"[{name}] Waiting for room records to hydrate inside DOM...")
             
-            try:
-                await page.wait_for_selector(".vres_room_infoBg, .vres_roomInfo, .roomTypeRow", state="attached", timeout=15000)
-            except PWTimeout:
-                logger.warning(f"[{name}] Layout target elements not attached yet.")
+            hydrated = False
+            for loop in range(15):  # Poll every 1 second for up to 15 seconds
+                html_check = await page.content()
+                # Check for standard room classifications or structural elements containing inventory
+                if any(k in html_check for k in ["King", "Queen", "Suite", "Room", "Standard", "Deluxe"]):
+                    logger.info(f"[{name}] Active room data detected in DOM after {loop}s.")
+                    hydrated = True
+                    break
+                await asyncio.sleep(1)
 
-            # Static stability sleep window for execution hydration
-            await asyncio.sleep(6)
+            if not hydrated:
+                logger.warning(f"[{name}] Polling window complete. Proceeding with standard structural parsing.")
+
+            # Extra buffer for text bindings to finalize
+            await asyncio.sleep(2)
 
             # ── Step 3: Grab full page HTML and parse ─────────────────────
             html  = await page.content()
