@@ -386,12 +386,22 @@ const PROP_COLORS = [
 let chartOcc = null, chartAdr = null;
 let currentData = null;
 
-// ── Init ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('repoLink').href =
-    `https://github.com/${GITHUB_CONFIG.username}/${GITHUB_CONFIG.repo}/tree/main/data`;
+// ─────────────────────────────────────────────
+// AGGREGATE DATA (WEEKLY / MONTHLY)
+// ─────────────────────────────────────────────
+const AGG_URL = `${RAW_BASE}/data/aggregates.json`;
 
-  const picker = document.getElementById('datePicker');
+let aggregateData = null;
+
+async function loadAggregateData() {
+  try {
+    const res = await fetch(`${AGG_URL}?t=${Date.now()}`);
+    aggregateData = await res.json();
+    console.log("✅ Aggregates loaded:", aggregateData);
+  } catch (e) {
+    console.warn("No aggregate data yet");
+  }
+}
   
   // Set default picker view to today's date adjusted to Los Angeles/Pacific Time zone
   const pacificDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
@@ -409,8 +419,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Data loading ──────────────────────────────────────────────────────────────
+
 async function loadData(dateStr) {
   setStatus('loading');
+
+  // 🔥 ADD THIS LINE
+  await loadAggregateData();
+
   const url = `${RAW_BASE}/data/${dateStr}.json?nocache=${Date.now()}`;
 
   try {
@@ -509,7 +524,33 @@ function renderKPIs(raw, props) {
     }).join('')}
   `;
 }
+// ─────────────────────────────────────────────
+  // ADD WEEKLY + MONTHLY KPIs
+  // ─────────────────────────────────────────────
+  if (aggregateData) {
+    let extra = "";
 
+    Object.keys(aggregateData.weekly || {}).forEach(p => {
+      const w = aggregateData.weekly[p] || {};
+      const m = (aggregateData.monthly || {})[p] || {};
+
+      extra += `
+        <div class="kpi-card">
+          <div class="kpi-prop">${p} · Weekly</div>
+          <div class="kpi-value teal">${w.avg_adr ? '$' + w.avg_adr : '—'}</div>
+          <div class="kpi-label">${w.avg_occ ?? '—'}% Occ</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-prop">${p} · Monthly</div>
+          <div class="kpi-value gold">${m.avg_adr ? '$' + m.avg_adr : '—'}</div>
+          <div class="kpi-label">${m.avg_occ ?? '—'}% Occ</div>
+        </div>
+      `;
+    });
+
+    kpiRow.innerHTML += extra;
+  }
 // ── Charts ────────────────────────────────────────────────────────────────────
 function renderCharts(raw, props) {
   const allTimes = new Set();
