@@ -1,38 +1,50 @@
 {
   "Tarzana Inn": {
-    "weekly": {
-      "avg_occ": 93.9,
-      "avg_adr": 169.0,
-      "avg_revpar": 158.69
+    "weeks": {
+      "2026-W23": {
+        "occ": 97.0,
+        "adr": 84.5,
+        "rev": 79.33
+      }
     },
-    "monthly": {
-      "avg_occ": 93.9,
-      "avg_adr": 169.0,
-      "avg_revpar": 158.69
+    "months": {
+      "2026-06": {
+        "occ": 97.0,
+        "adr": 84.5,
+        "rev": 79.33
+      }
     }
   },
   "Sea Air Inn": {
-    "weekly": {
-      "avg_occ": 66.7,
-      "avg_adr": 144.49,
-      "avg_revpar": 96.37
+    "weeks": {
+      "2026-W23": {
+        "occ": 83.3,
+        "adr": 92.66,
+        "rev": 61.77
+      }
     },
-    "monthly": {
-      "avg_occ": 66.7,
-      "avg_adr": 144.49,
-      "avg_revpar": 96.37
+    "months": {
+      "2026-06": {
+        "occ": 83.3,
+        "adr": 92.66,
+        "rev": 61.77
+      }
     }
   },
   "Blufftop Inn": {
-    "weekly": {
-      "avg_occ": 65.6,
-      "avg_adr": 189.49,
-      "avg_revpar": 124.31
+    "weeks": {
+      "2026-W23": {
+        "occ": 82.8,
+        "adr": 88.08,
+        "rev": 57.8
+      }
     },
-    "monthly": {
-      "avg_occ": 65.6,
-      "avg_adr": 189.49,
-      "avg_revpar": 124.31
+    "months": {
+      "2026-06": {
+        "occ": 82.8,
+        "adr": 88.08,
+        "rev": 57.8
+      }
     }
   }
 }
