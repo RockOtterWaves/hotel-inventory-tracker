@@ -2,36 +2,49 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STR Dashboard</title>
+<title>Hotel Intelligence Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  body { background: #0d0f14; color: #e8e4d8; font-family: sans-serif; padding: 1rem; }
+  :root { --bg: #0d0f14; --surface: #141720; --border: #262c3e; --gold: #c9a84c; --text: #e8e4d8; --teal: #3ecfb2; }
+  body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 1rem; }
   .grid { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 1200px; margin: 0 auto; }
-  .card { background: #141720; border: 1px solid #262c3e; padding: 1.5rem; border-radius: 6px; }
+  .card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; border-radius: 6px; }
+  .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
   table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-  th, td { padding: 0.75rem; border-bottom: 1px solid #262c3e; text-align: left; font-size: 0.85rem; }
-  .active-row { background: rgba(201,168,76,0.1); }
+  th, td { padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: left; font-size: 0.85rem; }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(12, 1fr); } .card { grid-column: span 12; } }
 </style>
 </head>
 <body>
 <div class="grid" id="app">
+  <div class="card" id="propBtns"></div>
   <div class="card">
-    <div id="propBtns"></div>
+    <h3>Active Room Inventory</h3>
+    <div class="room-grid" id="roomList"></div>
+  </div>
+  <div class="card">
+    <canvas id="chart"></canvas>
     <div id="tableContainer"></div>
   </div>
 </div>
 <script>
 async function load() {
+  const ledger = await fetch('data/history_ledger.json').then(r => r.json());
   const aggs = await fetch('data/aggregates.json').then(r => r.json());
   
   function update(p) {
+    const dates = Object.keys(ledger).sort();
+    const latest = ledger[dates[dates.length-1]][p];
+    
+    // Update Rooms
+    document.getElementById('roomList').innerHTML = latest.rooms.map(r => `<div>${r.room_type}: $${r.rate} (${r.rooms_left})</div>`).join('');
+    
+    // Update Tables
     const weeks = aggs[p].weeks;
     const months = aggs[p].months;
-    const sortedWeeks = Object.keys(weeks).sort();
-    const sortedMonths = Object.keys(months).sort();
-    
-    let html = `<h3>${p} Historical Performance</h3><table><tr><th>Period</th><th>Occ%</th><th>ADR</th><th>RevPAR</th></tr>`;
-    sortedWeeks.forEach(w => html += `<tr><td>${w}</td><td>${weeks[w].occ}%</td><td>$${weeks[w].adr}</td><td>$${weeks[w].rev}</td></tr>`);
-    sortedMonths.forEach(m => html += `<tr><td>${m} (MTD)</td><td>${months[m].occ}%</td><td>$${months[m].adr}</td><td>$${months[m].rev}</td></tr>`);
+    let html = `<table><tr><th>Period</th><th>Occ%</th><th>ADR</th><th>RevPAR</th></tr>`;
+    Object.keys(weeks).sort().forEach(w => html += `<tr><td>${w}</td><td>${weeks[w].occ}%</td><td>$${weeks[w].adr}</td><td>$${weeks[w].rev}</td></tr>`);
+    Object.keys(months).sort().forEach(m => html += `<tr><td>${m} (MTD)</td><td>${months[m].occ}%</td><td>$${months[m].adr}</td><td>$${months[m].rev}</td></tr>`);
     document.getElementById('tableContainer').innerHTML = html + `</table>`;
   }
 
