@@ -14,7 +14,7 @@ def load_all_records():
         if f.name == "aggregates.json":
             continue
 
-        date_str = f.stem  # Looks like YYYY-MM-DD
+        date_str = f.stem  # Extract string components matching YYYY-MM-DD
         try:
             with open(f, "r") as open_file:
                 data = json.load(open_file)
@@ -37,13 +37,11 @@ def load_all_records():
     return records
 
 def aggregate(records, days):
-    # Establish cutoff boundaries using standard date math
     cutoff = datetime.utcnow() - timedelta(days=days)
     buckets = {}
 
     for r in records:
         try:
-            # Handle standard date parsing safety boundaries
             d = datetime.strptime(r["date"], "%Y-%m-%d")
         except:
             continue
@@ -75,7 +73,7 @@ def aggregate(records, days):
     return out
 
 def run():
-    print("Computing metrics trends rolls...")
+    print("Beginning trend summaries calculation run...")
     records = load_all_records()
 
     weekly = aggregate(records, 7)
@@ -89,8 +87,7 @@ def run():
 
     with open(OUTPUT_FILE, "w") as f:
         json.dump(output, f, indent=2)
-
-    print("✅ data/aggregates.json updated successfully")
+    print("✅ data/aggregates.json written successfully.")
 
 if __name__ == "__main__":
     run()
