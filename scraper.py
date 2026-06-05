@@ -4,12 +4,8 @@ import json
 import logging
 from datetime import datetime, date
 from pathlib import Path
-
 from playwright.async_api import async_playwright
 
-# ─────────────────────────────────────────────
-# CONFIG
-# ─────────────────────────────────────────────
 DATA_DIR = Path("data")
 DATA_DIR.mkdir(exist_ok=True)
 
@@ -22,28 +18,18 @@ PROPERTIES = [
     {"name": "Blufftop Inn", "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict", "total": 32},
 ]
 
-# ─────────────────────────────────────────────
-# CRITICAL: WAIT FOR REAL DATA
-# ─────────────────────────────────────────────
-async def wait_for_real_data(page):
+# ✅ NEW: WAIT FOR REAL PRICE DATA (ACTUAL FIX)
+async def wait_for_room_data(page):
     try:
-        # wait until loading appears
-        await page.wait_for_selector("text=Please wait", timeout=10000)
+        # wait for at least one visible price like $169
+        await page.wait_for_selector("text=/\\$\\d+/", timeout=30000)
     except:
-        pass
+        raise Exception("No price elements detected (data never loaded)")
 
-    # wait until loading disappears
-    await page.wait_for_function(
-        """() => !document.body.innerText.includes("Please wait")""",
-        timeout=30000
-    )
-
-    await asyncio.sleep(3)
+    # give UI time to fully stabilize
+    await asyncio.sleep(4)
 
 
-# ─────────────────────────────────────────────
-# SCRAPER (FINAL WORKING VERSION)
-# ─────────────────────────────────────────────
 async def scrape_property(prop):
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -58,57 +44,59 @@ async def scrape_property(prop):
 
         await page.goto(prop["url"], timeout=60000)
 
-        # ✅ CRITICAL FIX
-        await wait_for_real_data(page)
-
-        # ✅ Get FINAL visible content
-        content = await page.content()
-
-        # DEBUG SAVE (optional but useful)
-        debug_file = Path(f"debug_{prop['name'].replace(' ', '_')}.html")
-        debug_file.write_text(content)
+        # ✅ critical fix
+        await wait_for_room_data(page)
 
         rooms = []
 
-        # ─────────────────────────────────────────────
-        # INTELLIGENT PARSING (REAL DATA EXTRACTION)
-        # ─────────────────────────────────────────────
+        price_elements = page.locator("text=/\\$\\d+/")
+        count = await price_elements.count()
 
-        # Match blocks like:
-        # Deluxe King
-        # $169.00
-        # 2 Rooms Left
-        pattern = re.compile(
-            r"([A-Za-z0-9 \-\(\)\/]+)\s*\$([\d\.]+).*?(\d+)\s+Room",
-            re.DOTALL
-        )
+        for i in range(count):
+            try:
+                el = price_elements.nth(i)
+                txt = await el.inner_text()
 
-        matches = pattern.findall(content)
+                price_match = re.search(r"\$([\d\.]+)", txt)
+                if not price_match:
+                    continue
 
-        for m in matches:
-            name = m[0].strip()
-            price = float(m[1])
-            rooms_left = int(m[2])
+                price = float(price_match.group(1))
 
-            # clean junk
-            if len(name) < 4:
+                # ✅ walk up to container
+                container = el.locator("xpath=ancestor::*[self::div][1]")
+                block = await container.inner_text()
+
+                lines = [l.strip() for l in block.split("\n") if l.strip()]
+
+                if not lines:
+                    continue
+
+                name = lines[0]
+
+                if len(name) < 4:
+                    continue
+
+                if any(x in name.lower() for x in ["policy", "login", "terms"]):
+                    continue
+
+                # ✅ extract rooms left
+                left_match = re.search(r"(\d+)\s+Room", block)
+                rooms_left = int(left_match.group(1)) if left_match else 0
+
+                rooms.append({
+                    "room_type": name,
+                    "rate": price,
+                    "rooms_left": rooms_left
+                })
+
+            except:
                 continue
-
-            if any(x in name.lower() for x in [
-                "policy", "terms", "login", "loading"
-            ]):
-                continue
-
-            rooms.append({
-                "room_type": name,
-                "rate": price,
-                "rooms_left": rooms_left
-            })
 
         await browser.close()
 
         if not rooms:
-            raise Exception("No rooms extracted AFTER full load")
+            raise Exception("Rooms not detected AFTER real price load")
 
         # dedupe
         unique = []
@@ -128,9 +116,6 @@ async def scrape_property(prop):
         }
 
 
-# ─────────────────────────────────────────────
-# SUMMARY (REAL INVENTORY)
-# ─────────────────────────────────────────────
 def summarize(prop, rooms):
     total_rooms = prop["total"]
 
@@ -151,9 +136,6 @@ def summarize(prop, rooms):
     }
 
 
-# ─────────────────────────────────────────────
-# SAVE
-# ─────────────────────────────────────────────
 def save(result):
     today = date.today().isoformat()
     file = DATA_DIR / f"{today}.json"
@@ -173,9 +155,6 @@ def save(result):
     json.dump(data, open(file, "w"), indent=2)
 
 
-# ─────────────────────────────────────────────
-# MAIN
-# ─────────────────────────────────────────────
 async def run():
     for prop in PROPERTIES:
         try:
@@ -187,10 +166,7 @@ async def run():
             logger.error(f"{prop['name']} ❌ {e}")
 
 
-# CLI ENTRY
 if __name__ == "__main__":
     import sys
-
     if len(sys.argv) > 1 and sys.argv[1] == "run":
         asyncio.run(run())
-        
