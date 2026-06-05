@@ -130,37 +130,4 @@ async def scrape_property(prop: dict, cfg: dict, target: date) -> Optional[dict]
         except Exception as e:
             logger.warning(f"[{prop['name']}] Attempt {attempt} failed: {e}")
             if attempt < s["retry_attempts"]:
-                await asyncio.sleep(s["retry_delay_sec"] * attempt)
-    logger.error(f"[{prop['name']}] All attempts exhausted.")
-    return None
-
-
-async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
-    name     = prop["name"]
-    url      = prop["url"]
-    s        = cfg.get("scraper", DEFAULT_CONFIG["scraper"])
-    checkin  = target.strftime("%m-%d-%Y")
-    checkout = (target + timedelta(days=1)).strftime("%m-%d-%Y")
-
-    async with async_playwright() as p:
-        browser, context = await build_context(p)
-        page = await context.new_page()
-        page.set_default_timeout(s["page_timeout_ms"])
-
-        try:
-            logger.info(f"[{name}] Navigating to {url}")
-            await page.goto(url, wait_until="networkidle", timeout=s["page_timeout_ms"])
-            await human_delay(2, 4)
-
-            # ── Step 1: Set check-in date ──────────────────────────────────
-            await _set_date_field(page, "checkin", checkin, name)
-            await human_delay(0.5, 1.5)
-
-            # ── Step 2: Set check-out date ─────────────────────────────────
-            await _set_date_field(page, "checkout", checkout, name)
-            await human_delay(0.5, 1.5)
-
-            # ── Step 3: Click Check Availability ──────────────────────────
-            clicked = await _click_availability(page, name)
-            if not clicked:
-                logger.warning(f"[{name}] Could not find Check Availability
+                await asyncio.
