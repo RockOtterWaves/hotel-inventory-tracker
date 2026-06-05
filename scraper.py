@@ -18,71 +18,122 @@ PROPERTIES = [
     {"name": "Blufftop Inn", "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict", "total": 32},
 ]
 
-# ✅ NEW: WAIT FOR REAL PRICE DATA (ACTUAL FIX)
+# ─────────────────────────────────────────────────────────────
+# RESILIENT WAITING & HYDRATION CHECK
+# ─────────────────────────────────────────────────────────────
 async def wait_for_room_data(page):
+    """Waits for core layout structures to hydrate and paints text nodes safely."""
+    # Step 1: Wait for loading wheels/screens to explicitly hide
     try:
-        # wait for at least one visible price like $169
-        await page.wait_for_selector("text=/\\$\\d+/", timeout=30000)
+        await page.wait_for_selector(".vres-prog-wrap, #squaresWaveG, .loading", state="hidden", timeout=10000)
     except:
-        raise Exception("No price elements detected (data never loaded)")
+        pass
 
-    # give UI time to fully stabilize
+    # Step 2: Wait for known structural IPMS wrapper containers instead of regex text strings
+    selectors = [
+        ".vres_room_infoBg", 
+        ".vres_roomInfo", 
+        ".roomTypeRow", 
+        "[id*='roomType']", 
+        ".vres_main_container"
+    ]
+    
+    hydrated = False
+    for sel in selectors:
+        try:
+            await page.wait_for_selector(sel, state="attached", timeout=4000)
+            hydrated = True
+            break
+        except:
+            continue
+            
+    if not hydrated:
+        # Fallback: check if page body contains basic plain text text clues
+        logger.warning("Target structural classes not found. Checking document stream fallback...")
+        await page.wait_for_load_state("networkidle")
+
+    # Give Javascript bindings an extra cushion to safely map variables onto elements
     await asyncio.sleep(4)
 
 
 async def scrape_property(prop):
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        # Mask automation fingerprints completely
+        browser = await p.chromium.launch(
+            headless=True,
+            args=[
+                "--no-sandbox", 
+                "--disable-setuid-sandbox", 
+                "--disable-blink-features=AutomationControlled"
+            ]
+        )
 
         context = await browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            viewport={"width": 1440, "height": 900}
         )
 
         page = await context.new_page()
+        logger.info(f"{prop['name']} → Loading page context")
 
-        logger.info(f"{prop['name']} → Loading page")
+        # Load document framework safely
+        await page.goto(prop["url"], timeout=60000, wait_until="domcontentloaded")
 
-        await page.goto(prop["url"], timeout=60000)
-
-        # ✅ critical fix
+        # Execute our custom layout validation framework
         await wait_for_room_data(page)
 
         rooms = []
 
-        price_elements = page.locator("text=/\\$\\d+/")
-        count = await price_elements.count()
+        # Target the primary card/row wrappers directly
+        room_cards = page.locator(".vres_room_infoBg, .vres_roomInfo, .roomTypeRow, [id*='roomType']")
+        card_count = await room_cards.count()
 
-        for i in range(count):
+        # Final structural fallback: loop over text-bearing row tags if classes are dynamic
+        if card_count == 0:
+            room_cards = page.locator("tr, div").filter(has_text="$")
+            card_count = await room_cards.count()
+
+        logger.info(f"{prop['name']} → Processing {card_count} parsing targets")
+
+        for i in range(card_count):
             try:
-                el = price_elements.nth(i)
-                txt = await el.inner_text()
+                card = room_cards.nth(i)
+                block_text = await card.inner_text()
+                
+                if not block_text.strip():
+                    continue
 
-                price_match = re.search(r"\$([\d\.]+)", txt)
+                # 1. Parse Room Rate
+                price_match = re.search(r"\$\s*([\d,]+(?:\.\d{2})?)", block_text)
                 if not price_match:
                     continue
+                price = float(price_match.group(1).replace(",", ""))
 
-                price = float(price_match.group(1))
-
-                # ✅ walk up to container
-                container = el.locator("xpath=ancestor::*[self::div][1]")
-                block = await container.inner_text()
-
-                lines = [l.strip() for l in block.split("\n") if l.strip()]
-
-                if not lines:
-                    continue
-
+                # 2. Extract Room Title
+                lines = [l.strip() for l in block_text.split("\n") if l.strip()]
                 name = lines[0]
+                
+                # Scan lines for explicit hotel classifications to isolate actual name text
+                for line in lines:
+                    if any(kw in line.lower() for kw in ["king", "queen", "suite", "room", "standard", "deluxe", "twin"]):
+                        name = line
+                        break
 
-                if len(name) < 4:
+                # Strip trailing cleanups
+                name = re.sub(r'(?i)(no pets|non-smoking|non smoking|smoking|view details)\s*[,\-]?\s*', '', name).strip(' -,')
+
+                if len(name) < 4 or any(x in name.lower() for x in ["policy", "login", "terms", "total"]):
                     continue
 
-                if any(x in name.lower() for x in ["policy", "login", "terms"]):
-                    continue
-
-                # ✅ extract rooms left
-                left_match = re.search(r"(\d+)\s+Room", block)
-                rooms_left = int(left_match.group(1)) if left_match else 0
+                # 3. Parse Allocation Inventory Left
+                left_match = re.search(r"(\d+)\s*[Rr]oom[s]?\s*[Ll]eft|only\s*(\d+)\s*[Rr]oom|(\d+)\s*[Ll]eft", block_text, re.I)
+                
+                rooms_left = 1  # Standard fallback default assuming 1 room remains available
+                if left_match:
+                    val = next(g for g in left_match.groups() if g is not None)
+                    rooms_left = int(val)
+                elif any(x in block_text.lower() for x in ["sold out", "not available", "unavailable"]):
+                    rooms_left = 0
 
                 rooms.append({
                     "room_type": name,
@@ -90,18 +141,17 @@ async def scrape_property(prop):
                     "rooms_left": rooms_left
                 })
 
-            except:
+            except Exception as card_err:
                 continue
 
         await browser.close()
 
         if not rooms:
-            raise Exception("Rooms not detected AFTER real price load")
+            raise Exception("No room configurations extracted after system load")
 
-        # dedupe
+        # Deduplicate results records cleanly
         unique = []
         seen = set()
-
         for r in rooms:
             key = (r["room_type"], r["rate"])
             if key not in seen:
@@ -118,13 +168,11 @@ async def scrape_property(prop):
 
 def summarize(prop, rooms):
     total_rooms = prop["total"]
-
     total_remaining = sum(r["rooms_left"] for r in rooms)
-
     sold = max(total_rooms - total_remaining, 0)
-
-    adr = sum(r["rate"] for r in rooms) / len(rooms)
-
+    
+    rated = [r["rate"] for r in rooms if r["rate"] > 0]
+    adr = sum(rated) / len(rated) if rated else 0.0
     occ = int((sold / total_rooms) * 100) if total_rooms else 0
 
     return {
@@ -140,19 +188,14 @@ def save(result):
     today = date.today().isoformat()
     file = DATA_DIR / f"{today}.json"
 
-    if file.exists():
-        data = json.load(open(file))
-    else:
-        data = {}
-
+    data = json.load(open(file)) if file.exists() else {}
     prop = result["property"]
-
     if prop not in data:
         data[prop] = []
 
     data[prop].append(result)
-
-    json.dump(data, open(file, "w"), indent=2)
+    with open(file, "w") as f:
+        json.dump(data, f, indent=2)
 
 
 async def run():
@@ -160,8 +203,7 @@ async def run():
         try:
             res = await scrape_property(prop)
             save(res)
-            logger.info(f"{prop['name']} ✅ {len(res['rooms'])} room types")
-
+            logger.info(f"{prop['name']} ✅ Execution complete ({len(res['rooms'])} types gathered)")
         except Exception as e:
             logger.error(f"{prop['name']} ❌ {e}")
 
