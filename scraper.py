@@ -28,61 +28,73 @@ async def scrape_property(prop):
         context = await browser.new_context()
         page = await context.new_page()
 
-        api_payloads = []
-
-        # ✅ capture all network responses
-        def handle_response(response):
-            try:
-                if "room" in response.url.lower():
-                    api_payloads.append(response)
-            except:
-                pass
-
-        page.on("response", handle_response)
-
         await page.goto(prop["url"], timeout=60000)
 
-        await asyncio.sleep(8)  # give API time to fire
+        await asyncio.sleep(5)  # allow iframe to load
+
+        # ✅ find iframe (IPMS always uses one)
+        frame = None
+        for f in page.frames:
+            if "book" in f.url.lower():
+                frame = f
+                break
+
+        if not frame:
+            raise Exception("No booking iframe found")
+
+        # ✅ wait for actual room content inside iframe
+        await frame.wait_for_selector("text=$", timeout=20000)
+
+        # ✅ extract visible content
+        text = await frame.inner_text("body")
+
+        lines = text.split("\n")
 
         rooms = []
 
-        # ✅ parse API responses
-        for resp in api_payloads:
-            try:
-                text = await resp.text()
+        for i in range(len(lines)):
+            line = lines[i].strip()
 
-                if "rate" not in text.lower():
-                    continue
-
-                data = json.loads(text)
-
-                # Try structured extraction
-                if isinstance(data, dict):
-                    for k, v in data.items():
-                        if isinstance(v, list):
-                            for item in v:
-                                if isinstance(item, dict):
-                                    rate = item.get("rate") or item.get("price")
-                                    name = item.get("roomtype") or item.get("name")
-                                    left = item.get("available") or item.get("roomsleft")
-
-                                    if rate and name:
-                                        rooms.append({
-                                            "room_type": str(name),
-                                            "rate": int(rate),
-                                            "rooms_left": left,
-                                            "available": True
-                                        })
-
-            except:
+            if "$" not in line:
                 continue
+
+            # extract price
+            import re
+            price_match = re.search(r"\$(\d+)", line)
+            if not price_match:
+                continue
+
+            price = int(price_match.group(1))
+
+            # find room name (look above)
+            name = ""
+            if i > 0:
+                name = lines[i - 1].strip()
+
+            if len(name) < 4:
+                continue
+
+            if any(x in name.lower() for x in [
+                "policy", "terms", "loading", "please"
+            ]):
+                continue
+
+            if price < 50 or price > 500:
+                continue
+
+            rooms.append({
+                "room_type": name[:50],
+                "rate": price,
+                "rooms_left": None,
+                "available": True
+            })
 
         await browser.close()
 
         if not rooms:
-            raise Exception("No API room data found")
+            raise Exception("Iframe loaded but no rooms parsed")
 
-        # dedupe
+        # ✅ dedupe
         unique = []
         seen = set()
 
