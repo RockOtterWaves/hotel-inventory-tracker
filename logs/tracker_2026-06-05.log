@@ -398,3 +398,155 @@ id="resheader" class="GetToken">
 2026-06-05 18:14:36,758 [INFO] === Run [manual] complete ===
 2026-06-05 18:14:36,758 [INFO] GitHub Actions environment detected. Syncing changes to repository...
 2026-06-05 18:14:36,769 [ERROR] Failed to push changes to GitHub: Command '['git', 'commit', '-m', 'chore: data snapshot update [manual] 2026-06-05']' returned non-zero exit status 1.
+2026-06-05 18:16:10,281 [INFO] Created default config.json
+2026-06-05 18:16:10,281 [INFO] === Scrape run [manual] for 2026-06-05 ===
+2026-06-05 18:16:16,370 [INFO] [Tarzana Inn] Attempt 1/3
+2026-06-05 18:16:16,763 [INFO] [Tarzana Inn] Navigating to https://live.ipms247.com/booking/book-rooms-tarzanainn
+2026-06-05 18:16:19,075 [INFO] [Tarzana Inn] Page landing check-in date: '06/05/2026'
+2026-06-05 18:16:19,076 [INFO] [Tarzana Inn] Waiting for room records to hydrate inside DOM...
+2026-06-05 18:16:19,095 [INFO] [Tarzana Inn] Active room data detected in DOM after 0s.
+2026-06-05 18:16:21,121 [INFO] [Tarzana Inn] Using dollar-sign fallback block split
+2026-06-05 18:16:21,125 [INFO] [Tarzana Inn] Parsed 0 room type(s): []
+2026-06-05 18:16:21,125 [WARNING] [Tarzana Inn] No rooms parsed. HTML snapshot snippet:
+id="resheader" class="GetToken">
+<!-- loading bar - start -->			
+<div class="vres-prog-wrap" style="display: none;">
+<div class="vres-prog-div">
+<div>
+	<h3>Finding the best rates takes a while <br>
+		<small>Please wait...</small>
+	</h3>
+	<div id="squaresWaveG">
+		<div id="squaresWaveG_1" class="squaresWaveG"></div>
+		<div id="squaresWaveG_2" class="squaresWaveG"></div>
+		<div id="squaresWaveG_3" class="squaresWaveG"></div>
+		<div id="squaresWaveG_4" class="squaresWaveG"></div>
+		<div id="squares
+2026-06-05 18:16:41,194 [INFO] [Tarzana Inn] Attempt 2/3
+2026-06-05 18:16:41,536 [INFO] [Tarzana Inn] Navigating to https://live.ipms247.com/booking/book-rooms-tarzanainn
+2026-06-05 18:16:43,776 [INFO] [Tarzana Inn] Page landing check-in date: '06/05/2026'
+2026-06-05 18:16:43,777 [INFO] [Tarzana Inn] Waiting for room records to hydrate inside DOM...
+2026-06-05 18:16:43,792 [INFO] [Tarzana Inn] Active room data detected in DOM after 0s.
+2026-06-05 18:16:45,818 [INFO] [Tarzana Inn] Using dollar-sign fallback block split
+2026-06-05 18:16:45,823 [INFO] [Tarzana Inn] Parsed 0 room type(s): []
+2026-06-05 18:16:45,823 [WARNING] [Tarzana Inn] No rooms parsed. HTML snapshot snippet:
+id="resheader" class="GetToken">
+<!-- loading bar - start -->			
+<div class="vres-prog-wrap" style="display: none;">
+<div class="vres-prog-div">
+<div>
+	<h3>Finding the best rates takes a while <br>
+		<small>Please wait...</small>
+	</h3>
+	<div id="squaresWaveG">
+		<div id="squaresWaveG_1" class="squaresWaveG"></div>
+		<div id="squaresWaveG_2" class="squaresWaveG"></div>
+		<div id="squaresWaveG_3" class="squaresWaveG"></div>
+		<div id="squaresWaveG_4" class="squaresWaveG"></div>
+		<div id="squares
+2026-06-05 18:17:05,901 [INFO] [Tarzana Inn] Attempt 3/3
+2026-06-05 18:17:06,238 [INFO] [Tarzana Inn] Navigating to https://live.ipms247.com/booking/book-rooms-tarzanainn
+2026-06-05 18:17:08,158 [INFO] [Tarzana Inn] Page landing check-in date: '06/05/2026'
+2026-06-05 18:17:08,159 [INFO] [Tarzana Inn] Waiting for room records to hydrate inside DOM...
+2026-06-05 18:17:08,173 [INFO] [Tarzana Inn] Active room data detected in DOM after 0s.
+2026-06-05 18:17:10,199 [INFO] [Tarzana Inn] Using dollar-sign fallback block split
+2026-06-05 18:17:10,203 [INFO] [Tarzana Inn] Parsed 0 room type(s): []
+2026-06-05 18:17:10,203 [WARNING] [Tarzana Inn] No rooms parsed. HTML snapshot snippet:
+id="resheader" class="GetToken">
+<!-- loading bar - start -->			
+<div class="vres-prog-wrap" style="display: none;">
+<div class="vres-prog-div">
+<div>
+	<h3>Finding the best rates takes a while <br>
+		<small>Please wait...</small>
+	</h3>
+	<div id="squaresWaveG">
+		<div id="squaresWaveG_1" class="squaresWaveG"></div>
+		<div id="squaresWaveG_2" class="squaresWaveG"></div>
+		<div id="squaresWaveG_3" class="squaresWaveG"></div>
+		<div id="squaresWaveG_4" class="squaresWaveG"></div>
+		<div id="squares
+2026-06-05 18:17:10,248 [ERROR] [Tarzana Inn] All attempts exhausted.
+2026-06-05 18:17:10,248 [ERROR] [Tarzana Inn] No data returned for [manual].
+2026-06-05 18:17:17,353 [INFO] [Sea Air Inn] Attempt 1/3
+2026-06-05 18:17:17,685 [INFO] [Sea Air Inn] Navigating to https://live.ipms247.com/booking/book-rooms-seaairinn
+2026-06-05 18:17:19,775 [INFO] [Sea Air Inn] Page landing check-in date: '06/05/2026'
+2026-06-05 18:17:19,775 [INFO] [Sea Air Inn] Waiting for room records to hydrate inside DOM...
+2026-06-05 18:17:19,800 [INFO] [Sea Air Inn] Active room data detected in DOM after 0s.
+2026-06-05 18:17:21,842 [INFO] [Sea Air Inn] Using dollar-sign fallback block split
+2026-06-05 18:17:21,848 [INFO] [Sea Air Inn] Parsed 0 room type(s): []
+2026-06-05 18:17:21,848 [WARNING] [Sea Air Inn] No rooms parsed. HTML snapshot snippet:
+id="resheader" class="GetToken">
+<!-- loading bar - start -->			
+<div class="vres-prog-wrap" style="display: none;">
+<div class="vres-prog-div">
+<div>
+	<h3>Finding the best rates takes a while <br>
+		<small>Please wait...</small>
+	</h3>
+	<div id="squaresWaveG">
+		<div id="squaresWaveG_1" class="squaresWaveG"></div>
+		<div id="squaresWaveG_2" class="squaresWaveG"></div>
+		<div id="squaresWaveG_3" class="squaresWaveG"></div>
+		<div id="squaresWaveG_4" class="squaresWaveG"></div>
+		<div id="squares
+2026-06-05 18:17:41,910 [INFO] [Sea Air Inn] Attempt 2/3
+2026-06-05 18:17:42,245 [INFO] [Sea Air Inn] Navigating to https://live.ipms247.com/booking/book-rooms-seaairinn
+2026-06-05 18:17:44,466 [INFO] [Sea Air Inn] Page landing check-in date: '06/05/2026'
+2026-06-05 18:17:44,466 [INFO] [Sea Air Inn] Waiting for room records to hydrate inside DOM...
+2026-06-05 18:17:44,506 [INFO] [Sea Air Inn] Active room data detected in DOM after 0s.
+2026-06-05 18:17:46,545 [INFO] [Sea Air Inn] Using dollar-sign fallback block split
+2026-06-05 18:17:46,551 [INFO] [Sea Air Inn] Parsed 0 room type(s): []
+2026-06-05 18:17:46,551 [WARNING] [Sea Air Inn] No rooms parsed. HTML snapshot snippet:
+id="resheader" class="GetToken">
+<!-- loading bar - start -->			
+<div class="vres-prog-wrap" style="display: none;">
+<div class="vres-prog-div">
+<div>
+	<h3>Finding the best rates takes a while <br>
+		<small>Please wait...</small>
+	</h3>
+	<div id="squaresWaveG">
+		<div id="squaresWaveG_1" class="squaresWaveG"></div>
+		<div id="squaresWaveG_2" class="squaresWaveG"></div>
+		<div id="squaresWaveG_3" class="squaresWaveG"></div>
+		<div id="squaresWaveG_4" class="squaresWaveG"></div>
+		<div id="squares
+2026-06-05 18:18:06,617 [INFO] [Sea Air Inn] Attempt 3/3
+2026-06-05 18:18:06,949 [INFO] [Sea Air Inn] Navigating to https://live.ipms247.com/booking/book-rooms-seaairinn
+2026-06-05 18:18:09,132 [INFO] [Sea Air Inn] Page landing check-in date: '06/05/2026'
+2026-06-05 18:18:09,132 [INFO] [Sea Air Inn] Waiting for room records to hydrate inside DOM...
+2026-06-05 18:18:09,167 [INFO] [Sea Air Inn] Active room data detected in DOM after 0s.
+2026-06-05 18:18:11,208 [INFO] [Sea Air Inn] Using dollar-sign fallback block split
+2026-06-05 18:18:11,215 [INFO] [Sea Air Inn] Parsed 0 room type(s): []
+2026-06-05 18:18:11,215 [WARNING] [Sea Air Inn] No rooms parsed. HTML snapshot snippet:
+id="resheader" class="GetToken">
+<!-- loading bar - start -->			
+<div class="vres-prog-wrap" style="display: none;">
+<div class="vres-prog-div">
+<div>
+	<h3>Finding the best rates takes a while <br>
+		<small>Please wait...</small>
+	</h3>
+	<div id="squaresWaveG">
+		<div id="squaresWaveG_1" class="squaresWaveG"></div>
+		<div id="squaresWaveG_2" class="squaresWaveG"></div>
+		<div id="squaresWaveG_3" class="squaresWaveG"></div>
+		<div id="squaresWaveG_4" class="squaresWaveG"></div>
+		<div id="squares
+2026-06-05 18:18:11,260 [ERROR] [Sea Air Inn] All attempts exhausted.
+2026-06-05 18:18:11,260 [ERROR] [Sea Air Inn] No data returned for [manual].
+2026-06-05 18:18:19,119 [INFO] [Blufftop Inn] Attempt 1/3
+2026-06-05 18:18:19,446 [INFO] [Blufftop Inn] Navigating to https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict
+2026-06-05 18:18:20,024 [WARNING] [Blufftop Inn] Attempt 1 failed: Page.evaluate: Execution context was destroyed, most likely because of a navigation
+2026-06-05 18:18:40,044 [INFO] [Blufftop Inn] Attempt 2/3
+2026-06-05 18:18:40,376 [INFO] [Blufftop Inn] Navigating to https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict
+2026-06-05 18:18:40,947 [WARNING] [Blufftop Inn] Attempt 2 failed: Page.evaluate: Execution context was destroyed, most likely because of a navigation
+2026-06-05 18:19:00,967 [INFO] [Blufftop Inn] Attempt 3/3
+2026-06-05 18:19:01,299 [INFO] [Blufftop Inn] Navigating to https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict
+2026-06-05 18:19:01,824 [WARNING] [Blufftop Inn] Attempt 3 failed: Page.evaluate: Execution context was destroyed, most likely because of a navigation
+2026-06-05 18:19:01,824 [ERROR] [Blufftop Inn] All attempts exhausted.
+2026-06-05 18:19:01,824 [ERROR] [Blufftop Inn] No data returned for [manual].
+2026-06-05 18:19:01,824 [INFO] === Run [manual] complete ===
+2026-06-05 18:19:01,824 [INFO] GitHub Actions environment detected. Syncing changes to repository...
+2026-06-05 18:19:01,834 [ERROR] Failed to push changes to GitHub: Command '['git', 'commit', '-m', 'chore: data snapshot update [manual] 2026-06-05']' returned non-zero exit status 1.
