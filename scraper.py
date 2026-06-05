@@ -74,7 +74,6 @@ def load_config() -> dict:
 def github_push_changes(commit_message: str):
     """Helper to commit and push updated data/reports back to the repository."""
     try:
-        # Check if running inside GitHub Actions environment
         import os
         if not os.getenv("GITHUB_ACTIONS"):
             logger.info("Local environment detected. Skipping automatic GitHub push.")
@@ -82,22 +81,17 @@ def github_push_changes(commit_message: str):
 
         logger.info("GitHub Actions environment detected. Syncing changes to repository...")
         
-        # Configure ghost user identity for the commit
         subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=True)
         subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], check=True)
         
-        # Stage all changes in data/ and reports/
         subprocess.run(["git", "add", "data/*", "reports/*"], check=False)
         
-        # Check if there are actual changes to commit
         status = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
         if not status.stdout.strip():
             logger.info("No new data changes to commit.")
             return
 
         subprocess.run(["git", "commit", "-m", commit_message], check=True)
-        
-        # Pull with rebase to ensure we don't conflict if multiple jobs run
         subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
         logger.info("Successfully pushed changes to GitHub repository branch.")
@@ -183,8 +177,8 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
 
         try:
             logger.info(f"[{name}] Navigating to {url}")
+            # networkidle handles waiting for all dynamic AJAX background connections to close
             await page.goto(url, wait_until="networkidle", timeout=s["page_timeout_ms"])
-            await human_delay(3, 6)
 
             # ── Step 1: Validate date hasn't rolled over ───────────────────
             page_checkin = await _read_date_field(page, "checkin")
@@ -194,34 +188,22 @@ async def _scrape(prop: dict, cfg: dict, target: date) -> Optional[dict]:
                     logger.warning(f"[{name}] Date rolled over to next day on page. Skipping tracking for {target}.")
                     return None
 
-            # ── Step 2: Wait for room content to populate naturally ────────
-            logger.info(f"[{name}] Waiting for default room data to load...")
+            # ── Step 2: Ensure pricing elements are visible ────────────────
+            logger.info(f"[{name}] Waiting for any room pricing element to paint...")
             try:
-                await page.wait_for_function(
-                    """() => {
-                        const divs = document.querySelectorAll('.vres_room_infoBg, .vres_roomInfo, [class*="vres_room"]');
-                        for (const d of divs) {
-                            const txt = d.innerText || '';
-                            if (txt.length > 50 && (txt.includes('$') || txt.includes('Room') || txt.includes('Suite'))) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    }""",
-                    timeout=30000
-                )
-                logger.info(f"[{name}] Room data loaded successfully.")
+                await page.wait_for_selector("body:has-text('$')", timeout=15000)
+                logger.info(f"[{name}] Room content confirmed ready.")
             except PWTimeout:
-                logger.warning(f"[{name}] Room detection function timeout, using fallback parsing strategy...")
-                await human_delay(2, 4)
+                logger.warning(f"[{name}] Strict element lookup assertion timed out. Proceeding to fallback parsing engine...")
+                await asyncio.sleep(2)
 
             # ── Step 3: Grab full page HTML and parse ─────────────────────
             html  = await page.content()
             rooms = _parse_rooms_ipms247(html, name)
 
             if not rooms:
-                snippet = html[html.find("vres_room"):html.find("vres_room")+2000] if "vres_room" in html else html[:2000]
-                logger.warning(f"[{name}] No rooms parsed. HTML snippet:\n{snippet[:500]}")
+                snippet = html[html.find("id=\"resheader\""):html.find("id=\"resheader\"")+2000] if "id=\"resheader\"" in html else html[:2000]
+                logger.warning(f"[{name}] No rooms parsed. HTML snapshot snippet:\n{snippet[:500]}")
                 return None
 
             summary = _summarise(rooms, prop["total_rooms"])
@@ -263,7 +245,7 @@ async def _read_date_field(page, field_type: str) -> str:
 # ─── IPMS247-specific HTML parser ─────────────────────────────────────────────
 def _parse_rooms_ipms247(html: str, hotel_name: str) -> list:
     """
-    Parse room data from IPMS247 booking engine HTML.
+    Parse room data from IPMS247 booking engine HTML layout blocks.
     """
     rooms = []
     seen  = set()
@@ -489,7 +471,6 @@ async def run_all_properties(cfg: dict, label: str = "manual"):
             logger.error(f"[{prop['name']}] No data returned for [{label}].")
             
     logger.info(f"=== Run [{label}] complete ===")
-    # Push data back to repository right after run finishes
     github_push_changes(f"chore: data snapshot update [{label}] {target.isoformat()}")
 
 
@@ -525,7 +506,6 @@ async def main():
             return
         elif cmd == "report":
             generate_morning_report(date.today())
-            # Commit report changes if run through automated CLI trigger
             github_push_changes(f"chore: morning summary report compile {date.today().isoformat()}")
             return
 
