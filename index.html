@@ -3,401 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Intelligence Dashboard - STR Tracking Profile</title>
+<title>Hotel Intelligence Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #0d0f14;
-    --surface:   #141720;
-    --surface2:  #1c2030;
-    --border:    #262c3e;
-    --gold:      #c9a84c;
-    --gold-dim:  #7a6230;
-    --gold-glow: rgba(201,168,76,0.12);
-    --teal:      #3ecfb2;
-    --rose:      #e05c6e;
-    --text:      #e8e4d8;
-    --muted:     #6b7280;
-    --label:     #94a3b8;
+    --bg: #0d0f14; --surface: #141720; --surface2: #1c2030;
+    --border: #262c3e; --gold: #c9a84c; --gold-glow: rgba(201,168,76,0.12);
+    --teal: #3ecfb2; --text: #e8e4d8; --muted: #6b7280; --label: #94a3b8;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background-color: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; padding: 1rem; min-height: 100vh; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; padding: 1rem; }
   
-  header { max-width: 1600px; margin: 0 auto 1.5rem auto; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1.25rem; }
-  h1 { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 700; color: #fff; }
-  h1 span { color: var(--gold); block-size: auto; display: block; font-size: 1.25rem; margin-top: 0.25rem; }
-  .status-pill { font-family: 'DM Mono', monospace; font-size: 0.7rem; text-transform: uppercase; background: var(--surface2); padding: 0.4rem 0.75rem; border: 1px solid var(--border); border-radius: 4px; display: flex; align-items: center; gap: 0.5rem; }
+  /* Mobile-First Layout */
+  .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: 1200px; margin: 0 auto; }
+  .card { background: var(--surface); border: 1px solid var(--border); padding: 1.25rem; border-radius: 6px; }
+  .card-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--label); text-transform: uppercase; margin-bottom: 0.5rem; }
   
-  .dashboard-grid { max-width: 1600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; position: relative; overflow: hidden; width: 100%; }
-  
-  .card-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--label); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
-  
-  /* Horizontal scrolling engine for selector buttons on mobile layouts */
-  #propertyContainer { display: flex; flex-direction: row; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; -webkit-overflow-scrolling: touch; }
-  .prop-btn { flex: 0 0 auto; width: auto; background: transparent; border: 1px solid var(--border); color: var(--text); padding: 0.65rem 1rem; text-align: center; font-size: 0.9rem; border-radius: 4px; cursor: pointer; transition: all 0.2s ease; }
-  .prop-btn.active { border-color: var(--gold); background: var(--gold-glow); color: var(--gold); font-weight: 500; }
-  
-  .overview-metrics-wrapper { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
-  .big-stat { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin-bottom: 0.35rem; }
+  #propertyContainer { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
+  .prop-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; white-space: nowrap; }
+  .prop-btn.active { border-color: var(--gold); background: var(--gold-glow); color: var(--gold); }
+
+  .big-stat { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; }
   .trend-sub { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); }
 
-  /* Responsive view container for grid cards */
-  .table-responsive-container { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 0.5rem; border-radius: 4px; border: 1px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
-  th { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--label); text-transform: uppercase; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
-  td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; white-space: nowrap; }
-  
-  .room-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 0.5rem; }
-  .room-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
-  .room-title { font-weight: 600; font-size: 0.85rem; color: #fff; padding-right: 0.5rem; }
-  .room-details { text-align: right; font-family: 'DM Mono', monospace; font-size: 0.8rem; }
-  .room-price { color: var(--gold); font-weight: 600; font-size: 0.95rem; }
-  .room-count { color: var(--teal); margin-top: 0.15rem; }
+  .table-responsive { overflow-x: auto; margin-top: 1rem; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; min-width: 500px; }
+  th { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--label); padding: 0.75rem; border-bottom: 1px solid var(--border); }
+  td { padding: 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
 
-  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.8rem; text-align: center; }
-  .chart-container { position: relative; width: 100%; height: 240px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #fff; margin-top: 1rem; border-left: 3px solid var(--gold); padding-left: 0.5rem; width: 100%; }
-
-  /* Desktop View Enhancements (Media Query Breakpoint) */
+  /* Desktop Override */
   @media (min-width: 768px) {
-    body { padding: 2rem; }
-    header { flex-direction: row; align-items: flex-end; margin-bottom: 2.5rem; padding-bottom: 1.5rem; }
-    h1 { font-size: 2.25rem; }
-    h1 span { display: inline; font-size: 2.25rem; margin-top: 0; }
-    .status-pill { font-size: 0.75rem; padding: 0.5rem 1rem; }
-    
-    .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; }
-    .card { padding: 1.5rem; }
-    
+    .dashboard-grid { grid-template-columns: repeat(12, 1fr); gap: 1.5rem; }
     .property-selector-card { grid-column: span 3; }
-    #propertyContainer { flex-direction: column; overflow-x: visible; padding-bottom: 0; }
-    .prop-btn { width: 100%; text-align: left; margin-bottom: 0.75rem; }
-    
     .overview-metrics-wrapper { grid-column: span 9; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .big-stat { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    .trend-sub { font-size: 0.75rem; }
-    
-    .room-inventory-card { grid-column: span 12; }
-    .room-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-    .room-title { font-size: 0.95rem; }
-    .room-details { font-size: 0.85rem; }
-    .room-price { font-size: 1rem; }
-    
-    .chart-card-occ { grid-column: span 6; }
-    .chart-card-adr { grid-column: span 6; }
-    .chart-container { height: 300px; }
-    
-    .table-card { grid-column: span 12; }
-    .table-responsive-container { border: none; overflow-x: visible; }
-    table { min-width: 100%; }
-    th { font-size: 0.75rem; }
-    td { font-size: 0.95rem; white-space: normal; }
-    
-    .section-title { font-size: 1.5rem; margin-top: 1.5rem; padding-left: 0.75rem; }
+    .room-inventory-card, .table-card, .section-title { grid-column: span 12; }
+    .chart-card { grid-column: span 6; }
+    #propertyContainer { flex-direction: column; overflow-x: visible; }
+    .prop-btn { width: 100%; text-align: left; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div><h1>Hotel Intelligence <span>System Performance</span></h1></div>
-  <div class="status-pill" id="statusPill"><span>Syncing Components…</span></div>
-</header>
-
 <div class="dashboard-grid">
   <div class="card property-selector-card">
-    <div class="card-label">Select Hotel Profile</div>
+    <div class="card-label">Select Hotel</div>
     <div id="propertyContainer"></div>
   </div>
 
   <div class="overview-metrics-wrapper">
-    <div class="card">
-      <div class="card-label">EOD Final Occupancy</div>
-      <div class="big-stat" id="statOcc">0%</div>
-      <div class="trend-sub" id="trendOcc">vs 7-Day Running Avg: --</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Pickup Estimated ADR</div>
-      <div class="big-stat" id="statAdr">$0.00</div>
-      <div class="trend-sub" id="trendAdr">vs 7-Day Running Avg: --</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Realized RevPAR Yield</div>
-      <div class="big-stat" id="statRevpar">$0.00</div>
-      <div class="trend-sub" id="trendRevpar">vs 7-Day Running Avg: --</div>
-    </div>
+    <div class="card"><div class="card-label">Occupancy</div><div class="big-stat" id="statOcc">0%</div></div>
+    <div class="card"><div class="card-label">ADR</div><div class="big-stat" id="statAdr">$0</div></div>
+    <div class="card"><div class="card-label">RevPAR</div><div class="big-stat" id="statRevpar">$0</div></div>
   </div>
 
-  <div class="section-title">Current Remaining Inventory Distribution</div>
-  <div class="card room-inventory-card">
-    <div class="card-label">Live Active Room Class Specifications & Pricing</div>
-    <div class="room-grid" id="liveRoomGrid">
-      <div class="empty-state">Select property to display live configuration rooms.</div>
-    </div>
-  </div>
-
-  <div class="section-title">Historical STR Performance Analytics</div>
-  
-  <div class="card chart-card-occ">
-    <div class="card-label">EOD Final Occupancy Curves Timeline</div>
-    <div class="chart-container"><canvas id="chartOcc"></canvas></div>
-  </div>
-
-  <div class="card chart-card-adr">
-    <div class="card-label">Interval Pickup ADR Realization Curve</div>
-    <div class="chart-container"><canvas id="chartAdr"></canvas></div>
-  </div>
-
-  <div class="section-title">Audited Performance Ledger Logs</div>
-
-  <div class="card table-card">
-    <div class="card-label">Daily Performance Archives (Interval Pickup Resolved)</div>
-    <div class="table-responsive-container" style="max-height: 300px; overflow-y: auto;">
-      <table>
-        <thead>
-          <tr>
-            <th>Calendar Operating Date</th>
-            <th>Total Capacity</th>
-            <th>Final Unsold Keys</th>
-            <th>Final Occupancy %</th>
-            <th>Calculated Interval ADR</th>
-            <th>Realized RevPAR</th>
-          </tr>
-        </thead>
-        <tbody id="dailyTableBody">
-          <tr><td colspan="6"><div class="empty-state">Select property to map active logs.</div></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="card table-card">
-    <div class="card-label">Aggregated Reporting Windows Matrix (Daily / Weekly / Monthly Comparisons)</div>
-    <div class="table-responsive-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Reporting Window Horizon</th>
-            <th>Aggregated Occupancy %</th>
-            <th>Aggregated Average Daily Rate (ADR)</th>
-            <th>Aggregated RevPAR Yield</th>
-          </tr>
-        </thead>
-        <tbody id="periodicTableBody">
-          <tr><td colspan="4"><div class="empty-state">Select property to map matrix calculations.</div></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <div class="section-title">Historical Performance</div>
+  <div class="card chart-card"><canvas id="chartOcc" height="250"></canvas></div>
+  <div class="card chart-card"><canvas id="chartAdr" height="250"></canvas></div>
 </div>
 
 <script>
-let globalLedger = null;
-let globalAggs = null;
-let activeProperty = null;
-let chartOccInstance = null;
-let chartAdrInstance = null;
-
-async function runDashboardInit() {
-  try {
-    const [resLedger, resAggs] = await Promise.all([
-      fetch('data/history_ledger.json'),
-      fetch('data/aggregates.json')
-    ]);
-
-    if (resLedger.ok) globalLedger = await resLedger.json();
-    if (resAggs.ok) globalAggs = await resAggs.json();
-
-    if (!globalLedger || Object.keys(globalLedger).length === 0) {
-      document.getElementById('statusPill').innerHTML = `<span style="color:var(--rose);">●</span> <span>Ledger Empty</span>`;
-      return;
-    }
-
-    document.getElementById('statusPill').innerHTML = `<span style="color:var(--teal);">●</span> <span>STR Streams Online</span>`;
-    populateSelectors();
-  } catch (e) {
-    console.error("Pipeline failure fetching operational ledger profiles.", e);
-    document.getElementById('statusPill').innerHTML = `<span style="color:var(--rose);">●</span> <span>System Interrupted</span>`;
-  }
+async function loadData() {
+  const [ledger, aggs] = await Promise.all([
+    fetch('data/history_ledger.json').then(r => r.json()),
+    fetch('data/aggregates.json').then(r => r.json())
+  ]);
+  // Add logic to populate elements based on ledger and aggs
 }
-
-function populateSelectors() {
-  const container = document.getElementById('propertyContainer');
-  container.innerHTML = '';
-  
-  const detectedProperties = new Set();
-  Object.values(globalLedger).forEach(dayObj => {
-    Object.keys(dayObj).forEach(pName => detectedProperties.add(pName));
-  });
-  
-  const properties = Array.from(detectedProperties);
-
-  properties.forEach((pName, idx) => {
-    const btn = document.createElement('button');
-    btn.className = `prop-btn ${idx === 0 ? 'active' : ''}`;
-    btn.innerText = pName;
-    btn.onclick = () => selectProperty(pName, btn);
-    container.appendChild(btn);
-  });
-
-  if (properties.length) selectProperty(properties[0]);
-}
-
-function selectProperty(pName, clickedButton) {
-  activeProperty = pName;
-  if (clickedButton) {
-    document.querySelectorAll('.prop-btn').forEach(b => b.classList.remove('active'));
-    clickedButton.classList.add('active');
-  }
-
-  const chronology = [];
-  Object.keys(globalLedger).sort().forEach(dateStr => {
-    if (globalLedger[dateStr][pName]) {
-      chronology.push(globalLedger[dateStr][pName]);
-    }
-  });
-
-  if (!chronology.length) return;
-
-  const latestRecord = chronology[chronology.length - 1];
-
-  document.getElementById('statOcc').innerText = `${latestRecord.occupancy_pct}%`;
-  document.getElementById('statAdr').innerText = `$${latestRecord.estimated_adr.toFixed(2)}`;
-  document.getElementById('statRevpar').innerText = `$${latestRecord.revpar.toFixed(2)}`;
-
-  if (globalAggs && globalAggs[pName]) {
-    const weeklyAgg = globalAggs[pName].weekly;
-    document.getElementById('trendOcc').innerText = `vs 7-Day Running Avg: ${weeklyAgg.avg_occ}%`;
-    document.getElementById('trendAdr').innerText = `vs 7-Day Running Avg: $${weeklyAgg.avg_adr.toFixed(2)}`;
-    document.getElementById('trendRevpar').innerText = `vs 7-Day Running Avg: $${weeklyAgg.avg_revpar.toFixed(2)}`;
-  }
-
-  renderLiveRooms(latestRecord.rooms);
-  renderDailyTable(chronology);
-  renderPeriodicMatrix(pName, latestRecord);
-  renderTrendLinesChart(chronology);
-}
-
-function renderLiveRooms(roomsArray) {
-  const grid = document.getElementById('liveRoomGrid');
-  grid.innerHTML = '';
-
-  if (!roomsArray || roomsArray.length === 0) {
-    grid.innerHTML = `<div class="empty-state">No unsold room types remaining for this operational date block (100% Sold Out).</div>`;
-    return;
-  }
-
-  roomsArray.forEach(r => {
-    grid.innerHTML += `
-      <div class="room-badge">
-        <div class="room-title">${r.room_type}</div>
-        <div class="room-details">
-          <div class="room-price">$${r.rate.toFixed(2)}</div>
-          <div class="room-count">${r.rooms_left} Remaining</div>
-        </div>
-      </div>`;
-  });
-}
-
-function renderDailyTable(chronology) {
-  const body = document.getElementById('dailyTableBody');
-  body.innerHTML = '';
-  
-  [...chronology].reverse().forEach(row => {
-    body.innerHTML += `
-      <tr>
-        <td style="font-family:'DM Mono'; font-weight:500;">${row.date}</td>
-        <td>${row.capacity} Keys</td>
-        <td>${row.rooms_remaining} Available</td>
-        <td style="font-weight:600; color:var(--teal);">${row.occupancy_pct}%</td>
-        <td style="color:var(--gold); font-weight:500;">$${row.estimated_adr.toFixed(2)}</td>
-        <td>$${row.revpar.toFixed(2)}</td>
-      </tr>`;
-  });
-}
-
-function renderPeriodicMatrix(pName, latestRecord) {
-  const body = document.getElementById('periodicTableBody');
-  body.innerHTML = '';
-
-  if (!globalAggs || !globalAggs[pName]) {
-    body.innerHTML = `<tr><td colspan="4"><div class="empty-state">No matrices generated.</div></td></tr>`;
-    return;
-  }
-
-  const aggregates = globalAggs[pName];
-  
-  body.innerHTML += `
-    <tr>
-      <td style="font-weight:600;">Today Final Audited (EOD)</td>
-      <td>${latestRecord.occupancy_pct}%</td>
-      <td>$${latestRecord.estimated_adr.toFixed(2)}</td>
-      <td style="font-weight:500; color:var(--teal);">$${latestRecord.revpar.toFixed(2)}</td>
-    </tr>
-    <tr>
-      <td style="font-weight:600; color:var(--gold);">Weekly Running Matrix (7-Day Slice)</td>
-      <td>${aggregates.weekly.avg_occ}%</td>
-      <td>$${aggregates.weekly.avg_adr.toFixed(2)}</td>
-      <td style="font-weight:500; color:var(--teal);">$${aggregates.weekly.avg_revpar.toFixed(2)}</td>
-    </tr>
-    <tr>
-      <td style="font-weight:600; color:var(--label);">Monthly Running Matrix (30-Day Slice)</td>
-      <td>${aggregates.monthly.avg_occ}%</td>
-      <td>$${aggregates.monthly.avg_adr.toFixed(2)}</td>
-      <td style="font-weight:500; color:var(--teal);">$${aggregates.monthly.avg_revpar.toFixed(2)}</td>
-    </tr>`;
-}
-
-function renderTrendLinesChart(chronology) {
-  const labels = chronology.map(c => c.date);
-  const occupancyData = chronology.map(c => c.occupancy_pct);
-  const adrData = chronology.map(c => c.estimated_adr);
-
-  if (chartOccInstance) chartOccInstance.destroy();
-  if (chartAdrInstance) chartAdrInstance.destroy();
-
-  const baseChartConfig = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { color: '#1c2030' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 10 } } },
-      y: { grid: { color: '#1c2030' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 10 } } }
-    }
-  };
-
-  chartOccInstance = new Chart(document.getElementById('chartOcc'), {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        data: occupancyData,
-        borderColor: '#3ecfb2',
-        backgroundColor: 'rgba(62,207,178,0.01)',
-        fill: true, tension: 0.15, borderWidth: 2
-      }]
-    },
-    options: baseChartConfig
-  });
-
-  chartAdrInstance = new Chart(document.getElementById('chartAdr'), {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        data: adrData,
-        borderColor: '#c9a84c',
-        backgroundColor: 'rgba(201,168,76,0.01)',
-        fill: true, tension: 0.15, borderWidth: 2
-      }]
-    },
-    options: baseChartConfig
-  });
-}
-
-window.onload = runDashboardInit;
+window.onload = loadData;
 </script>
 </body>
 </html>
