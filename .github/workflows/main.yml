@@ -41,12 +41,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          
-          # Synchronize system package indices to handle modernized Ubuntu 24.04 library tracks
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           sudo apt-get update
-          
-          # Install chromium and native system binaries
           python -m playwright install chromium
           python -m playwright install-deps chromium
 
@@ -75,7 +71,7 @@ jobs:
         env:
           TZ: "America/Los_Angeles"
 
-      - name: Compute aggregates
+      - name: Compute STR Aggregates and Historical Ledger
         run: python aggregate.py
         env:
           TZ: "America/Los_Angeles"
@@ -85,8 +81,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Check if directories exist before running git add to prevent pathspec exceptions
+          # FIXED: Explicitly tracking and staging the core STR ledger and dashboard aggregate frameworks
           [ -d "data" ] && git add data/*.json || true
+          [ -f "data/history_ledger.json" ] && git add data/history_ledger.json || true
+          [ -f "data/aggregates.json" ] && git add data/aggregates.json || true
           [ -d "reports" ] && git add reports/* || true
           [ -d "logs" ] && git add logs/* || true
           
