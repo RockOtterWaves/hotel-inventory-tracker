@@ -1,0 +1,110 @@
+{
+  "Tarzana Inn": [
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-06-06T07:34:39.700758Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 169.0,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 169.0,
+          "rooms_left": 3
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 5,
+        "estimated_sold": 44,
+        "estimated_occupancy_pct": 89,
+        "blended_adr": 169.0
+      }
+    }
+  ],
+  "Sea Air Inn": [
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-06-06T07:34:46.295757Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 189.49,
+          "rooms_left": 4
+        },
+        {
+          "room_type": "Deluxe Queen Disability Access Downstairs",
+          "rate": 189.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe King Downstairs",
+          "rate": 214.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Partial View King Upstairs",
+          "rate": 229.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Junior King Suite Downstairs",
+          "rate": 234.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Family Suite Upstairs",
+          "rate": 409.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 9,
+        "estimated_sold": 15,
+        "estimated_occupancy_pct": 62,
+        "blended_adr": 244.49
+      }
+    }
+  ],
+  "Blufftop Inn": [
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-06-06T07:34:52.504430Z",
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 184.49,
+          "rooms_left": 7
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "rate": 214.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 234.49,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "rate": 259.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 13,
+        "estimated_sold": 19,
+        "estimated_occupancy_pct": 59,
+        "blended_adr": 223.24
+      }
+    }
+  ]
+}
