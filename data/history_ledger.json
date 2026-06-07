@@ -221,69 +221,69 @@
   "2026-06-07": {
     "Tarzana Inn": {
       "date": "2026-06-07",
-      "occ": 57.1,
+      "occ": 63.3,
       "adr": 139.0,
-      "rev": 79.37,
-      "sold": 28,
-      "remaining": 21,
+      "rev": 87.99,
+      "sold": 31,
+      "remaining": 18,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 9,
+          "rooms_left": 7,
           "rate": 134.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 12,
+          "rooms_left": 11,
           "rate": 144.0
         }
       ]
     },
     "Sea Air Inn": {
       "date": "2026-06-07",
-      "occ": 83.3,
-      "adr": 88.99,
-      "rev": 74.13,
-      "sold": 20,
-      "remaining": 4,
+      "occ": 87.5,
+      "adr": 91.99,
+      "rev": 80.49,
+      "sold": 21,
+      "remaining": 3,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe Queen Room",
           "available": true,
-          "rooms_left": 3,
-          "rate": 81.49
+          "rooms_left": 2,
+          "rate": 84.49
         },
         {
           "room_type": "Deluxe Partial View Queen Upstairs",
           "available": true,
           "rooms_left": 1,
-          "rate": 96.49
+          "rate": 99.49
         }
       ]
     },
     "Blufftop Inn": {
       "date": "2026-06-07",
-      "occ": 40.6,
+      "occ": 56.2,
       "adr": 104.49,
-      "rev": 42.42,
-      "sold": 13,
-      "remaining": 19,
+      "rev": 58.72,
+      "sold": 18,
+      "remaining": 14,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 14,
+          "rooms_left": 10,
           "rate": 84.49
         },
         {
           "room_type": "Comfort King Suite",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 104.49
         },
         {
