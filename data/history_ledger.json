@@ -221,17 +221,17 @@
   "2026-06-07": {
     "Tarzana Inn": {
       "date": "2026-06-07",
-      "occ": 55.1,
+      "occ": 57.1,
       "adr": 139.0,
-      "rev": 76.59,
-      "sold": 27,
-      "remaining": 22,
+      "rev": 79.37,
+      "sold": 28,
+      "remaining": 21,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 9,
+          "rooms_left": 8,
           "rate": 134.0
         },
         {
