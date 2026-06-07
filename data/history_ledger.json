@@ -231,13 +231,13 @@
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 8,
+          "rooms_left": 9,
           "rate": 134.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 13,
+          "rooms_left": 12,
           "rate": 144.0
         }
       ]
@@ -267,23 +267,17 @@
     },
     "Blufftop Inn": {
       "date": "2026-06-07",
-      "occ": 37.5,
-      "adr": 99.49,
-      "rev": 37.31,
-      "sold": 12,
-      "remaining": 20,
+      "occ": 40.6,
+      "adr": 104.49,
+      "rev": 42.42,
+      "sold": 13,
+      "remaining": 19,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
           "rooms_left": 14,
-          "rate": 84.49
-        },
-        {
-          "room_type": "Comfort Accessible Queen Room",
-          "available": true,
-          "rooms_left": 1,
           "rate": 84.49
         },
         {
