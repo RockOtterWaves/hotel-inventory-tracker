@@ -2,13 +2,14 @@ name: Hotel Inventory Tracker
 
 on:
   schedule:
-    # Times translated to UTC (Pacific is UTC-7 in Daylight Saving Time)
-    - cron: '0 16 * * *'   # 09:00 AM PT
-    - cron: '0 22 * * *'   # 03:00 PM PT
-    - cron: '0 1 * * *'    # 06:00 PM PT (Next Day UTC)
-    - cron: '30 4 * * *'   # 09:30 PM PT (Next Day UTC)
-    - cron: '59 6 * * *'   # 11:59 PM PT (Next Day UTC)
-    - cron: '0 14 * * *'   # 07:00 AM PT Morning Report Run
+    # All times are Pacific Daylight Time (PDT = UTC-7).
+    # Runs that fall after midnight PT have the NEXT UTC calendar date.
+    - cron: '0 14 * * *'   # 07:00 AM PT  — Morning report + scrape
+    - cron: '0 16 * * *'   # 09:00 AM PT  — Scrape
+    - cron: '0 22 * * *'   # 03:00 PM PT  — Scrape
+    - cron: '0 1 * * *'    # 06:00 PM PT  — Scrape  (next UTC day)
+    - cron: '30 4 * * *'   # 09:30 PM PT  — Scrape  (next UTC day, before Sea Air / Blufftop 10 PM cutoff)
+    - cron: '59 6 * * *'   # 11:59 PM PT  — Scrape  (next UTC day, before Tarzana midnight cutoff)
 
   workflow_dispatch:
     inputs:
@@ -49,11 +50,16 @@ jobs:
       - name: Determine run type
         id: run_type
         run: |
-          HOUR=$(date -u +%H)
-          MINUTE=$(date -u +%M)
-          if [ "$HOUR" = "14" ] && [ "$MINUTE" = "00" ]; then
+          # Use the cron string from github.event.schedule to detect run type.
+          # Matching on the schedule value is reliable — it does not depend on
+          # wall-clock time, which drifts by 2-3 minutes after job setup steps
+          # and would cause the report run to silently fall through to scrape.
+          SCHEDULE="${{ github.event.schedule }}"
+          MANUAL_TYPE="${{ github.event.inputs.run_type }}"
+
+          if [ "$SCHEDULE" = "0 14 * * *" ]; then
             echo "type=report" >> $GITHUB_OUTPUT
-          elif [ "${{ github.event.inputs.run_type }}" = "report" ]; then
+          elif [ "$MANUAL_TYPE" = "report" ]; then
             echo "type=report" >> $GITHUB_OUTPUT
           else
             echo "type=scrape" >> $GITHUB_OUTPUT
@@ -80,14 +86,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # FIXED: Explicitly tracking and staging the core STR ledger and dashboard aggregate frameworks
+
           [ -d "data" ] && git add data/*.json || true
           [ -f "data/history_ledger.json" ] && git add data/history_ledger.json || true
           [ -f "data/aggregates.json" ] && git add data/aggregates.json || true
           [ -d "reports" ] && git add reports/* || true
           [ -d "logs" ] && git add logs/* || true
-          
+
           if git diff --cached --quiet; then
             echo "No operational data variations detected. Skipping empty commit."
           else
