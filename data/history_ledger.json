@@ -441,38 +441,44 @@
   "2026-06-09": {
     "Tarzana Inn": {
       "date": "2026-06-09",
-      "occ": 40.8,
+      "occ": 44.9,
       "adr": 144.0,
-      "rev": 58.75,
-      "sold": 20,
-      "remaining": 29,
+      "rev": 64.66,
+      "sold": 22,
+      "remaining": 27,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 13,
+          "rooms_left": 12,
           "rate": 139.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 16,
+          "rooms_left": 15,
           "rate": 149.0
         }
       ],
-      "last_scan_utc": "2026-06-09T16:28:55.596956",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-06-09T18:17:06.161314",
+      "valid_snapshots": 4
     },
     "Sea Air Inn": {
       "date": "2026-06-09",
-      "occ": 83.3,
-      "adr": 101.99,
-      "rev": 84.96,
-      "sold": 20,
-      "remaining": 4,
+      "occ": 75.0,
+      "adr": 95.16,
+      "rev": 71.37,
+      "sold": 18,
+      "remaining": 6,
       "capacity": 24,
       "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 81.49
+        },
         {
           "room_type": "Deluxe King Downstairs",
           "available": true,
@@ -486,22 +492,22 @@
           "rate": 109.49
         }
       ],
-      "last_scan_utc": "2026-06-09T16:29:02.048395",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-06-09T18:17:12.796468",
+      "valid_snapshots": 4
     },
     "Blufftop Inn": {
       "date": "2026-06-09",
-      "occ": 46.9,
+      "occ": 50.0,
       "adr": 115.74,
-      "rev": 54.28,
-      "sold": 15,
-      "remaining": 17,
+      "rev": 57.87,
+      "sold": 16,
+      "remaining": 16,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 10,
+          "rooms_left": 9,
           "rate": 84.49
         },
         {
@@ -523,8 +529,8 @@
           "rate": 149.49
         }
       ],
-      "last_scan_utc": "2026-06-09T16:29:08.479314",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-06-09T18:17:19.110913",
+      "valid_snapshots": 4
     }
   }
 }
