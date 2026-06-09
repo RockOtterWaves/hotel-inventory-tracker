@@ -212,7 +212,7 @@ footer a:hover{color:var(--gold)}
       <div class="sh"><div class="sh-title">Daily Detail</div><div class="sh-sub">Each tracked day — final occupancy</div></div>
       <div class="tbl-wrap">
         <table class="data-tbl">
-          <thead><tr><th>Date</th><th>Occ %</th><th>ADR</th><th>RevPAR</th><th>Sold</th><th>Remaining</th><th>Last Scan (UTC)</th></tr></thead>
+          <thead><tr><th>Date</th><th>Occ %</th><th>ADR</th><th>RevPAR</th><th>Sold</th><th>Remaining</th><th>Last Scan (PT)</th></tr></thead>
           <tbody id="dailyBody"><tr><td colspan="7"><div class="empty"><div class="spinner"></div></div></td></tr></tbody>
         </table>
       </div>
@@ -247,8 +247,10 @@ const GH = { user: "rockotterwaves", repo: "hotel-inventory-tracker" };
 
 const RAW = `https://raw.githubusercontent.com/${GH.user}/${GH.repo}/main`;
 
-// PT offset: PDT = UTC-7. Change to 8 in winter (PST).
-const PT_OFFSET_HOURS = 7;
+// All time conversion uses Intl API with timeZone:'America/Los_Angeles' (PT_TZ below).
+// Manual UTC-offset arithmetic was removed — it caused a double-subtraction bug
+// where fmtTimePT() subtracted 7h manually AND toLocaleTimeString() subtracted
+// another 7h for PT-timezone browsers, showing times 14h off.
 
 // Booking cutoff hours in PT (after this time, data is next-day)
 const CUTOFFS_PT = {
@@ -271,21 +273,41 @@ let chartHistOcc = null, chartHistAdr = null;
 let activeProp = null;
 
 // ── PT date helpers ───────────────────────────────────────────
+// We use the Intl / timeZone API throughout to avoid double-offset bugs.
+// Manual arithmetic (subtracting PT_OFFSET_HOURS ms then calling toLocaleTimeString)
+// was applying the offset twice for PT-timezone browsers because
+// toLocaleTimeString also converts the UTC timestamp to local time.
+const PT_TZ = 'America/Los_Angeles';
+
 function nowPT() {
+  // Returns a plain object with .year .month .day from the current PT wall-clock
   const now = new Date();
-  return new Date(now.getTime() - PT_OFFSET_HOURS * 3600000);
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: PT_TZ,
+    year: 'numeric', month: '2-digit', day: '2-digit'
+  }).formatToParts(now);
+  return Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
 }
 function todayPT() {
-  return nowPT().toISOString().slice(0,10);
+  const p = nowPT();
+  return `${p.year}-${p.month}-${p.day}`;
 }
-function utcToPT(isoStr) {
+function utcToPTDateStr(isoStr) {
+  // Returns "YYYY-MM-DD" for the PT calendar date of a UTC ISO string
   const utc = new Date(isoStr);
-  return new Date(utc.getTime() - PT_OFFSET_HOURS * 3600000);
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: PT_TZ,
+    year: 'numeric', month: '2-digit', day: '2-digit'
+  }).format(utc);
 }
 function fmtTimePT(isoStr) {
+  // Returns "HH:MM AM/PM" in PT — passes the UTC string directly, no manual offset
   try {
-    const pt = utcToPT(isoStr);
-    return pt.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true});
+    const utc = new Date(isoStr);
+    return utc.toLocaleTimeString('en-US', {
+      timeZone: PT_TZ,
+      hour: '2-digit', minute: '2-digit', hour12: true
+    });
   } catch { return isoStr; }
 }
 
@@ -295,11 +317,22 @@ function validSnapsForDate(entries, prop, ptDateStr) {
   const cutoffHr = CUTOFFS_PT[prop] || 24;
   return entries.filter(e => {
     try {
-      const pt = utcToPT(e.scraped_at);
-      const snapDateStr = pt.toISOString().slice(0,10);
+      // Use Intl to convert UTC → PT without double-offset risk
+      const utc = new Date(e.scraped_at);
+      const snapDateStr = utcToPTDateStr(e.scraped_at);
       if (snapDateStr !== ptDateStr) return false;
-      const hr = pt.getUTCHours() + pt.getUTCMinutes()/60; // already offset
-      return hr < cutoffHr;
+      // Get the PT hour for cutoff comparison
+      const ptHr = parseInt(
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: PT_TZ, hour: 'numeric', hour12: false
+        }).format(utc), 10
+      );
+      const ptMin = parseInt(
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: PT_TZ, minute: 'numeric'
+        }).format(utc), 10
+      );
+      return (ptHr + ptMin / 60) < cutoffHr;
     } catch { return false; }
   });
 }
@@ -307,14 +340,13 @@ function validSnapsForDate(entries, prop, ptDateStr) {
 // When fetching a JSON file for a PT date, we may need to check
 // the UTC-date files around it (today PT could be tomorrow UTC after 5 PM PT)
 function utcDatesForPTDate(ptDateStr) {
-  // A PT date spans: ptDate 07:00 UTC to ptDate+1 07:00 UTC
-  // So we might need both ptDate and ptDate+1 UTC files
+  // A PT date spans roughly ptDate 07:00 UTC → ptDate+1 07:00 UTC (PDT)
+  // We fetch both the same-name UTC file and the next UTC calendar day's file
   const dates = new Set();
   dates.add(ptDateStr);
-  // Also add next UTC day (for runs after 5 PM PT = midnight UTC)
   const d = new Date(ptDateStr + 'T07:00:00Z');
   d.setUTCDate(d.getUTCDate() + 1);
-  dates.add(d.toISOString().slice(0,10));
+  dates.add(d.toISOString().slice(0, 10));
   return [...dates];
 }
 
@@ -575,7 +607,7 @@ function renderAnalytics(prop) {
     const days = Object.keys(ledger).filter(d => ledger[d]?.[prop]).sort().reverse();
     document.getElementById('dailyBody').innerHTML = days.map(d => {
       const m = ledger[d][prop];
-      const scanTime = m.last_scan_utc ? new Date(m.last_scan_utc).toISOString().replace('T',' ').slice(0,16)+' UTC' : '—';
+      const scanTime = m.last_scan_utc ? fmtTimePT(m.last_scan_utc + 'Z') + ' PT' : '—';
       return `<tr>
         <td>${d}</td>
         <td>${m.occ}% <span class="mbar" style="width:${Math.round(m.occ*.85)}px;background:${occColor(m.occ)}"></span></td>
