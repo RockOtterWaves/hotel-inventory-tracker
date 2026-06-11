@@ -104,13 +104,10 @@ def process_property_day(pt_date_str: str, prop: str, entries: list, capacity: i
 
 # Change the return statement to include partial results even if rooms seem empty
 if not valid:
-    return None
+        return None
 
-# ... ensure capacity is correctly used from the CONFIG ...
-# If total_remaining is 0 or sold out is total capacity, force occ to 100
-occ = round(sold / capacity * 100, 1) if capacity > 0 else 0
-
-    # Sort ascending by time
+    # Ensure this block is indented exactly 4 spaces from the start of the file
+    # or 8 spaces if inside the function (as it appears here)
     valid.sort(key=lambda x: x[0])
     last_utc, last_entry = valid[-1]
 
