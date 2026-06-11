@@ -102,12 +102,11 @@ def process_property_day(pt_date_str: str, prop: str, entries: list, capacity: i
         except Exception:
             continue
 
-# Change the return statement to include partial results even if rooms seem empty
-if not valid:
+    # Change the return statement to include partial results even if rooms seem empty
+    if not valid:
         return None
 
-    # Ensure this block is indented exactly 4 spaces from the start of the file
-    # or 8 spaces if inside the function (as it appears here)
+    # Ensure these lines have exactly 4 spaces of indentation
     valid.sort(key=lambda x: x[0])
     last_utc, last_entry = valid[-1]
 
