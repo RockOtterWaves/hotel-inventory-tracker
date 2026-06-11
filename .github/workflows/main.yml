@@ -8,8 +8,8 @@ on:
     - cron: '0 16 * * *'   # 09:00 AM PT  — Scrape
     - cron: '0 22 * * *'   # 03:00 PM PT  — Scrape
     - cron: '0 1 * * *'    # 06:00 PM PT  — Scrape  (next UTC day)
-    - cron: '30 4 * * *'   # 09:30 PM PT  — Scrape  (next UTC day, before Sea Air / Blufftop 10 PM cutoff)
-    - cron: '59 6 * * *'   # 11:59 PM PT  — Scrape  (next UTC day, before Tarzana midnight cutoff)
+    - cron: '0 4 * * *'   # 09:00 PM PT  — Scrape  (next UTC day, before Sea Air / Blufftop 10 PM cutoff)
+    - cron: '0 6 * * *'   # 11:00 PM PT  — Scrape  (next UTC day, before Tarzana midnight cutoff)
 
   workflow_dispatch:
     inputs:
