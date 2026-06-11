@@ -100,10 +100,12 @@ async def scrape_property_with_retry(prop, max_retries=3):
                 
                 # Universal Body Text Fallback if specialized components are missing or compressed
                 if not blocks:
-                    logger.info(f"[{prop['name']}] No structured sub-components found. Falling back to body text-stream splitting...")
                     body_text = await page.locator("body").inner_text()
+                    # Check for sold out specifically
+                    if any(x in body_text.lower() for x in ["sold out", "no rooms", "not available"]):
+                        # Create a dummy "sold out" entry so aggregate.py knows the state
+                        return [{"room_type": "Sold Out", "rate": 0, "rooms_left": 0}]
                     blocks = re.split(r'(?=\$\s*\d)', body_text)
-
                 rooms = parse_raw_blocks(blocks, prop["name"])
                 await browser.close()
                 
