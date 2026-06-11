@@ -119,6 +119,30 @@
         "estimated_occupancy_pct": 69,
         "blended_adr": 144.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-06-11T05:26:58.194788Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 139.0,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 149.0,
+          "rooms_left": 8
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 11,
+        "estimated_sold": 38,
+        "estimated_occupancy_pct": 77,
+        "blended_adr": 144.0
+      }
     }
   ],
   "Sea Air Inn": [
@@ -291,6 +315,25 @@
         "estimated_occupancy_pct": 87,
         "blended_adr": 104.49
       }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-06-11T05:27:06.496930Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Two Queen Beds Upstairs",
+          "rate": 139.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 1,
+        "estimated_sold": 23,
+        "estimated_occupancy_pct": 95,
+        "blended_adr": 139.49
+      }
     }
   ],
   "Blufftop Inn": [
@@ -457,6 +500,25 @@
         "estimated_sold": 26,
         "estimated_occupancy_pct": 81,
         "blended_adr": 122.82
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-06-11T05:27:12.676571Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 124.49,
+          "rooms_left": 3
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 3,
+        "estimated_sold": 29,
+        "estimated_occupancy_pct": 90,
+        "blended_adr": 124.49
       }
     }
   ]
