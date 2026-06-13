@@ -665,28 +665,28 @@
   "2026-06-12": {
     "Tarzana Inn": {
       "date": "2026-06-12",
-      "occ": 69.4,
-      "adr": 194.0,
-      "rev": 134.64,
-      "sold": 34,
-      "remaining": 15,
+      "occ": 77.6,
+      "adr": 209.0,
+      "rev": 162.18,
+      "sold": 38,
+      "remaining": 11,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 10,
-          "rate": 189.0
+          "rooms_left": 7,
+          "rate": 204.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 5,
-          "rate": 199.0
+          "rooms_left": 4,
+          "rate": 214.0
         }
       ],
-      "last_scan_utc": "2026-06-12T18:14:56.006975",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-06-13T05:08:42.724492",
+      "valid_snapshots": 5
     },
     "Sea Air Inn": {
       "date": "2026-06-12",
