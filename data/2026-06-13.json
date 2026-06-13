@@ -71,6 +71,25 @@
         "estimated_occupancy_pct": 79,
         "blended_adr": 209.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-06-13T22:41:47.477748Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 204.0,
+          "rooms_left": 5
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 5,
+        "estimated_sold": 44,
+        "estimated_occupancy_pct": 89,
+        "blended_adr": 204.0
+      }
     }
   ],
   "Blufftop Inn": [
@@ -144,6 +163,30 @@
         "estimated_sold": 29,
         "estimated_occupancy_pct": 90,
         "blended_adr": 456.99
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-06-13T22:42:25.498578Z",
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 379.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "rate": 399.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 2,
+        "estimated_sold": 30,
+        "estimated_occupancy_pct": 93,
+        "blended_adr": 389.49
       }
     }
   ]
