@@ -1182,5 +1182,32 @@
       "last_scan_utc": "2026-06-17T23:08:52.006723",
       "valid_snapshots": 5
     }
+  },
+  "2026-06-18": {
+    "Tarzana Inn": {
+      "date": "2026-06-18",
+      "occ": 71.4,
+      "adr": 164.0,
+      "rev": 117.1,
+      "sold": 35,
+      "remaining": 14,
+      "capacity": 49,
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "available": true,
+          "rooms_left": 7,
+          "rate": 159.0
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "available": true,
+          "rooms_left": 7,
+          "rate": 169.0
+        }
+      ],
+      "last_scan_utc": "2026-06-18T07:17:00.453778",
+      "valid_snapshots": 1
+    }
   }
 }
