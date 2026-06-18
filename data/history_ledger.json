@@ -1196,18 +1196,18 @@
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 4,
+          "rooms_left": 6,
           "rate": 159.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 5,
+          "rooms_left": 3,
           "rate": 169.0
         }
       ],
-      "last_scan_utc": "2026-06-18T18:17:45.433783",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-06-18T23:22:23.408596",
+      "valid_snapshots": 5
     }
   }
 }
