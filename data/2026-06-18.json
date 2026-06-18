@@ -71,6 +71,30 @@
         "estimated_occupancy_pct": 73,
         "blended_adr": 164.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-06-18T18:17:45.433783Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 159.0,
+          "rooms_left": 4
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 169.0,
+          "rooms_left": 5
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 9,
+        "estimated_sold": 40,
+        "estimated_occupancy_pct": 81,
+        "blended_adr": 164.0
+      }
     }
   ]
 }
