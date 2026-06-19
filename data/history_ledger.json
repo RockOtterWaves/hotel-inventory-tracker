@@ -1209,5 +1209,51 @@
       "last_scan_utc": "2026-06-19T05:37:23.436786",
       "valid_snapshots": 6
     }
+  },
+  "2026-06-19": {
+    "Tarzana Inn": {
+      "date": "2026-06-19",
+      "occ": 69.4,
+      "adr": 164.0,
+      "rev": 113.82,
+      "sold": 34,
+      "remaining": 15,
+      "capacity": 49,
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "available": true,
+          "rooms_left": 9,
+          "rate": 159.0
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "available": true,
+          "rooms_left": 6,
+          "rate": 169.0
+        }
+      ],
+      "last_scan_utc": "2026-06-19T07:40:51.932078",
+      "valid_snapshots": 1
+    },
+    "Blufftop Inn": {
+      "date": "2026-06-19",
+      "occ": 96.9,
+      "adr": 364.49,
+      "rev": 353.19,
+      "sold": 31,
+      "remaining": 1,
+      "capacity": 32,
+      "rooms": [
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 364.49
+        }
+      ],
+      "last_scan_utc": "2026-06-19T07:41:32.660936",
+      "valid_snapshots": 1
+    }
   }
 }
