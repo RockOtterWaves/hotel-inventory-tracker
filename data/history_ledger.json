@@ -1233,8 +1233,8 @@
           "rate": 169.0
         }
       ],
-      "last_scan_utc": "2026-06-19T07:40:51.932078",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-06-19T08:55:14.163013",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-06-19",
@@ -1252,8 +1252,8 @@
           "rate": 364.49
         }
       ],
-      "last_scan_utc": "2026-06-19T07:41:32.660936",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-06-19T08:55:54.834672",
+      "valid_snapshots": 2
     }
   }
 }
