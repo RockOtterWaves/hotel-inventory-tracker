@@ -71,6 +71,30 @@
         "estimated_occupancy_pct": 75,
         "blended_adr": 184.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-06-19T17:28:14.064794Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 179.0,
+          "rooms_left": 8
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 189.0,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 10,
+        "estimated_sold": 39,
+        "estimated_occupancy_pct": 79,
+        "blended_adr": 184.0
+      }
     }
   ],
   "Blufftop Inn": [
