@@ -1289,22 +1289,22 @@
   "2026-06-20": {
     "Tarzana Inn": {
       "date": "2026-06-20",
-      "occ": 89.8,
+      "occ": 93.9,
       "adr": 194.0,
-      "rev": 174.21,
-      "sold": 44,
-      "remaining": 5,
+      "rev": 182.17,
+      "sold": 46,
+      "remaining": 3,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 5,
+          "rooms_left": 3,
           "rate": 194.0
         }
       ],
-      "last_scan_utc": "2026-06-20T16:54:55.444144",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-06-20T22:46:26.461759",
+      "valid_snapshots": 4
     },
     "Sea Air Inn": {
       "date": "2026-06-20",
@@ -1327,21 +1327,15 @@
     },
     "Blufftop Inn": {
       "date": "2026-06-20",
-      "occ": 75.0,
-      "adr": 328.66,
-      "rev": 246.5,
-      "sold": 24,
-      "remaining": 8,
+      "occ": 87.5,
+      "adr": 373.24,
+      "rev": 326.59,
+      "sold": 28,
+      "remaining": 4,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
-          "available": true,
-          "rooms_left": 3,
-          "rate": 279.49
-        },
-        {
-          "room_type": "Comfort King Suite",
           "available": true,
           "rooms_left": 1,
           "rate": 299.49
@@ -1350,29 +1344,23 @@
           "room_type": "Deluxe King Suite",
           "available": true,
           "rooms_left": 1,
-          "rate": 319.49
+          "rate": 349.49
         },
         {
           "room_type": "Comfort Two Queen Room",
           "available": true,
           "rooms_left": 1,
-          "rate": 349.49
-        },
-        {
-          "room_type": "Comfort Accessible Two Queen Room",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 349.49
+          "rate": 409.49
         },
         {
           "room_type": "Deluxe Two Queen Suite",
           "available": true,
           "rooms_left": 1,
-          "rate": 374.49
+          "rate": 434.49
         }
       ],
-      "last_scan_utc": "2026-06-20T16:55:08.330908",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-06-20T22:47:06.862186",
+      "valid_snapshots": 4
     }
   }
 }
