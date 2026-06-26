@@ -1679,44 +1679,38 @@
   "2026-06-25": {
     "Tarzana Inn": {
       "date": "2026-06-25",
-      "occ": 63.3,
+      "occ": 75.5,
       "adr": 154.0,
-      "rev": 97.48,
-      "sold": 31,
-      "remaining": 18,
+      "rev": 116.27,
+      "sold": 37,
+      "remaining": 12,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 8,
+          "rooms_left": 3,
           "rate": 149.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 10,
+          "rooms_left": 9,
           "rate": 159.0
         }
       ],
-      "last_scan_utc": "2026-06-25T23:01:29.339003",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-06-26T04:53:42.409497",
+      "valid_snapshots": 5
     },
     "Sea Air Inn": {
       "date": "2026-06-25",
-      "occ": 79.2,
-      "adr": 113.99,
-      "rev": 90.28,
-      "sold": 19,
-      "remaining": 5,
+      "occ": 87.5,
+      "adr": 112.99,
+      "rev": 98.87,
+      "sold": 21,
+      "remaining": 3,
       "capacity": 24,
       "rooms": [
-        {
-          "room_type": "Deluxe Partial View Queen Upstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 115.49
-        },
         {
           "room_type": "Deluxe King Downstairs",
           "available": true,
@@ -1728,22 +1722,16 @@
           "available": true,
           "rooms_left": 1,
           "rate": 120.49
-        },
-        {
-          "room_type": "Deluxe Junior King Suite Downstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 114.49
         }
       ],
-      "last_scan_utc": "2026-06-25T23:01:35.359103",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-06-26T04:53:49.258770",
+      "valid_snapshots": 5
     },
     "Blufftop Inn": {
       "date": "2026-06-25",
       "occ": 75.0,
-      "adr": 121.99,
-      "rev": 91.49,
+      "adr": 237.82,
+      "rev": 178.37,
       "sold": 24,
       "remaining": 8,
       "capacity": 32,
@@ -1752,17 +1740,23 @@
           "room_type": "Comfort Queen Room",
           "available": true,
           "rooms_left": 6,
-          "rate": 104.49
+          "rate": 224.49
+        },
+        {
+          "room_type": "Comfort Accessible Queen Room",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 224.49
         },
         {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 2,
-          "rate": 139.49
+          "rooms_left": 1,
+          "rate": 264.49
         }
       ],
-      "last_scan_utc": "2026-06-25T23:01:41.148620",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-06-26T04:53:56.670906",
+      "valid_snapshots": 5
     }
   }
 }
