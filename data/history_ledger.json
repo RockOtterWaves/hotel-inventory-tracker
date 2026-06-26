@@ -1776,76 +1776,64 @@
           "rate": 194.0
         }
       ],
-      "last_scan_utc": "2026-06-26T16:10:13.586461",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-06-26T17:11:41.754542",
+      "valid_snapshots": 3
     },
     "Sea Air Inn": {
       "date": "2026-06-26",
-      "occ": 66.7,
-      "adr": 244.49,
-      "rev": 163.07,
-      "sold": 16,
-      "remaining": 8,
+      "occ": 70.8,
+      "adr": 218.49,
+      "rev": 154.69,
+      "sold": 17,
+      "remaining": 7,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe Queen Room",
           "available": true,
           "rooms_left": 5,
-          "rate": 214.49
+          "rate": 191.49
         },
         {
           "room_type": "Deluxe King Downstairs",
           "available": true,
           "rooms_left": 1,
-          "rate": 234.49
+          "rate": 224.49
         },
         {
           "room_type": "Deluxe Partial View King Upstairs",
           "available": true,
           "rooms_left": 1,
-          "rate": 249.49
-        },
-        {
-          "room_type": "Deluxe King Suite Ocean View Upstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 279.49
+          "rate": 239.49
         }
       ],
-      "last_scan_utc": "2026-06-26T16:10:19.371627",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-06-26T17:11:48.333220",
+      "valid_snapshots": 3
     },
     "Blufftop Inn": {
       "date": "2026-06-26",
-      "occ": 75.0,
-      "adr": 237.82,
-      "rev": 178.37,
-      "sold": 24,
-      "remaining": 8,
+      "occ": 78.1,
+      "adr": 221.49,
+      "rev": 172.98,
+      "sold": 25,
+      "remaining": 7,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
           "rooms_left": 6,
-          "rate": 224.49
-        },
-        {
-          "room_type": "Comfort Accessible Queen Room",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 224.49
+          "rate": 198.49
         },
         {
           "room_type": "Deluxe King Suite",
           "available": true,
           "rooms_left": 1,
-          "rate": 264.49
+          "rate": 244.49
         }
       ],
-      "last_scan_utc": "2026-06-26T16:10:24.507358",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-06-26T17:11:54.539204",
+      "valid_snapshots": 3
     }
   }
 }
