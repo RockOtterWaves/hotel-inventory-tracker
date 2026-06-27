@@ -23,6 +23,30 @@
         "estimated_occupancy_pct": 85,
         "blended_adr": 179.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-06-27T16:34:39.630665Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 174.0,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 184.0,
+          "rooms_left": 5
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 7,
+        "estimated_sold": 42,
+        "estimated_occupancy_pct": 85,
+        "blended_adr": 179.0
+      }
     }
   ],
   "Sea Air Inn": [
@@ -30,6 +54,25 @@
       "property": "Sea Air Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
       "scraped_at": "2026-06-27T15:11:09.019629Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 264.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 1,
+        "estimated_sold": 23,
+        "estimated_occupancy_pct": 95,
+        "blended_adr": 264.49
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-06-27T16:34:46.167371Z",
       "rooms": [
         {
           "room_type": "Deluxe Queen Room",
@@ -69,6 +112,30 @@
         "estimated_sold": 27,
         "estimated_occupancy_pct": 84,
         "blended_adr": 309.49
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-06-27T16:34:52.414916Z",
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 269.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "rate": 444.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 3,
+        "estimated_sold": 29,
+        "estimated_occupancy_pct": 90,
+        "blended_adr": 356.99
       }
     }
   ]
