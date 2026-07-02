@@ -23,6 +23,30 @@
         "estimated_occupancy_pct": 44,
         "blended_adr": 139.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-07-02T17:02:45.162547Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 134.0,
+          "rooms_left": 15
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 144.0,
+          "rooms_left": 13
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 28,
+        "estimated_sold": 21,
+        "estimated_occupancy_pct": 42,
+        "blended_adr": 139.0
+      }
     }
   ],
   "Sea Air Inn": [
@@ -49,6 +73,30 @@
         "estimated_occupancy_pct": 75,
         "blended_adr": 109.49
       }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-07-02T17:03:05.878368Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 109.49,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe Queen Disability Access Downstairs",
+          "rate": 109.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 6,
+        "estimated_sold": 18,
+        "estimated_occupancy_pct": 75,
+        "blended_adr": 109.49
+      }
     }
   ],
   "Blufftop Inn": [
@@ -56,6 +104,35 @@
       "property": "Blufftop Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
       "scraped_at": "2026-07-02T16:01:49.435404Z",
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 114.49,
+          "rooms_left": 6
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "rate": 134.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 154.49,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 10,
+        "estimated_sold": 22,
+        "estimated_occupancy_pct": 68,
+        "blended_adr": 134.49
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-07-02T17:03:11.976020Z",
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
