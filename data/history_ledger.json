@@ -2458,5 +2458,88 @@
       "last_scan_utc": "2026-07-04T04:23:50.584622",
       "valid_snapshots": 3
     }
+  },
+  "2026-07-04": {
+    "Tarzana Inn": {
+      "date": "2026-07-04",
+      "occ": 57.1,
+      "adr": 154.0,
+      "rev": 87.93,
+      "sold": 28,
+      "remaining": 21,
+      "capacity": 49,
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "available": true,
+          "rooms_left": 12,
+          "rate": 149.0
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "available": true,
+          "rooms_left": 9,
+          "rate": 159.0
+        }
+      ],
+      "last_scan_utc": "2026-07-04T15:00:16.519210",
+      "valid_snapshots": 1
+    },
+    "Sea Air Inn": {
+      "date": "2026-07-04",
+      "occ": 83.3,
+      "adr": 321.99,
+      "rev": 268.22,
+      "sold": 20,
+      "remaining": 4,
+      "capacity": 24,
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 314.49
+        },
+        {
+          "room_type": "Deluxe Partial View Queen Upstairs",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 329.49
+        }
+      ],
+      "last_scan_utc": "2026-07-04T15:00:23.722485",
+      "valid_snapshots": 1
+    },
+    "Blufftop Inn": {
+      "date": "2026-07-04",
+      "occ": 62.5,
+      "adr": 314.49,
+      "rev": 196.56,
+      "sold": 20,
+      "remaining": 12,
+      "capacity": 32,
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "available": true,
+          "rooms_left": 8,
+          "rate": 299.49
+        },
+        {
+          "room_type": "Comfort Accessible Queen Room",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 299.49
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 344.49
+        }
+      ],
+      "last_scan_utc": "2026-07-04T15:00:30.071619",
+      "valid_snapshots": 1
+    }
   }
 }
