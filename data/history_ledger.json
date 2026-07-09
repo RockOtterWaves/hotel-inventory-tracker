@@ -2969,5 +2969,88 @@
       "last_scan_utc": "2026-07-08T22:38:22.169379",
       "valid_snapshots": 3
     }
+  },
+  "2026-07-09": {
+    "Tarzana Inn": {
+      "date": "2026-07-09",
+      "occ": 49.0,
+      "adr": 144.0,
+      "rev": 70.56,
+      "sold": 24,
+      "remaining": 25,
+      "capacity": 49,
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "available": true,
+          "rooms_left": 12,
+          "rate": 139.0
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "available": true,
+          "rooms_left": 13,
+          "rate": 149.0
+        }
+      ],
+      "last_scan_utc": "2026-07-09T07:04:34.420857",
+      "valid_snapshots": 1
+    },
+    "Sea Air Inn": {
+      "date": "2026-07-09",
+      "occ": 95.8,
+      "adr": 184.49,
+      "rev": 176.74,
+      "sold": 23,
+      "remaining": 1,
+      "capacity": 24,
+      "rooms": [
+        {
+          "room_type": "Deluxe Two Queen Bed Suite Upstairs",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 184.49
+        }
+      ],
+      "last_scan_utc": "2026-07-09T07:04:40.118898",
+      "valid_snapshots": 1
+    },
+    "Blufftop Inn": {
+      "date": "2026-07-09",
+      "occ": 59.4,
+      "adr": 128.24,
+      "rev": 76.17,
+      "sold": 19,
+      "remaining": 13,
+      "capacity": 32,
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "available": true,
+          "rooms_left": 7,
+          "rate": 94.49
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 104.49
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 124.49
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 189.49
+        }
+      ],
+      "last_scan_utc": "2026-07-09T07:04:46.245296",
+      "valid_snapshots": 1
+    }
   }
 }
