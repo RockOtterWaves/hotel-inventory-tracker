@@ -3056,102 +3056,90 @@
   "2026-07-10": {
     "Tarzana Inn": {
       "date": "2026-07-10",
-      "occ": 67.3,
+      "occ": 79.6,
       "adr": 164.0,
-      "rev": 110.37,
-      "sold": 33,
-      "remaining": 16,
+      "rev": 130.54,
+      "sold": 39,
+      "remaining": 10,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 10,
+          "rooms_left": 5,
           "rate": 159.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 6,
+          "rooms_left": 5,
           "rate": 169.0
         }
       ],
-      "last_scan_utc": "2026-07-10T22:35:55.309519",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-07-11T03:55:26.708413",
+      "valid_snapshots": 5
     },
     "Sea Air Inn": {
       "date": "2026-07-10",
-      "occ": 83.3,
-      "adr": 344.49,
-      "rev": 286.96,
-      "sold": 20,
-      "remaining": 4,
+      "occ": 91.7,
+      "adr": 301.99,
+      "rev": 276.92,
+      "sold": 22,
+      "remaining": 2,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe King Downstairs",
           "available": true,
           "rooms_left": 1,
-          "rate": 214.49
-        },
-        {
-          "room_type": "Deluxe Two Queen Beds Upstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 304.49
-        },
-        {
-          "room_type": "Deluxe Two Queen Bed Suite Upstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 329.49
+          "rate": 194.49
         },
         {
           "room_type": "Deluxe Family Suite Upstairs",
           "available": true,
           "rooms_left": 1,
-          "rate": 529.49
+          "rate": 409.49
         }
       ],
-      "last_scan_utc": "2026-07-10T22:36:01.297922",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-07-11T03:55:32.556303",
+      "valid_snapshots": 5
     },
     "Blufftop Inn": {
       "date": "2026-07-10",
-      "occ": 68.8,
-      "adr": 235.74,
-      "rev": 162.19,
-      "sold": 22,
-      "remaining": 10,
+      "occ": 78.1,
+      "adr": 221.99,
+      "rev": 173.37,
+      "sold": 25,
+      "remaining": 7,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 4,
-          "rate": 194.49
+          "rooms_left": 2,
+          "rate": 184.49
         },
         {
           "room_type": "Comfort King Suite",
           "available": true,
           "rooms_left": 2,
-          "rate": 214.49
+          "rate": 204.49
         },
         {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 3,
-          "rate": 234.49
+          "rooms_left": 2,
+          "rate": 224.49
         },
         {
           "room_type": "Comfort Two Queen Room",
           "available": true,
           "rooms_left": 1,
-          "rate": 299.49
+          "rate": 274.49
         }
       ],
-      "last_scan_utc": "2026-07-10T22:36:07.587187",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-07-11T03:55:38.870952",
+      "valid_snapshots": 5
     }
   }
 }
