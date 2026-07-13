@@ -3293,63 +3293,57 @@
   "2026-07-13": {
     "Tarzana Inn": {
       "date": "2026-07-13",
-      "occ": 38.8,
+      "occ": 44.9,
       "adr": 139.0,
-      "rev": 53.93,
-      "sold": 19,
-      "remaining": 30,
+      "rev": 62.41,
+      "sold": 22,
+      "remaining": 27,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 18,
+          "rooms_left": 16,
           "rate": 134.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 12,
+          "rooms_left": 11,
           "rate": 144.0
         }
       ],
-      "last_scan_utc": "2026-07-13T17:24:56.262630",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-07-13T22:32:44.060922",
+      "valid_snapshots": 3
     },
     "Sea Air Inn": {
       "date": "2026-07-13",
-      "occ": 91.7,
+      "occ": 95.8,
       "adr": 134.49,
-      "rev": 123.33,
-      "sold": 22,
-      "remaining": 2,
+      "rev": 128.84,
+      "sold": 23,
+      "remaining": 1,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe Partial View King Upstairs",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 134.49
         }
       ],
-      "last_scan_utc": "2026-07-13T17:25:02.192710",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-07-13T22:32:51.300788",
+      "valid_snapshots": 3
     },
     "Blufftop Inn": {
       "date": "2026-07-13",
-      "occ": 90.6,
-      "adr": 164.49,
-      "rev": 149.03,
-      "sold": 29,
-      "remaining": 3,
+      "occ": 93.8,
+      "adr": 184.49,
+      "rev": 173.05,
+      "sold": 30,
+      "remaining": 2,
       "capacity": 32,
       "rooms": [
-        {
-          "room_type": "Deluxe King Suite",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 144.49
-        },
         {
           "room_type": "Deluxe Two Queen Suite",
           "available": true,
@@ -3357,8 +3351,8 @@
           "rate": 184.49
         }
       ],
-      "last_scan_utc": "2026-07-13T17:25:07.871469",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-07-13T22:32:57.536287",
+      "valid_snapshots": 3
     }
   }
 }
