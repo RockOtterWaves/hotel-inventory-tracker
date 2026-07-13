@@ -71,6 +71,30 @@
         "estimated_occupancy_pct": 42,
         "blended_adr": 139.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-07-13T04:20:23.186694Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 134.0,
+          "rooms_left": 15
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 144.0,
+          "rooms_left": 8
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 23,
+        "estimated_sold": 26,
+        "estimated_occupancy_pct": 53,
+        "blended_adr": 139.0
+      }
     }
   ],
   "Sea Air Inn": [
@@ -149,6 +173,25 @@
         "estimated_sold": 20,
         "estimated_occupancy_pct": 83,
         "blended_adr": 132.82
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-07-13T04:20:29.762598Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King Suite Ocean View Upstairs",
+          "rate": 154.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 1,
+        "estimated_sold": 23,
+        "estimated_occupancy_pct": 95,
+        "blended_adr": 154.49
       }
     }
   ],
@@ -238,6 +281,30 @@
         "estimated_sold": 24,
         "estimated_occupancy_pct": 75,
         "blended_adr": 124.49
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-07-13T04:20:36.164329Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 149.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "rate": 194.49,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 3,
+        "estimated_sold": 29,
+        "estimated_occupancy_pct": 90,
+        "blended_adr": 171.99
       }
     }
   ]
