@@ -71,6 +71,30 @@
         "estimated_occupancy_pct": 44,
         "blended_adr": 139.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-07-14T03:46:16.876286Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 134.0,
+          "rooms_left": 10
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 144.0,
+          "rooms_left": 11
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 21,
+        "estimated_sold": 28,
+        "estimated_occupancy_pct": 57,
+        "blended_adr": 139.0
+      }
     }
   ],
   "Sea Air Inn": [
@@ -129,6 +153,35 @@
         "estimated_sold": 23,
         "estimated_occupancy_pct": 95,
         "blended_adr": 134.49
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-07-14T03:46:23.726549Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 109.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Partial View King Upstairs",
+          "rate": 134.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Junior King Suite Downstairs",
+          "rate": 129.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 3,
+        "estimated_sold": 21,
+        "estimated_occupancy_pct": 87,
+        "blended_adr": 124.49
       }
     }
   ],
