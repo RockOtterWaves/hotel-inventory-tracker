@@ -47,6 +47,30 @@
         "estimated_occupancy_pct": 32,
         "blended_adr": 139.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-07-15T22:34:26.327545Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 134.0,
+          "rooms_left": 13
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 144.0,
+          "rooms_left": 16
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 29,
+        "estimated_sold": 20,
+        "estimated_occupancy_pct": 40,
+        "blended_adr": 139.0
+      }
     }
   ],
   "Sea Air Inn": [
@@ -83,6 +107,30 @@
       "property": "Sea Air Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
       "scraped_at": "2026-07-15T16:47:45.751008Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Partial View Queen Upstairs",
+          "rate": 124.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe King Downstairs",
+          "rate": 124.49,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 3,
+        "estimated_sold": 21,
+        "estimated_occupancy_pct": 87,
+        "blended_adr": 124.49
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-07-15T22:34:32.846793Z",
       "rooms": [
         {
           "room_type": "Deluxe Partial View Queen Upstairs",
