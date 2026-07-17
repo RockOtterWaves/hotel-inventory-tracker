@@ -1,0 +1,80 @@
+{
+  "Tarzana Inn": [
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-07-17T15:08:39.832397Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 149.0,
+          "rooms_left": 10
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 159.0,
+          "rooms_left": 15
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 25,
+        "estimated_sold": 24,
+        "estimated_occupancy_pct": 48,
+        "blended_adr": 154.0
+      }
+    }
+  ],
+  "Sea Air Inn": [
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-07-17T15:08:46.390797Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 264.49,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Deluxe King Downstairs",
+          "rate": 284.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Partial View King Upstairs",
+          "rate": 299.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 5,
+        "estimated_sold": 19,
+        "estimated_occupancy_pct": 79,
+        "blended_adr": 282.82
+      }
+    }
+  ],
+  "Blufftop Inn": [
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-07-17T15:08:52.986932Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 314.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 1,
+        "estimated_sold": 31,
+        "estimated_occupancy_pct": 96,
+        "blended_adr": 314.49
+      }
+    }
+  ]
+}
