@@ -3669,28 +3669,28 @@
   "2026-07-19": {
     "Tarzana Inn": {
       "date": "2026-07-19",
-      "occ": 42.9,
+      "occ": 46.9,
       "adr": 139.0,
-      "rev": 59.63,
-      "sold": 21,
-      "remaining": 28,
+      "rev": 65.19,
+      "sold": 23,
+      "remaining": 26,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 13,
+          "rooms_left": 12,
           "rate": 134.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 15,
+          "rooms_left": 14,
           "rate": 144.0
         }
       ],
-      "last_scan_utc": "2026-07-19T14:48:57.681608",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-07-19T16:14:13.389543",
+      "valid_snapshots": 2
     },
     "Sea Air Inn": {
       "date": "2026-07-19",
@@ -3720,14 +3720,14 @@
           "rate": 359.49
         }
       ],
-      "last_scan_utc": "2026-07-19T14:49:05.048424",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-07-19T16:14:21.251481",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-07-19",
       "occ": 53.1,
-      "adr": 165.74,
-      "rev": 88.01,
+      "adr": 146.99,
+      "rev": 78.05,
       "sold": 17,
       "remaining": 15,
       "capacity": 32,
@@ -3736,29 +3736,29 @@
           "room_type": "Comfort Queen Room",
           "available": true,
           "rooms_left": 10,
-          "rate": 109.49
+          "rate": 104.49
         },
         {
           "room_type": "Deluxe King Suite",
           "available": true,
           "rooms_left": 3,
-          "rate": 154.49
+          "rate": 134.49
         },
         {
           "room_type": "Comfort Two Queen Room",
           "available": true,
           "rooms_left": 1,
-          "rate": 199.49
+          "rate": 174.49
         },
         {
           "room_type": "Comfort Accessible Two Queen Room",
           "available": true,
           "rooms_left": 1,
-          "rate": 199.49
+          "rate": 174.49
         }
       ],
-      "last_scan_utc": "2026-07-19T14:49:12.143958",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-07-19T16:14:28.290593",
+      "valid_snapshots": 2
     }
   }
 }
