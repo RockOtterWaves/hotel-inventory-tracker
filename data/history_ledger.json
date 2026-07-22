@@ -3930,11 +3930,11 @@
   "2026-07-22": {
     "Tarzana Inn": {
       "date": "2026-07-22",
-      "occ": 36.7,
+      "occ": 42.9,
       "adr": 144.0,
-      "rev": 52.85,
-      "sold": 18,
-      "remaining": 31,
+      "rev": 61.78,
+      "sold": 21,
+      "remaining": 28,
       "capacity": 49,
       "rooms": [
         {
@@ -3946,32 +3946,26 @@
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 16,
+          "rooms_left": 13,
           "rate": 149.0
         }
       ],
-      "last_scan_utc": "2026-07-22T15:27:27.983088",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-07-22T16:51:44.603613",
+      "valid_snapshots": 2
     },
     "Sea Air Inn": {
       "date": "2026-07-22",
-      "occ": 83.3,
-      "adr": 142.82,
-      "rev": 118.97,
-      "sold": 20,
-      "remaining": 4,
+      "occ": 91.7,
+      "adr": 151.99,
+      "rev": 139.37,
+      "sold": 22,
+      "remaining": 2,
       "capacity": 24,
       "rooms": [
         {
-          "room_type": "Deluxe Queen Room",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 124.49
-        },
-        {
           "room_type": "Deluxe King Downstairs",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 134.49
         },
         {
@@ -3981,14 +3975,14 @@
           "rate": 169.49
         }
       ],
-      "last_scan_utc": "2026-07-22T15:27:34.821914",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-07-22T16:51:51.905519",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-07-22",
       "occ": 96.9,
-      "adr": 149.49,
-      "rev": 144.86,
+      "adr": 184.49,
+      "rev": 178.77,
       "sold": 31,
       "remaining": 1,
       "capacity": 32,
@@ -3997,11 +3991,11 @@
           "room_type": "Deluxe King Suite",
           "available": true,
           "rooms_left": 1,
-          "rate": 149.49
+          "rate": 184.49
         }
       ],
-      "last_scan_utc": "2026-07-22T15:27:40.479558",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-07-22T16:51:57.414525",
+      "valid_snapshots": 2
     }
   }
 }
