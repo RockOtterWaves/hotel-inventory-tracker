@@ -119,6 +119,30 @@
         "estimated_occupancy_pct": 59,
         "blended_adr": 154.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-07-23T06:18:07.448732Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King",
+          "rate": 149.0,
+          "rooms_left": 8
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 159.0,
+          "rooms_left": 12
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 20,
+        "estimated_sold": 29,
+        "estimated_occupancy_pct": 59,
+        "blended_adr": 154.0
+      }
     }
   ],
   "Sea Air Inn": [
@@ -179,6 +203,35 @@
       "property": "Sea Air Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
       "scraped_at": "2026-07-23T05:40:00.629272Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Partial View Queen Upstairs",
+          "rate": 139.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Partial View King Upstairs",
+          "rate": 149.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe King Suite Ocean View Upstairs",
+          "rate": 169.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 3,
+        "estimated_sold": 21,
+        "estimated_occupancy_pct": 87,
+        "blended_adr": 152.82
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-07-23T06:18:14.083557Z",
       "rooms": [
         {
           "room_type": "Deluxe Partial View Queen Upstairs",
@@ -267,6 +320,25 @@
       "property": "Blufftop Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
       "scraped_at": "2026-07-23T05:40:07.237121Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "rate": 209.49,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 2,
+        "estimated_sold": 30,
+        "estimated_occupancy_pct": 93,
+        "blended_adr": 209.49
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-07-23T06:18:20.815163Z",
       "rooms": [
         {
           "room_type": "Deluxe Two Queen Suite",
