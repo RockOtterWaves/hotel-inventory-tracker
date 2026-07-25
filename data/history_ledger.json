@@ -4143,28 +4143,28 @@
   "2026-07-25": {
     "Tarzana Inn": {
       "date": "2026-07-25",
-      "occ": 85.7,
+      "occ": 91.8,
       "adr": 179.0,
-      "rev": 153.4,
-      "sold": 42,
-      "remaining": 7,
+      "rev": 164.32,
+      "sold": 45,
+      "remaining": 4,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 7,
+          "rooms_left": 4,
           "rate": 179.0
         }
       ],
-      "last_scan_utc": "2026-07-25T16:14:01.446605",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-07-25T22:32:24.543488",
+      "valid_snapshots": 3
     },
     "Sea Air Inn": {
       "date": "2026-07-25",
       "occ": 95.8,
-      "adr": 659.49,
-      "rev": 631.79,
+      "adr": 589.49,
+      "rev": 564.73,
       "sold": 23,
       "remaining": 1,
       "capacity": 24,
@@ -4173,42 +4173,30 @@
           "room_type": "Deluxe Family Suite Upstairs",
           "available": true,
           "rooms_left": 1,
-          "rate": 659.49
+          "rate": 589.49
         }
       ],
-      "last_scan_utc": "2026-07-25T16:14:07.383547",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-07-25T22:32:31.161862",
+      "valid_snapshots": 3
     },
     "Blufftop Inn": {
       "date": "2026-07-25",
-      "occ": 75.0,
-      "adr": 314.49,
-      "rev": 235.87,
-      "sold": 24,
-      "remaining": 8,
+      "occ": 93.8,
+      "adr": 324.49,
+      "rev": 304.37,
+      "sold": 30,
+      "remaining": 2,
       "capacity": 32,
       "rooms": [
         {
-          "room_type": "Comfort Queen Room",
-          "available": true,
-          "rooms_left": 3,
-          "rate": 294.49
-        },
-        {
-          "room_type": "Comfort King Suite",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 314.49
-        },
-        {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 4,
-          "rate": 334.49
+          "rooms_left": 2,
+          "rate": 324.49
         }
       ],
-      "last_scan_utc": "2026-07-25T16:14:13.752560",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-07-25T22:32:37.524374",
+      "valid_snapshots": 3
     }
   }
 }
