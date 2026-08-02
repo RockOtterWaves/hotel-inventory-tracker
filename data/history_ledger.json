@@ -4661,6 +4661,37 @@
       ],
       "last_scan_utc": "2026-08-01T16:17:09.555745",
       "valid_snapshots": 2
+    },
+    "Blufftop Inn": {
+      "date": "2026-08-01",
+      "occ": 81.2,
+      "adr": 167.82,
+      "rev": 136.27,
+      "sold": 26,
+      "remaining": 6,
+      "capacity": 32,
+      "rooms": [
+        {
+          "room_type": "Deluxe King Suite",
+          "available": true,
+          "rooms_left": 4,
+          "rate": 149.49
+        },
+        {
+          "room_type": "Comfort Accessible Two Queen Room",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 164.49
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 189.49
+        }
+      ],
+      "last_scan_utc": "2026-08-02T04:08:43.401117",
+      "valid_snapshots": 1
     }
   }
 }
