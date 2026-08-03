@@ -4697,28 +4697,28 @@
   "2026-08-02": {
     "Tarzana Inn": {
       "date": "2026-08-02",
-      "occ": 59.2,
+      "occ": 77.6,
       "adr": 139.0,
-      "rev": 82.29,
-      "sold": 29,
-      "remaining": 20,
+      "rev": 107.86,
+      "sold": 38,
+      "remaining": 11,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 11,
+          "rooms_left": 6,
           "rate": 134.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 9,
+          "rooms_left": 5,
           "rate": 144.0
         }
       ],
-      "last_scan_utc": "2026-08-02T22:32:19.655664",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-08-03T04:10:10.565919",
+      "valid_snapshots": 4
     },
     "Sea Air Inn": {
       "date": "2026-08-02",
@@ -4748,8 +4748,8 @@
     "Blufftop Inn": {
       "date": "2026-08-02",
       "occ": 78.1,
-      "adr": 146.99,
-      "rev": 114.8,
+      "adr": 131.99,
+      "rev": 103.08,
       "sold": 25,
       "remaining": 7,
       "capacity": 32,
@@ -4757,30 +4757,18 @@
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 1,
-          "rate": 109.49
+          "rooms_left": 4,
+          "rate": 114.49
         },
         {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 4,
-          "rate": 124.49
-        },
-        {
-          "room_type": "Comfort Accessible Two Queen Room",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 164.49
-        },
-        {
-          "room_type": "Deluxe Two Queen Suite",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 189.49
+          "rooms_left": 3,
+          "rate": 149.49
         }
       ],
-      "last_scan_utc": "2026-08-02T22:33:00.674037",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-08-03T04:10:56.435874",
+      "valid_snapshots": 4
     }
   }
 }
