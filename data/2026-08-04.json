@@ -104,6 +104,25 @@
         "estimated_occupancy_pct": 93,
         "blended_adr": 154.0
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-08-05T06:11:11.393002Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 154.0,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 2,
+        "estimated_sold": 47,
+        "estimated_occupancy_pct": 95,
+        "blended_adr": 154.0
+      }
     }
   ],
   "Blufftop Inn": [
@@ -216,6 +235,25 @@
         "estimated_occupancy_pct": 96,
         "blended_adr": 139.49
       }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-08-05T06:11:24.598222Z",
+      "rooms": [
+        {
+          "room_type": "Comfort King Suite",
+          "rate": 139.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 1,
+        "estimated_sold": 31,
+        "estimated_occupancy_pct": 96,
+        "blended_adr": 139.49
+      }
     }
   ],
   "Sea Air Inn": [
@@ -223,6 +261,40 @@
       "property": "Sea Air Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
       "scraped_at": "2026-08-05T05:31:23.612266Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 119.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe King Downstairs",
+          "rate": 134.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Partial View King Upstairs",
+          "rate": 149.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe Junior King Suite Downstairs",
+          "rate": 149.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 5,
+        "estimated_sold": 19,
+        "estimated_occupancy_pct": 79,
+        "blended_adr": 138.24
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-08-05T06:11:18.168220Z",
       "rooms": [
         {
           "room_type": "Deluxe Queen Room",
