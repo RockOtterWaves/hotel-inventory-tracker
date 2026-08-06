@@ -4891,59 +4891,47 @@
   "2026-08-05": {
     "Tarzana Inn": {
       "date": "2026-08-05",
-      "occ": 81.6,
+      "occ": 87.8,
       "adr": 149.0,
-      "rev": 121.58,
-      "sold": 40,
-      "remaining": 9,
+      "rev": 130.82,
+      "sold": 43,
+      "remaining": 6,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 4,
+          "rooms_left": 2,
           "rate": 144.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 5,
+          "rooms_left": 4,
           "rate": 154.0
         }
       ],
-      "last_scan_utc": "2026-08-05T22:38:14.652202",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-08-06T03:52:28.503942",
+      "valid_snapshots": 4
     },
     "Sea Air Inn": {
       "date": "2026-08-05",
-      "occ": 83.3,
-      "adr": 144.49,
-      "rev": 120.36,
-      "sold": 20,
-      "remaining": 4,
+      "occ": 95.8,
+      "adr": 149.49,
+      "rev": 143.21,
+      "sold": 23,
+      "remaining": 1,
       "capacity": 24,
       "rooms": [
         {
-          "room_type": "Deluxe King Downstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 134.49
-        },
-        {
           "room_type": "Deluxe Partial View King Upstairs",
-          "available": true,
-          "rooms_left": 2,
-          "rate": 149.49
-        },
-        {
-          "room_type": "Deluxe Junior King Suite Downstairs",
           "available": true,
           "rooms_left": 1,
           "rate": 149.49
         }
       ],
-      "last_scan_utc": "2026-08-05T22:38:20.554852",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-08-06T03:52:35.135854",
+      "valid_snapshots": 4
     },
     "Blufftop Inn": {
       "date": "2026-08-05",
