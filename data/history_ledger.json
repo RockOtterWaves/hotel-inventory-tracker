@@ -4950,28 +4950,28 @@
   "2026-08-06": {
     "Tarzana Inn": {
       "date": "2026-08-06",
-      "occ": 75.5,
+      "occ": 81.6,
       "adr": 149.0,
-      "rev": 112.5,
-      "sold": 37,
-      "remaining": 12,
+      "rev": 121.58,
+      "sold": 40,
+      "remaining": 9,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Deluxe King",
           "available": true,
-          "rooms_left": 9,
+          "rooms_left": 7,
           "rate": 144.0
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 3,
+          "rooms_left": 2,
           "rate": 154.0
         }
       ],
-      "last_scan_utc": "2026-08-07T01:04:44.989214",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-07T03:34:01.609498",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-08-06",
@@ -4989,8 +4989,8 @@
           "rate": 189.49
         }
       ],
-      "last_scan_utc": "2026-08-07T01:05:23.858371",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-07T03:34:40.880622",
+      "valid_snapshots": 2
     }
   }
 }
