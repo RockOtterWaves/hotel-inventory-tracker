@@ -125,6 +125,40 @@
         "estimated_occupancy_pct": 67,
         "blended_adr": 51.47
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-08-14T04:23:01.965609Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 144.0,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe King",
+          "rate": 20.16,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 20.16,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Only 2 rooms left",
+          "rate": 21.56,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 14,
+        "estimated_sold": 35,
+        "estimated_occupancy_pct": 71,
+        "blended_adr": 51.47
+      }
     }
   ],
   "Sea Air Inn": [
@@ -189,6 +223,25 @@
       "property": "Sea Air Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
       "scraped_at": "2026-08-14T03:10:16.759203Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Family Suite Upstairs",
+          "rate": 269.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 1,
+        "estimated_sold": 23,
+        "estimated_occupancy_pct": 95,
+        "blended_adr": 269.49
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-08-14T04:23:08.558474Z",
       "rooms": [
         {
           "room_type": "Deluxe Family Suite Upstairs",
@@ -280,6 +333,40 @@
         "estimated_sold": 30,
         "estimated_occupancy_pct": 93,
         "blended_adr": 134.49
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-08-14T04:23:14.948683Z",
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 214.49,
+          "rooms_left": 8
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 254.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Comfort Two Queen Room",
+          "rate": 319.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "rate": 344.49,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 13,
+        "estimated_sold": 19,
+        "estimated_occupancy_pct": 59,
+        "blended_adr": 283.24
       }
     }
   ]
