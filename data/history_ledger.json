@@ -5686,5 +5686,88 @@
       "last_scan_utc": "2026-08-15T04:07:32.318418",
       "valid_snapshots": 6
     }
+  },
+  "2026-08-15": {
+    "Tarzana Inn": {
+      "date": "2026-08-15",
+      "occ": 100.0,
+      "adr": 0.0,
+      "rev": 0.0,
+      "sold": 49,
+      "remaining": 0,
+      "capacity": 49,
+      "rooms": [
+        {
+          "room_type": "Sold Out",
+          "available": false,
+          "rooms_left": 0,
+          "rate": 0
+        }
+      ],
+      "last_scan_utc": "2026-08-15T14:14:59.868390",
+      "valid_snapshots": 1
+    },
+    "Sea Air Inn": {
+      "date": "2026-08-15",
+      "occ": 91.7,
+      "adr": 521.99,
+      "rev": 478.66,
+      "sold": 22,
+      "remaining": 2,
+      "capacity": 24,
+      "rooms": [
+        {
+          "room_type": "Deluxe Two Queen Bed Suite Upstairs",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 384.49
+        },
+        {
+          "room_type": "Deluxe Family Suite Upstairs",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 659.49
+        }
+      ],
+      "last_scan_utc": "2026-08-15T14:15:05.831133",
+      "valid_snapshots": 1
+    },
+    "Blufftop Inn": {
+      "date": "2026-08-15",
+      "occ": 71.9,
+      "adr": 320.74,
+      "rev": 230.61,
+      "sold": 23,
+      "remaining": 9,
+      "capacity": 32,
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "available": true,
+          "rooms_left": 5,
+          "rate": 249.49
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 289.49
+        },
+        {
+          "room_type": "Comfort Two Queen Room",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 359.49
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 384.49
+        }
+      ],
+      "last_scan_utc": "2026-08-15T14:15:12.425149",
+      "valid_snapshots": 1
+    }
   }
 }
