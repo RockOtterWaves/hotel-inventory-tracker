@@ -6053,8 +6053,8 @@
     "Tarzana Inn": {
       "date": "2026-08-19",
       "occ": 69.4,
-      "adr": 61.44,
-      "rev": 42.64,
+      "adr": 63.57,
+      "rev": 44.12,
       "sold": 34,
       "remaining": 15,
       "capacity": 49,
@@ -6063,23 +6063,23 @@
           "room_type": "Standard Room",
           "available": true,
           "rooms_left": 5,
-          "rate": 144.0
+          "rate": 149.0
         },
         {
           "room_type": "Deluxe King",
           "available": true,
           "rooms_left": 5,
-          "rate": 20.16
+          "rate": 20.86
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
           "rooms_left": 5,
-          "rate": 20.16
+          "rate": 20.86
         }
       ],
-      "last_scan_utc": "2026-08-19T14:54:45.612646",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-19T21:58:25.111658",
+      "valid_snapshots": 2
     },
     "Sea Air Inn": {
       "date": "2026-08-19",
@@ -6103,22 +6103,28 @@
           "rate": 254.49
         }
       ],
-      "last_scan_utc": "2026-08-19T14:54:52.910286",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-19T21:58:31.430510",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-08-19",
       "occ": 87.5,
-      "adr": 161.99,
-      "rev": 141.74,
+      "adr": 149.49,
+      "rev": 130.8,
       "sold": 28,
       "remaining": 4,
       "capacity": 32,
       "rooms": [
         {
+          "room_type": "Comfort King Suite",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 124.49
+        },
+        {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 3,
+          "rooms_left": 2,
           "rate": 144.49
         },
         {
@@ -6128,8 +6134,8 @@
           "rate": 179.49
         }
       ],
-      "last_scan_utc": "2026-08-19T14:54:58.567607",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-19T21:58:36.867443",
+      "valid_snapshots": 2
     }
   }
 }
