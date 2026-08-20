@@ -86,6 +86,35 @@
         "estimated_occupancy_pct": 73,
         "blended_adr": 63.57
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-08-20T03:25:38.243385Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 149.0,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe King",
+          "rate": 20.86,
+          "rooms_left": 4
+        },
+        {
+          "room_type": "Only 4 rooms left",
+          "rate": 20.86,
+          "rooms_left": 4
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 13,
+        "estimated_sold": 36,
+        "estimated_occupancy_pct": 73,
+        "blended_adr": 63.57
+      }
     }
   ],
   "Sea Air Inn": [
