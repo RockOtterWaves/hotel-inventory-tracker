@@ -6161,8 +6161,8 @@
           "rate": 21.56
         }
       ],
-      "last_scan_utc": "2026-08-21T03:30:28.458602",
-      "valid_snapshots": 5
+      "last_scan_utc": "2026-08-21T04:21:46.607589",
+      "valid_snapshots": 6
     },
     "Sea Air Inn": {
       "date": "2026-08-20",
@@ -6180,33 +6180,57 @@
           "rate": 144.49
         }
       ],
-      "last_scan_utc": "2026-08-21T03:30:35.435104",
-      "valid_snapshots": 5
+      "last_scan_utc": "2026-08-21T04:21:52.491214",
+      "valid_snapshots": 6
     },
     "Blufftop Inn": {
       "date": "2026-08-20",
-      "occ": 93.8,
-      "adr": 144.49,
-      "rev": 135.53,
-      "sold": 30,
-      "remaining": 2,
+      "occ": 59.4,
+      "adr": 253.66,
+      "rev": 150.67,
+      "sold": 19,
+      "remaining": 13,
       "capacity": 32,
       "rooms": [
         {
-          "room_type": "Deluxe King Suite",
+          "room_type": "Comfort Queen Room",
+          "available": true,
+          "rooms_left": 6,
+          "rate": 194.49
+        },
+        {
+          "room_type": "Comfort Accessible Queen Room",
           "available": true,
           "rooms_left": 1,
-          "rate": 134.49
+          "rate": 194.49
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 214.49
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 234.49
         },
         {
           "room_type": "Comfort Accessible Two Queen Room",
           "available": true,
           "rooms_left": 1,
-          "rate": 154.49
+          "rate": 329.49
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 354.49
         }
       ],
-      "last_scan_utc": "2026-08-21T03:30:41.212493",
-      "valid_snapshots": 5
+      "last_scan_utc": "2026-08-21T04:21:58.708194",
+      "valid_snapshots": 6
     }
   }
 }
