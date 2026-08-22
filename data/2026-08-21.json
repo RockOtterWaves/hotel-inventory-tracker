@@ -115,6 +115,40 @@
         "estimated_occupancy_pct": 73,
         "blended_adr": 72.11
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-08-22T03:21:40.975823Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 169.0,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe King",
+          "rate": 23.66,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Only 3 rooms left",
+          "rate": 23.66,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Only 4 rooms left",
+          "rate": 25.06,
+          "rooms_left": 4
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 15,
+        "estimated_sold": 34,
+        "estimated_occupancy_pct": 69,
+        "blended_adr": 60.34
+      }
     }
   ],
   "Sea Air Inn": [
@@ -192,6 +226,30 @@
         "estimated_sold": 22,
         "estimated_occupancy_pct": 91,
         "blended_adr": 174.49
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-08-22T03:21:47.704759Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Queen Room",
+          "rate": 169.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe Two Queen Beds Upstairs",
+          "rate": 209.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 3,
+        "estimated_sold": 21,
+        "estimated_occupancy_pct": 87,
+        "blended_adr": 189.49
       }
     }
   ],
@@ -350,6 +408,35 @@
         "estimated_sold": 25,
         "estimated_occupancy_pct": 78,
         "blended_adr": 198.24
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-08-22T03:21:53.769671Z",
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 164.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe King Suite",
+          "rate": 194.49,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "rate": 249.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 4,
+        "estimated_sold": 28,
+        "estimated_occupancy_pct": 87,
+        "blended_adr": 202.82
       }
     }
   ]
