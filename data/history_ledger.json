@@ -6452,8 +6452,8 @@
           "rate": 19.46
         }
       ],
-      "last_scan_utc": "2026-08-23T14:16:20.172194",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-23T15:41:20.931944",
+      "valid_snapshots": 2
     },
     "Sea Air Inn": {
       "date": "2026-08-23",
@@ -6489,16 +6489,16 @@
           "rate": 169.49
         }
       ],
-      "last_scan_utc": "2026-08-23T14:16:27.860392",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-23T15:41:27.666351",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-08-23",
-      "occ": 78.1,
+      "occ": 81.2,
       "adr": 134.49,
-      "rev": 105.04,
-      "sold": 25,
-      "remaining": 7,
+      "rev": 109.21,
+      "sold": 26,
+      "remaining": 6,
       "capacity": 32,
       "rooms": [
         {
@@ -6510,7 +6510,7 @@
         {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 3,
+          "rooms_left": 2,
           "rate": 124.49
         },
         {
@@ -6526,8 +6526,8 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-08-23T14:16:34.075891",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-23T15:41:33.796326",
+      "valid_snapshots": 2
     }
   }
 }
