@@ -6452,22 +6452,22 @@
           "rate": 19.46
         }
       ],
-      "last_scan_utc": "2026-08-23T21:52:03.320908",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-08-24T02:09:55.174707",
+      "valid_snapshots": 4
     },
     "Sea Air Inn": {
       "date": "2026-08-23",
-      "occ": 79.2,
+      "occ": 83.3,
       "adr": 115.74,
-      "rev": 91.67,
-      "sold": 19,
-      "remaining": 5,
+      "rev": 96.41,
+      "sold": 20,
+      "remaining": 4,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe Partial View Queen Upstairs",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 94.49
         },
         {
@@ -6489,23 +6489,23 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-08-23T21:52:10.219424",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-08-24T02:10:02.515222",
+      "valid_snapshots": 4
     },
     "Blufftop Inn": {
       "date": "2026-08-23",
       "occ": 84.4,
-      "adr": 121.99,
-      "rev": 102.96,
+      "adr": 114.49,
+      "rev": 96.63,
       "sold": 27,
       "remaining": 5,
       "capacity": 32,
       "rooms": [
         {
-          "room_type": "Comfort King Suite",
+          "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 1,
-          "rate": 99.49
+          "rooms_left": 2,
+          "rate": 89.49
         },
         {
           "room_type": "Deluxe King Suite",
@@ -6514,20 +6514,14 @@
           "rate": 119.49
         },
         {
-          "room_type": "Comfort Two Queen Room",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 134.49
-        },
-        {
           "room_type": "Comfort Accessible Two Queen Room",
           "available": true,
           "rooms_left": 1,
           "rate": 134.49
         }
       ],
-      "last_scan_utc": "2026-08-23T21:52:16.390431",
-      "valid_snapshots": 3
+      "last_scan_utc": "2026-08-24T02:10:08.035155",
+      "valid_snapshots": 4
     }
   }
 }
