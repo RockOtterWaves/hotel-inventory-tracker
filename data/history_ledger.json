@@ -6654,8 +6654,8 @@
           "rate": 18.06
         }
       ],
-      "last_scan_utc": "2026-08-25T14:37:34.428280",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-25T16:03:38.446451",
+      "valid_snapshots": 2
     },
     "Sea Air Inn": {
       "date": "2026-08-25",
@@ -6691,8 +6691,8 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-08-25T14:37:40.997681",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-08-25T16:03:44.678915",
+      "valid_snapshots": 2
     }
   }
 }
