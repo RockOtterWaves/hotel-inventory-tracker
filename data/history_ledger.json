@@ -6628,40 +6628,46 @@
   "2026-08-25": {
     "Tarzana Inn": {
       "date": "2026-08-25",
-      "occ": 69.4,
-      "adr": 55.04,
-      "rev": 38.2,
-      "sold": 34,
-      "remaining": 15,
+      "occ": 67.3,
+      "adr": 53.25,
+      "rev": 35.84,
+      "sold": 33,
+      "remaining": 16,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Standard Room",
           "available": true,
           "rooms_left": 5,
-          "rate": 129.0
+          "rate": 149.0
         },
         {
           "room_type": "Rooms",
           "available": true,
           "rooms_left": 5,
-          "rate": 18.06
+          "rate": 20.86
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 5,
-          "rate": 18.06
+          "rooms_left": 3,
+          "rate": 20.86
+        },
+        {
+          "room_type": "Only 3 rooms left",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 22.26
         }
       ],
-      "last_scan_utc": "2026-08-25T16:03:38.446451",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-08-25T21:56:14.013004",
+      "valid_snapshots": 3
     },
     "Sea Air Inn": {
       "date": "2026-08-25",
       "occ": 83.3,
-      "adr": 129.49,
-      "rev": 107.87,
+      "adr": 126.99,
+      "rev": 105.78,
       "sold": 20,
       "remaining": 4,
       "capacity": 24,
@@ -6670,7 +6676,7 @@
           "room_type": "Deluxe Partial View Queen Upstairs",
           "available": true,
           "rooms_left": 1,
-          "rate": 104.49
+          "rate": 94.49
         },
         {
           "room_type": "Deluxe King Suite Ocean View Upstairs",
@@ -6691,8 +6697,8 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-08-25T16:03:44.678915",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-08-25T21:56:20.542300",
+      "valid_snapshots": 3
     }
   }
 }
