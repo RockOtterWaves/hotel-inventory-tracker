@@ -6773,28 +6773,28 @@
           "rate": 18.76
         }
       ],
-      "last_scan_utc": "2026-08-26T16:35:22.624085",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-08-27T01:02:04.083954",
+      "valid_snapshots": 3
     },
     "Sea Air Inn": {
       "date": "2026-08-26",
-      "occ": 58.3,
+      "occ": 66.7,
       "adr": 132.35,
-      "rev": 77.16,
-      "sold": 14,
-      "remaining": 10,
+      "rev": 88.28,
+      "sold": 16,
+      "remaining": 8,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe Partial View Queen Upstairs",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 99.49
         },
         {
           "room_type": "Deluxe King Downstairs",
           "available": true,
-          "rooms_left": 3,
+          "rooms_left": 2,
           "rate": 94.49
         },
         {
@@ -6828,28 +6828,28 @@
           "rate": 259.49
         }
       ],
-      "last_scan_utc": "2026-08-26T16:35:28.013437",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-08-27T01:02:11.072323",
+      "valid_snapshots": 3
     },
     "Blufftop Inn": {
       "date": "2026-08-26",
-      "occ": 71.9,
+      "occ": 78.1,
       "adr": 128.49,
-      "rev": 92.38,
-      "sold": 23,
-      "remaining": 9,
+      "rev": 100.35,
+      "sold": 25,
+      "remaining": 7,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 4,
+          "rooms_left": 3,
           "rate": 89.49
         },
         {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 124.49
         },
         {
@@ -6871,8 +6871,8 @@
           "rate": 159.49
         }
       ],
-      "last_scan_utc": "2026-08-26T16:35:33.174559",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-08-27T01:02:17.415802",
+      "valid_snapshots": 3
     }
   }
 }
