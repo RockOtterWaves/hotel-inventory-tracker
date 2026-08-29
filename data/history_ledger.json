@@ -7136,16 +7136,16 @@
           "rate": 20.86
         }
       ],
-      "last_scan_utc": "2026-08-29T18:36:24.452422",
-      "valid_snapshots": 5
+      "last_scan_utc": "2026-08-29T23:34:50.745117",
+      "valid_snapshots": 6
     },
     "Sea Air Inn": {
       "date": "2026-08-29",
-      "occ": 83.3,
-      "adr": 194.49,
-      "rev": 162.01,
-      "sold": 20,
-      "remaining": 4,
+      "occ": 87.5,
+      "adr": 191.16,
+      "rev": 167.26,
+      "sold": 21,
+      "remaining": 3,
       "capacity": 24,
       "rooms": [
         {
@@ -7161,34 +7161,28 @@
           "rate": 194.49
         },
         {
-          "room_type": "Deluxe Partial View King Upstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 204.49
-        },
-        {
           "room_type": "Deluxe Junior King Suite Downstairs",
           "available": true,
           "rooms_left": 1,
           "rate": 199.49
         }
       ],
-      "last_scan_utc": "2026-08-29T18:36:30.632155",
-      "valid_snapshots": 5
+      "last_scan_utc": "2026-08-29T23:34:56.761187",
+      "valid_snapshots": 6
     },
     "Blufftop Inn": {
       "date": "2026-08-29",
-      "occ": 53.1,
-      "adr": 205.32,
-      "rev": 109.02,
-      "sold": 17,
-      "remaining": 15,
+      "occ": 68.8,
+      "adr": 209.49,
+      "rev": 144.13,
+      "sold": 22,
+      "remaining": 10,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 7,
+          "rooms_left": 5,
           "rate": 174.49
         },
         {
@@ -7198,19 +7192,13 @@
           "rate": 174.49
         },
         {
-          "room_type": "Comfort King Suite",
-          "available": true,
-          "rooms_left": 2,
-          "rate": 184.49
-        },
-        {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 3,
+          "rooms_left": 2,
           "rate": 204.49
         },
         {
-          "room_type": "Comfort Accessible Two Queen Room",
+          "room_type": "Comfort Two Queen Room",
           "available": true,
           "rooms_left": 1,
           "rate": 234.49
@@ -7222,8 +7210,8 @@
           "rate": 259.49
         }
       ],
-      "last_scan_utc": "2026-08-29T18:36:36.277529",
-      "valid_snapshots": 5
+      "last_scan_utc": "2026-08-29T23:35:02.457041",
+      "valid_snapshots": 6
     }
   }
 }
