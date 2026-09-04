@@ -28,6 +28,35 @@
         "estimated_occupancy_pct": 69,
         "blended_adr": 65.71
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-09-04T08:13:37.373136Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 154.0,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Rooms",
+          "rate": 21.56,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 21.56,
+          "rooms_left": 5
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 15,
+        "estimated_sold": 34,
+        "estimated_occupancy_pct": 69,
+        "blended_adr": 65.71
+      }
     }
   ],
   "Sea Air Inn": [
@@ -35,6 +64,40 @@
       "property": "Sea Air Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
       "scraped_at": "2026-09-04T07:22:45.414186Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe King Downstairs",
+          "rate": 229.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Partial View King Upstairs",
+          "rate": 244.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Junior King Suite Downstairs",
+          "rate": 249.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Family Suite Upstairs",
+          "rate": 449.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 4,
+        "estimated_sold": 20,
+        "estimated_occupancy_pct": 83,
+        "blended_adr": 293.24
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-09-04T08:13:44.481688Z",
       "rooms": [
         {
           "room_type": "Deluxe King Downstairs",
@@ -98,6 +161,40 @@
         "total_remaining": 12,
         "estimated_sold": 20,
         "estimated_occupancy_pct": 62,
+        "blended_adr": 261.99
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-09-04T08:13:50.029796Z",
+      "rooms": [
+        {
+          "room_type": "Comfort Queen Room",
+          "rate": 199.49,
+          "rooms_left": 7
+        },
+        {
+          "room_type": "Comfort Two Queen Room",
+          "rate": 274.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Comfort Accessible Two Queen Room",
+          "rate": 274.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Two Queen Suite",
+          "rate": 299.49,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 11,
+        "estimated_sold": 21,
+        "estimated_occupancy_pct": 65,
         "blended_adr": 261.99
       }
     }
