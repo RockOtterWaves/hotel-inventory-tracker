@@ -7945,5 +7945,26 @@
       "last_scan_utc": "2026-09-04T23:15:17.862342",
       "valid_snapshots": 5
     }
+  },
+  "2026-09-05": {
+    "Tarzana Inn": {
+      "date": "2026-09-05",
+      "occ": 100.0,
+      "adr": 0.0,
+      "rev": 0.0,
+      "sold": 49,
+      "remaining": 0,
+      "capacity": 49,
+      "rooms": [
+        {
+          "room_type": "Sold Out",
+          "available": false,
+          "rooms_left": 0,
+          "rate": 0
+        }
+      ],
+      "last_scan_utc": "2026-09-05T07:04:40.729523",
+      "valid_snapshots": 1
+    }
   }
 }
