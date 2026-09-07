@@ -8011,8 +8011,8 @@
     "Tarzana Inn": {
       "date": "2026-09-07",
       "occ": 69.4,
-      "adr": 57.17,
-      "rev": 39.68,
+      "adr": 61.44,
+      "rev": 42.64,
       "sold": 34,
       "remaining": 15,
       "capacity": 49,
@@ -8021,31 +8021,31 @@
           "room_type": "Standard Room",
           "available": true,
           "rooms_left": 5,
-          "rate": 134.0
+          "rate": 144.0
         },
         {
           "room_type": "Rooms",
           "available": true,
           "rooms_left": 5,
-          "rate": 18.76
+          "rate": 20.16
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
           "rooms_left": 5,
-          "rate": 18.76
+          "rate": 20.16
         }
       ],
-      "last_scan_utc": "2026-09-07T19:13:43.325593",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-09-07T23:44:17.176726",
+      "valid_snapshots": 5
     },
     "Sea Air Inn": {
       "date": "2026-09-07",
-      "occ": 50.0,
+      "occ": 54.2,
       "adr": 101.89,
-      "rev": 50.95,
-      "sold": 12,
-      "remaining": 12,
+      "rev": 55.22,
+      "sold": 13,
+      "remaining": 11,
       "capacity": 24,
       "rooms": [
         {
@@ -8057,7 +8057,7 @@
         {
           "room_type": "Deluxe Partial View Queen Upstairs",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 95.49
         },
         {
@@ -8079,22 +8079,28 @@
           "rate": 129.49
         }
       ],
-      "last_scan_utc": "2026-09-07T19:13:48.925164",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-09-07T23:44:24.094368",
+      "valid_snapshots": 5
     },
     "Blufftop Inn": {
       "date": "2026-09-07",
-      "occ": 37.5,
-      "adr": 119.49,
-      "rev": 44.81,
-      "sold": 12,
-      "remaining": 20,
+      "occ": 40.6,
+      "adr": 114.49,
+      "rev": 46.48,
+      "sold": 13,
+      "remaining": 19,
       "capacity": 32,
       "rooms": [
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 10,
+          "rooms_left": 8,
+          "rate": 84.49
+        },
+        {
+          "room_type": "Comfort Accessible Queen Room",
+          "available": true,
+          "rooms_left": 1,
           "rate": 84.49
         },
         {
@@ -8128,8 +8134,8 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-09-07T19:13:54.997761",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-09-07T23:44:30.026086",
+      "valid_snapshots": 5
     }
   }
 }
