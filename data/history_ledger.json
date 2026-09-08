@@ -8142,8 +8142,8 @@
     "Tarzana Inn": {
       "date": "2026-09-08",
       "occ": 69.4,
-      "adr": 55.04,
-      "rev": 38.2,
+      "adr": 59.31,
+      "rev": 41.16,
       "sold": 34,
       "remaining": 15,
       "capacity": 49,
@@ -8152,37 +8152,37 @@
           "room_type": "Standard Room",
           "available": true,
           "rooms_left": 5,
-          "rate": 129.0
+          "rate": 139.0
         },
         {
           "room_type": "Rooms",
           "available": true,
           "rooms_left": 5,
-          "rate": 18.06
+          "rate": 19.46
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
           "rooms_left": 5,
-          "rate": 18.06
+          "rate": 19.46
         }
       ],
-      "last_scan_utc": "2026-09-08T08:20:15.487737",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-09-08T17:41:38.470791",
+      "valid_snapshots": 3
     },
     "Sea Air Inn": {
       "date": "2026-09-08",
-      "occ": 62.5,
+      "occ": 66.7,
       "adr": 98.32,
-      "rev": 61.45,
-      "sold": 15,
-      "remaining": 9,
+      "rev": 65.58,
+      "sold": 16,
+      "remaining": 8,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe Queen Room",
           "available": true,
-          "rooms_left": 4,
+          "rooms_left": 3,
           "rate": 80.49
         },
         {
@@ -8216,8 +8216,8 @@
           "rate": 129.49
         }
       ],
-      "last_scan_utc": "2026-09-08T08:20:22.471588",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-09-08T17:41:45.034946",
+      "valid_snapshots": 3
     },
     "Blufftop Inn": {
       "date": "2026-09-08",
@@ -8259,8 +8259,8 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-09-08T08:20:28.813242",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-09-08T17:41:51.274558",
+      "valid_snapshots": 3
     }
   }
 }
