@@ -8542,8 +8542,8 @@
           "rate": 20.86
         }
       ],
-      "last_scan_utc": "2026-09-11T07:26:13.957160",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-09-11T08:18:12.912849",
+      "valid_snapshots": 2
     },
     "Sea Air Inn": {
       "date": "2026-09-11",
@@ -8585,8 +8585,8 @@
           "rate": 204.49
         }
       ],
-      "last_scan_utc": "2026-09-11T07:26:21.029574",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-09-11T08:18:19.124801",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-09-11",
@@ -8628,8 +8628,8 @@
           "rate": 259.49
         }
       ],
-      "last_scan_utc": "2026-09-11T07:26:29.196200",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-09-11T08:18:26.063561",
+      "valid_snapshots": 2
     }
   }
 }
