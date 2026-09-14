@@ -8790,8 +8790,8 @@
     "Tarzana Inn": {
       "date": "2026-09-14",
       "occ": 69.4,
-      "adr": 55.04,
-      "rev": 38.2,
+      "adr": 61.44,
+      "rev": 42.64,
       "sold": 34,
       "remaining": 15,
       "capacity": 49,
@@ -8800,23 +8800,23 @@
           "room_type": "Standard Room",
           "available": true,
           "rooms_left": 5,
-          "rate": 129.0
+          "rate": 144.0
         },
         {
           "room_type": "Rooms",
           "available": true,
           "rooms_left": 5,
-          "rate": 18.06
+          "rate": 20.16
         },
         {
           "room_type": "Deluxe Double Queen",
           "available": true,
           "rooms_left": 5,
-          "rate": 18.06
+          "rate": 20.16
         }
       ],
-      "last_scan_utc": "2026-09-14T09:15:22.742306",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-09-14T18:58:37.852782",
+      "valid_snapshots": 3
     },
     "Sea Air Inn": {
       "date": "2026-09-14",
@@ -8870,14 +8870,14 @@
           "rate": 209.49
         }
       ],
-      "last_scan_utc": "2026-09-14T09:15:28.942273",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-09-14T18:58:43.730004",
+      "valid_snapshots": 3
     },
     "Blufftop Inn": {
       "date": "2026-09-14",
       "occ": 68.8,
-      "adr": 114.49,
-      "rev": 78.77,
+      "adr": 119.49,
+      "rev": 82.21,
       "sold": 22,
       "remaining": 10,
       "capacity": 32,
@@ -8885,13 +8885,7 @@
         {
           "room_type": "Comfort Queen Room",
           "available": true,
-          "rooms_left": 1,
-          "rate": 84.49
-        },
-        {
-          "room_type": "Comfort Accessible Queen Room",
-          "available": true,
-          "rooms_left": 1,
+          "rooms_left": 2,
           "rate": 84.49
         },
         {
@@ -8925,8 +8919,8 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-09-14T09:15:35.460675",
-      "valid_snapshots": 2
+      "last_scan_utc": "2026-09-14T18:58:48.997130",
+      "valid_snapshots": 3
     }
   }
 }
