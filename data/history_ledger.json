@@ -8952,28 +8952,28 @@
           "rate": 19.46
         }
       ],
-      "last_scan_utc": "2026-09-15T19:03:59.833720",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-09-15T23:39:46.464429",
+      "valid_snapshots": 5
     },
     "Sea Air Inn": {
       "date": "2026-09-15",
-      "occ": 66.7,
-      "adr": 128.89,
-      "rev": 85.97,
-      "sold": 16,
-      "remaining": 8,
+      "occ": 79.2,
+      "adr": 108.74,
+      "rev": 86.12,
+      "sold": 19,
+      "remaining": 5,
       "capacity": 24,
       "rooms": [
         {
           "room_type": "Deluxe Queen Room",
           "available": true,
-          "rooms_left": 3,
+          "rooms_left": 2,
           "rate": 80.49
         },
         {
           "room_type": "Deluxe Partial View Queen Upstairs",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 95.49
         },
         {
@@ -8987,24 +8987,18 @@
           "available": true,
           "rooms_left": 1,
           "rate": 149.49
-        },
-        {
-          "room_type": "Deluxe Family Suite Upstairs",
-          "available": true,
-          "rooms_left": 1,
-          "rate": 209.49
         }
       ],
-      "last_scan_utc": "2026-09-15T19:04:06.569328",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-09-15T23:39:52.610154",
+      "valid_snapshots": 5
     },
     "Blufftop Inn": {
       "date": "2026-09-15",
-      "occ": 71.9,
+      "occ": 78.1,
       "adr": 119.49,
-      "rev": 85.91,
-      "sold": 23,
-      "remaining": 9,
+      "rev": 93.32,
+      "sold": 25,
+      "remaining": 7,
       "capacity": 32,
       "rooms": [
         {
@@ -9016,13 +9010,13 @@
         {
           "room_type": "Comfort King Suite",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 99.49
         },
         {
           "room_type": "Deluxe King Suite",
           "available": true,
-          "rooms_left": 2,
+          "rooms_left": 1,
           "rate": 119.49
         },
         {
@@ -9044,8 +9038,8 @@
           "rate": 154.49
         }
       ],
-      "last_scan_utc": "2026-09-15T19:04:14.327972",
-      "valid_snapshots": 4
+      "last_scan_utc": "2026-09-15T23:39:57.724126",
+      "valid_snapshots": 5
     }
   }
 }
