@@ -115,6 +115,35 @@
         "estimated_occupancy_pct": 69,
         "blended_adr": 63.57
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-09-24T23:59:12.949785Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 149.0,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Rooms",
+          "rate": 20.86,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 20.86,
+          "rooms_left": 5
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 15,
+        "estimated_sold": 34,
+        "estimated_occupancy_pct": 69,
+        "blended_adr": 63.57
+      }
     }
   ],
   "Sea Air Inn": [
@@ -194,6 +223,30 @@
       "property": "Sea Air Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
       "scraped_at": "2026-09-24T19:15:53.174353Z",
+      "rooms": [
+        {
+          "room_type": "Deluxe Two Queen Beds Upstairs",
+          "rate": 124.49,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Deluxe Two Queen Bed Suite Upstairs",
+          "rate": 149.49,
+          "rooms_left": 1
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 2,
+        "estimated_sold": 22,
+        "estimated_occupancy_pct": 91,
+        "blended_adr": 136.99
+      }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-09-24T23:59:19.378582Z",
       "rooms": [
         {
           "room_type": "Deluxe Two Queen Beds Upstairs",
