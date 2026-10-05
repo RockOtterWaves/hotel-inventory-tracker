@@ -1,0 +1,100 @@
+{
+  "Tarzana Inn": [
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-10-05T09:30:54.977669Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 134.0,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Rooms",
+          "rate": 18.76,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Deluxe Double Queen",
+          "rate": 18.76,
+          "rooms_left": 5
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 15,
+        "estimated_sold": 34,
+        "estimated_occupancy_pct": 69,
+        "blended_adr": 57.17
+      }
+    }
+  ],
+  "Sea Air Inn": [
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-10-05T09:31:01.247062Z",
+      "rooms": [
+        {
+          "room_type": "Sold Out",
+          "rate": 0,
+          "rooms_left": 0
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 0,
+        "estimated_sold": 24,
+        "estimated_occupancy_pct": 100,
+        "blended_adr": 0.0
+      }
+    }
+  ],
+  "Blufftop Inn": [
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-10-05T09:31:28.217229Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 78.49,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Rooms",
+          "rate": 11.53,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Only 1 rooms left",
+          "rate": 11.53,
+          "rooms_left": 1
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "rate": 11.53,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Only 3 rooms left",
+          "rate": 13.89,
+          "rooms_left": 3
+        },
+        {
+          "room_type": "Only 2 rooms left",
+          "rate": 21.97,
+          "rooms_left": 2
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 15,
+        "estimated_sold": 17,
+        "estimated_occupancy_pct": 53,
+        "blended_adr": 24.82
+      }
+    }
+  ]
+}
