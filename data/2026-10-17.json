@@ -57,6 +57,40 @@
         "estimated_occupancy_pct": 77,
         "blended_adr": 74.24
       }
+    },
+    {
+      "property": "Tarzana Inn",
+      "url": "https://live.ipms247.com/booking/book-rooms-tarzanainn",
+      "scraped_at": "2026-10-17T16:46:34.170179Z",
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "rate": 174.0,
+          "rooms_left": 5
+        },
+        {
+          "room_type": "Rooms",
+          "rate": 24.36,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Only 2 rooms left",
+          "rate": 24.36,
+          "rooms_left": 2
+        },
+        {
+          "room_type": "Only 3 rooms left",
+          "rate": 25.76,
+          "rooms_left": 3
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 49,
+        "total_remaining": 12,
+        "estimated_sold": 37,
+        "estimated_occupancy_pct": 75,
+        "blended_adr": 62.12
+      }
     }
   ],
   "Sea Air Inn": [
@@ -97,6 +131,25 @@
         "estimated_occupancy_pct": 100,
         "blended_adr": 0.0
       }
+    },
+    {
+      "property": "Sea Air Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-seaairinn",
+      "scraped_at": "2026-10-17T16:46:40.549787Z",
+      "rooms": [
+        {
+          "room_type": "Sold Out",
+          "rate": 0,
+          "rooms_left": 0
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 24,
+        "total_remaining": 0,
+        "estimated_sold": 24,
+        "estimated_occupancy_pct": 100,
+        "blended_adr": 0.0
+      }
     }
   ],
   "Blufftop Inn": [
@@ -123,6 +176,25 @@
       "property": "Blufftop Inn",
       "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
       "scraped_at": "2026-10-17T08:02:19.394174Z",
+      "rooms": [
+        {
+          "room_type": "Sold Out",
+          "rate": 0,
+          "rooms_left": 0
+        }
+      ],
+      "summary": {
+        "total_rooms_property": 32,
+        "total_remaining": 0,
+        "estimated_sold": 32,
+        "estimated_occupancy_pct": 100,
+        "blended_adr": 0.0
+      }
+    },
+    {
+      "property": "Blufftop Inn",
+      "url": "https://book.ipms247.com/booking/book-rooms-blufftopinnsuiteswharfrestaurantdistrict",
+      "scraped_at": "2026-10-17T16:46:46.923643Z",
       "rooms": [
         {
           "room_type": "Sold Out",
