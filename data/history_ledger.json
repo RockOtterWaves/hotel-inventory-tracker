@@ -12186,5 +12186,106 @@
       "last_scan_utc": "2026-10-27T00:46:11.277339",
       "valid_snapshots": 5
     }
+  },
+  "2026-10-27": {
+    "Tarzana Inn": {
+      "date": "2026-10-27",
+      "occ": 77.6,
+      "adr": 157.44,
+      "rev": 122.17,
+      "sold": 38,
+      "remaining": 11,
+      "capacity": 49,
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "available": true,
+          "rooms_left": 5,
+          "rate": 144.0
+        },
+        {
+          "room_type": "Rooms",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 164.16
+        },
+        {
+          "room_type": "Only 3 rooms left",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 164.16
+        }
+      ],
+      "last_scan_utc": "2026-10-27T08:16:00.281905",
+      "valid_snapshots": 1
+    },
+    "Sea Air Inn": {
+      "date": "2026-10-27",
+      "occ": 100.0,
+      "adr": 0.0,
+      "rev": 0.0,
+      "sold": 24,
+      "remaining": 0,
+      "capacity": 24,
+      "rooms": [
+        {
+          "room_type": "Sold Out",
+          "available": false,
+          "rooms_left": 0,
+          "rate": 0
+        }
+      ],
+      "last_scan_utc": "2026-10-27T08:16:06.445476",
+      "valid_snapshots": 1
+    },
+    "Blufftop Inn": {
+      "date": "2026-10-27",
+      "occ": 53.1,
+      "adr": 104.73,
+      "rev": 55.61,
+      "sold": 17,
+      "remaining": 15,
+      "capacity": 32,
+      "rooms": [
+        {
+          "room_type": "Standard Room",
+          "available": true,
+          "rooms_left": 5,
+          "rate": 78.49
+        },
+        {
+          "room_type": "Rooms",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 90.02
+        },
+        {
+          "room_type": "Only 1 rooms left",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 90.02
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 90.02
+        },
+        {
+          "room_type": "Only 3 rooms left",
+          "available": true,
+          "rooms_left": 3,
+          "rate": 108.37
+        },
+        {
+          "room_type": "Only 2 rooms left",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 171.46
+        }
+      ],
+      "last_scan_utc": "2026-10-27T08:16:12.979975",
+      "valid_snapshots": 1
+    }
   }
 }
