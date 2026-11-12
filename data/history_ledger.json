@@ -13332,34 +13332,34 @@
   "2026-11-12": {
     "Tarzana Inn": {
       "date": "2026-11-12",
-      "occ": 73.5,
-      "adr": 146.51,
-      "rev": 107.68,
-      "sold": 36,
-      "remaining": 13,
+      "occ": 69.4,
+      "adr": 141.04,
+      "rev": 97.88,
+      "sold": 34,
+      "remaining": 15,
       "capacity": 49,
       "rooms": [
         {
           "room_type": "Standard Room",
           "available": true,
           "rooms_left": 5,
-          "rate": 134.0
+          "rate": 129.0
         },
         {
           "room_type": "Rooms",
           "available": true,
-          "rooms_left": 4,
-          "rate": 152.76
+          "rooms_left": 5,
+          "rate": 147.06
         },
         {
-          "room_type": "Only 4 rooms left",
+          "room_type": "Deluxe Double Queen",
           "available": true,
-          "rooms_left": 4,
-          "rate": 152.76
+          "rooms_left": 5,
+          "rate": 147.06
         }
       ],
-      "last_scan_utc": "2026-11-12T07:39:07.583045",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-11-12T10:06:25.029500",
+      "valid_snapshots": 2
     },
     "Sea Air Inn": {
       "date": "2026-11-12",
@@ -13377,27 +13377,57 @@
           "rate": 0
         }
       ],
-      "last_scan_utc": "2026-11-12T07:39:13.934324",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-11-12T10:06:31.980657",
+      "valid_snapshots": 2
     },
     "Blufftop Inn": {
       "date": "2026-11-12",
-      "occ": 100.0,
-      "adr": 0.0,
-      "rev": 0.0,
-      "sold": 32,
-      "remaining": 0,
+      "occ": 53.1,
+      "adr": 93.91,
+      "rev": 49.87,
+      "sold": 17,
+      "remaining": 15,
       "capacity": 32,
       "rooms": [
         {
-          "room_type": "Sold Out",
-          "available": false,
-          "rooms_left": 0,
-          "rate": 0
+          "room_type": "Standard Room",
+          "available": true,
+          "rooms_left": 5,
+          "rate": 75.49
+        },
+        {
+          "room_type": "Rooms",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 86.59
+        },
+        {
+          "room_type": "Only 1 rooms left",
+          "available": true,
+          "rooms_left": 1,
+          "rate": 86.59
+        },
+        {
+          "room_type": "Comfort King Suite",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 86.59
+        },
+        {
+          "room_type": "Only 2 rooms left",
+          "available": true,
+          "rooms_left": 2,
+          "rate": 102.64
+        },
+        {
+          "room_type": "Only 4 rooms left",
+          "available": true,
+          "rooms_left": 4,
+          "rate": 125.58
         }
       ],
-      "last_scan_utc": "2026-11-12T07:39:29.879721",
-      "valid_snapshots": 1
+      "last_scan_utc": "2026-11-12T10:06:38.261904",
+      "valid_snapshots": 2
     }
   }
 }
